@@ -404,6 +404,43 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
           <span style="font-size:11px;color:var(--text3);margin-left:8px">(base: 16px)</span>
         </div>
       </div>
+      <div class="section" style="margin-top:24px">
+        <div class="section-title"><span class="dot" style="background:var(--figma)"></span> グラデーション生成</div>
+        <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+          <input type="color" id="grad-c1" value="#7c5cfc" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none" oninput="updateGrad()">
+          <span style="color:var(--text3);font-size:13px">&#8594;</span>
+          <input type="color" id="grad-c2" value="#f472b6" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none" oninput="updateGrad()">
+          <select id="grad-dir" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px" onchange="updateGrad()">
+            <option value="to right">&#8594; 右</option><option value="to bottom">&#8595; 下</option>
+            <option value="to bottom right">&#8600; 右下</option><option value="135deg" selected>&#8600; 135deg</option>
+            <option value="to top right">&#8599; 右上</option><option value="circle">&#9711; 円形</option>
+          </select>
+          <button class="btn btn-outline" onclick="randGrad()" style="padding:6px 12px;font-size:12px">ランダム</button>
+        </div>
+        <div id="grad-preview" style="height:80px;border-radius:var(--radius);margin-bottom:10px;border:1px solid var(--border)"></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <code id="grad-code" style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
+          <button class="btn btn-outline" onclick="copyGrad()" style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
+        </div>
+      </div>
+      <div class="section" style="margin-top:24px">
+        <div class="section-title"><span class="dot" style="background:var(--orange)"></span> ボックスシャドウ生成</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <label style="font-size:11px;color:var(--text2)">X <input type="range" id="sh-x" min="-30" max="30" value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+          <label style="font-size:11px;color:var(--text2)">Y <input type="range" id="sh-y" min="-30" max="30" value="8" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+          <label style="font-size:11px;color:var(--text2)">ぼかし <input type="range" id="sh-blur" min="0" max="60" value="24" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+          <label style="font-size:11px;color:var(--text2)">広がり <input type="range" id="sh-spread" min="-20" max="20" value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+          <label style="font-size:11px;color:var(--text2)">色 <input type="color" id="sh-color" value="#000000" oninput="updateShadow()" style="width:36px;height:24px;border:none;border-radius:4px;cursor:pointer;background:none;vertical-align:middle"></label>
+          <label style="font-size:11px;color:var(--text2)">透明度 <input type="range" id="sh-alpha" min="0" max="100" value="15" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+        </div>
+        <div style="display:flex;justify-content:center;padding:30px;background:var(--surface2);border-radius:var(--radius);margin-bottom:10px">
+          <div id="sh-preview" style="width:120px;height:80px;background:var(--surface);border-radius:12px"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <code id="sh-code" style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
+          <button class="btn btn-outline" onclick="copyShadow()" style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
+        </div>
+      </div>
     </div>
 
     <!-- SHORTCUTS -->
@@ -643,6 +680,33 @@ updateCC();
 
 // ===== PX/REM =====
 function calcRem(){const px=parseFloat(document.getElementById('px-val').value)||0;document.getElementById('rem-result').textContent=(px/16).toFixed(3).replace(/\.?0+$/,'')}
+
+// ===== GRADIENT =====
+function updateGrad(){
+  const c1=document.getElementById('grad-c1').value,c2=document.getElementById('grad-c2').value,dir=document.getElementById('grad-dir').value;
+  const isRadial=dir==='circle';
+  const css=isRadial?`radial-gradient(circle, ${c1}, ${c2})`:`linear-gradient(${dir}, ${c1}, ${c2})`;
+  document.getElementById('grad-preview').style.background=css;
+  document.getElementById('grad-code').textContent=`background: ${css};`;
+}
+function randGrad(){
+  const rh=()=>'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+  document.getElementById('grad-c1').value=rh();document.getElementById('grad-c2').value=rh();updateGrad();
+}
+function copyGrad(){navigator.clipboard.writeText(document.getElementById('grad-code').textContent);showToast('CSSコピー!')}
+updateGrad();
+
+// ===== BOX SHADOW =====
+function updateShadow(){
+  const x=document.getElementById('sh-x').value,y=document.getElementById('sh-y').value,b=document.getElementById('sh-blur').value,s=document.getElementById('sh-spread').value;
+  const c=document.getElementById('sh-color').value,a=document.getElementById('sh-alpha').value;
+  const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),bl=parseInt(c.slice(5,7),16);
+  const css=`${x}px ${y}px ${b}px ${s}px rgba(${r},${g},${bl},${(a/100).toFixed(2)})`;
+  document.getElementById('sh-preview').style.boxShadow=css;
+  document.getElementById('sh-code').textContent=`box-shadow: ${css};`;
+}
+function copyShadow(){navigator.clipboard.writeText(document.getElementById('sh-code').textContent);showToast('CSSコピー!')}
+updateShadow();
 calcRem();
 
 // ===== SHORTCUTS =====
