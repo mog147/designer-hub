@@ -586,6 +586,14 @@
       overflow: hidden
     }
 
+    #home-news {
+      transition: opacity 0.3s ease;
+    }
+
+    .news-fade-out {
+      opacity: 0;
+    }
+
     /* ===== HOME ===== */
     .quote-box {
       background: linear-gradient(135deg, rgba(124, 92, 252, .1), rgba(244, 114, 182, .06));
@@ -1906,6 +1914,13 @@
       document.getElementById('page-title').textContent = titles[pg];
       if (window.innerWidth <= 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
       window.scrollTo(0, 0);
+
+      // Rotation Lifecycle
+      if (pg === 'home') {
+        startHomeNewsRotation();
+      } else {
+        stopHomeNewsRotation();
+      }
     }
     document.querySelectorAll('.nav-item,.bnav-item').forEach(i => i.addEventListener('click', () => navigate(i.dataset.page)));
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
@@ -2019,7 +2034,7 @@
     renderChecklist();
 
     // ===== NEWS =====
-    const newsData = [
+    const initialNewsData = [
       { cat: 'ai', title: 'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成', desc: 'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。', time: '2時間前', icon: 'smart_toy', src: 'TechCrunch', url: 'https://techcrunch.com/' },
       { cat: 'figma', title: 'Figma AI を正式リリース — レイヤー自動整理・トークン提案', desc: 'アクセシビリティチェックのAI支援機能が追加。無料プランでも一部利用可能。', time: '4時間前', icon: 'draw', src: 'Figma Blog', url: 'https://www.figma.com/blog/' },
       { cat: 'design', title: 'Apple Human Interface Guidelines 2026年版が公開', desc: 'visionOS 3向けの空間デザインガイドライン追加。ダークモード対応のベストプラクティスが注目。', time: '5時間前', icon: 'phone_iphone', src: 'Apple Developer', url: 'https://developer.apple.com/design/human-interface-guidelines/' },
@@ -2037,7 +2052,59 @@
       { cat: 'design', title: 'アクセシビリティファーストデザインの実践ガイド', desc: 'WCAG 3.0対応のチェックリストとFigmaテンプレートが公開。', time: '3日前', icon: 'accessibility', src: 'A11y Project', url: 'https://www.a11yproject.com/' },
       { cat: 'ai', title: 'Stable Diffusion XL、UIコンポーネント学習モデルを公開', desc: 'ボタン・フォーム等UIパーツ特化LoRAモデル。デザインバリエーション検討が爆速に。', time: '3日前', icon: 'science', src: 'Stability AI', url: 'https://stability.ai/' },
     ];
+    let newsData = [...initialNewsData];
     let newsLimit = 8, newsFilter = 'all';
+
+    async function translateText(text) {
+      if (!text || !/[a-zA-Z]/.test(text)) return text;
+      try {
+        const resp = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=${encodeURIComponent(text)}`);
+        const json = await resp.json();
+        return json[0].map(x => x[0]).join('');
+      } catch (e) { return text }
+    }
+
+    async function fetchLatestNews() {
+      const feeds = [
+        { url: 'https://www.figma.com/blog/feed/', cat: 'figma', icon: 'draw' },
+        { url: 'https://www.smashingmagazine.com/feed/', cat: 'design', icon: 'analytics' },
+        { url: 'https://css-tricks.com/feed/', cat: 'design', icon: 'code' }
+      ];
+
+      try {
+        const results = await Promise.all(feeds.map(async f => {
+          try {
+            const resp = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(f.url)}`);
+            const json = await resp.json();
+            if (json.status !== 'ok') return [];
+
+            // Translate items in parallel
+            return await Promise.all(json.items.map(async item => {
+              const titleJa = await translateText(item.title);
+              const descJa = await translateText(item.description.replace(/<[^>]*>/g, '').slice(0, 100));
+              return {
+                cat: f.cat,
+                title: titleJa,
+                origTitle: item.title,
+                desc: descJa + '...',
+                time: '最新',
+                icon: f.icon,
+                src: json.feed.title,
+                url: item.link
+              };
+            }));
+          } catch (e) { return [] }
+        }));
+
+        const dynamicNews = results.flat().sort(() => Math.random() - 0.5);
+        if (dynamicNews.length > 0) {
+          newsData = [...dynamicNews, ...initialNewsData];
+          renderNews();
+          renderHomeNews(0);
+        }
+      } catch (e) { console.error('News fetch error:', e) }
+    }
+    fetchLatestNews();
     function renderNews() {
       const f = newsFilter === 'all' ? newsData : newsData.filter(n => n.cat === newsFilter);
       document.getElementById('news-list').innerHTML = f.slice(0, newsLimit).map((n, i) => `
@@ -2059,15 +2126,51 @@
     renderNews();
 
     // Home news
-    document.getElementById('home-news').innerHTML = newsData.slice(0, 5).map((n, i) => `
-  <div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)">
-    <span class="mi" style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
-    <div style="flex:1;min-width:0" onclick="window.open('${n.url}', '_blank')">
-      <div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer">${n.title}</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:2px">${n.src} ・ ${n.time}</div>
-    </div>
-    <button class="mi" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:4px" onclick="copyNews(${i}, 'home')" title="コピー">content_copy</button>
-  </div>`).join('');
+    let homeNewsIndex = 0;
+    let homeNewsTimer = null;
+
+    function renderHomeNews(idx) {
+      const n = newsData[idx] || newsData[0];
+      const el = document.getElementById('home-news');
+      if (!el) return;
+
+      el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)">
+        <span class="mi" style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
+        <div style="flex:1;min-width:0" onclick="window.open('${n.url}', '_blank')">
+          <div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer">${n.title}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">${n.src} ・ ${n.time}</div>
+        </div>
+        <button class="mi" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:4px" onclick="copyNews(${idx}, 'home')" title="コピー">content_copy</button>
+      </div>`;
+    }
+
+    function rotateHomeNews() {
+      const el = document.getElementById('home-news');
+      if (!el) return;
+      el.classList.add('news-fade-out');
+      setTimeout(() => {
+        homeNewsIndex = (homeNewsIndex + 1) % Math.min(newsData.length, 10);
+        renderHomeNews(homeNewsIndex);
+        el.classList.remove('news-fade-out');
+      }, 300);
+    }
+
+    function startHomeNewsRotation() {
+      if (homeNewsTimer) return;
+      homeNewsTimer = setInterval(rotateHomeNews, 5000);
+    }
+
+    function stopHomeNewsRotation() {
+      if (homeNewsTimer) {
+        clearInterval(homeNewsTimer);
+        homeNewsTimer = null;
+      }
+    }
+
+    // Initial render
+    renderHomeNews(0);
+    startHomeNewsRotation();
 
     function copyNews(idx, list) {
       const n = (list === 'home') ? newsData[idx] : (newsFilter === 'all' ? newsData : newsData.filter(x => x.cat === newsFilter))[idx];
