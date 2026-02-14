@@ -1,4 +1,4 @@
-const CACHE_NAME = 'designer-hub-v1';
+const CACHE_NAME = 'designer-hub-v2';
 const ASSETS = ['./', './index.html'];
 
 self.addEventListener('install', e => {

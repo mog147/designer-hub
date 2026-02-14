@@ -1,610 +1,1987 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0c0c0c" id="meta-theme">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Designer Hub</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
-<style>
-.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
-.mi{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:20px;line-height:1;display:inline-block;-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
-/* ===== THEME ===== */
-:root {
-  --accent:#7c5cfc; --accent2:#a78bfa; --figma:#a259ff; --ai:#00d4aa;
-  --pink:#f472b6; --orange:#fb923c; --blue:#60a5fa; --green:#4ade80;
-  --red:#f87171; --yellow:#fbbf24; --radius:14px; --sidebar-w:230px;
-}
-[data-theme="dark"] {
-  --bg:#0c0c0c; --surface:#161616; --surface2:#1e1e1e; --surface3:#262626;
-  --border:#2a2a2a; --text:#f0f0f0; --text2:#999; --text3:#666;
-  --card-hover:#1f1f1f; --overlay:rgba(0,0,0,.55);
-}
-[data-theme="light"] {
-  --bg:#f5f5f7; --surface:#fff; --surface2:#f0f0f2; --surface3:#e5e5ea;
-  --border:#d1d1d6; --text:#1c1c1e; --text2:#636366; --text3:#aeaeb2;
-  --card-hover:#f9f9fb; --overlay:rgba(0,0,0,.3);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0c0c0c" id="meta-theme">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Designer Hub</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
+  <style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24
+    }
 
-/* ===== RESET ===== */
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;min-height:100dvh;transition:background .25s,color .25s}
-a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
+    .mi {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      -webkit-font-smoothing: antialiased;
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24
+    }
 
-/* ===== SIDEBAR (desktop) ===== */
-.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform .28s cubic-bezier(.4,0,.2,1),background .25s}
-.sidebar-hdr{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
-.sidebar-hdr h1{font-size:17px;font-weight:800}
-.sidebar-hdr h1 span{background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sidebar-hdr p{font-size:11px;color:var(--text2);margin-top:3px}
-.nav{flex:1;padding:10px 6px;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--text2);transition:all .12s;margin-bottom:1px}
-.nav-item:hover{background:var(--surface2);color:var(--text)}
-.nav-item.active{background:rgba(124,92,252,.14);color:var(--accent2)}
-.nav-icon{width:20px;text-align:center;font-size:15px}
-.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px}
-.sidebar-foot{padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.clock{font-size:22px;font-weight:800}
-.theme-toggle{width:40px;height:24px;border-radius:12px;border:none;cursor:pointer;position:relative;transition:background .2s}
-[data-theme="dark"] .theme-toggle{background:var(--surface3)}
-[data-theme="light"] .theme-toggle{background:var(--accent)}
-.theme-toggle::after{content:'';width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:left .2s}
-[data-theme="dark"] .theme-toggle::after{left:3px}
-[data-theme="light"] .theme-toggle::after{left:19px}
-.theme-label{font-size:10px;color:var(--text3)}
+    /* ===== THEME ===== */
+    :root {
+      --accent: #7c5cfc;
+      --accent2: #a78bfa;
+      --figma: #a259ff;
+      --ai: #00d4aa;
+      --pink: #f472b6;
+      --orange: #fb923c;
+      --blue: #60a5fa;
+      --green: #4ade80;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --radius: 14px;
+      --sidebar-w: 230px;
+    }
 
-/* ===== OVERLAY ===== */
-.overlay{display:none;position:fixed;inset:0;background:var(--overlay);z-index:90;-webkit-tap-highlight-color:transparent}
-.overlay.open{display:block}
+    [data-theme="dark"] {
+      --bg: #0c0c0c;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --surface3: #262626;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --text2: #999;
+      --text3: #666;
+      --card-hover: #1f1f1f;
+      --overlay: rgba(0, 0, 0, .55);
+    }
 
-/* ===== MAIN ===== */
-.main{margin-left:var(--sidebar-w);flex:1;min-width:0;transition:margin .28s}
-.topbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:10px;transition:background .25s}
-.topbar h2{font-size:16px;font-weight:700;white-space:nowrap}
-.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px;-webkit-tap-highlight-color:transparent}
-.search-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:7px 12px;color:var(--text);font-size:13px;flex:1;max-width:280px;outline:none;margin-left:auto;transition:border .2s,background .25s}
-.search-box:focus{border-color:var(--accent)}
-.content{padding:20px}
-.page{display:none}.page.active{display:block}
+    [data-theme="light"] {
+      --bg: #f5f5f7;
+      --surface: #fff;
+      --surface2: #f0f0f2;
+      --surface3: #e5e5ea;
+      --border: #d1d1d6;
+      --text: #1c1c1e;
+      --text2: #636366;
+      --text3: #aeaeb2;
+      --card-hover: #f9f9fb;
+      --overlay: rgba(0, 0, 0, .3);
+    }
 
-/* ===== CARDS ===== */
-.card-grid{display:grid;gap:12px}
-.cols-2{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-.cols-3{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.cols-4{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all .15s}
-.card:hover{border-color:var(--surface3);transform:translateY(-1px)}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.card-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.card-title{font-size:14px;font-weight:700}
-.card-subtitle{font-size:11px;color:var(--text2);margin-top:2px}
-.card-body{font-size:12.5px;color:var(--text2);line-height:1.7}
-.card-footer{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
-.tag{display:inline-block;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:600;background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
-.tag.figma{background:rgba(162,89,255,.12);color:var(--figma);border-color:rgba(162,89,255,.25)}
-.tag.ai{background:rgba(0,212,170,.1);color:var(--ai);border-color:rgba(0,212,170,.2)}
-.tag.beginner{background:rgba(96,165,250,.1);color:var(--blue);border-color:rgba(96,165,250,.2)}
-.tag.hot{background:rgba(248,113,113,.1);color:var(--red);border-color:rgba(248,113,113,.2)}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .12s}
-.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{opacity:.85}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn-outline:hover{border-color:var(--accent);color:var(--accent2)}
-.section{margin-bottom:24px}
-.section-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-/* ===== NEWS ===== */
-.news-tabs{display:flex;gap:5px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:none}
-.news-tabs::-webkit-scrollbar{display:none}
-.news-tab{padding:7px 14px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;background:var(--surface2);border:1px solid var(--border);color:var(--text2);white-space:nowrap;transition:all .12s;-webkit-tap-highlight-color:transparent}
-.news-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.news-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start}
-.news-item:last-child{border-bottom:none}
-.news-thumb{width:44px;height:44px;border-radius:10px;flex-shrink:0;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:22px}
-.news-info{flex:1;min-width:0}
-.news-title{font-size:13.5px;font-weight:600;line-height:1.5;display:block;color:var(--text)}
-.news-title:hover{color:var(--accent2);text-decoration:none}
-.news-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap}
-.news-desc{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      min-height: 100dvh;
+      transition: background .25s, color .25s
+    }
 
-/* ===== HOME ===== */
-.quote-box{background:linear-gradient(135deg,rgba(124,92,252,.1),rgba(244,114,182,.06));border:1px solid rgba(124,92,252,.18);border-radius:var(--radius);padding:18px;margin-bottom:20px}
-.quote-text{font-size:14.5px;font-weight:500;line-height:1.7;font-style:italic}
-.quote-author{font-size:12px;color:var(--text2);margin-top:6px}
-.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:20px}
-.quick-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 6px;text-align:center;cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent}
-.quick-card:hover{border-color:var(--accent);transform:translateY(-1px)}
-.quick-card .qi{font-size:22px;margin-bottom:4px}
-.quick-card .ql{font-size:10.5px;font-weight:600}
-.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+    a {
+      color: var(--accent2);
+      text-decoration: none
+    }
 
-/* ===== CHECKLIST ===== */
-.cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent}
-.cl-item:active{transform:scale(.98)}
-.cl-item.done{opacity:.45}.cl-item.done .cl-label{text-decoration:line-through}
-.cl-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:1px;transition:all .12s}
-.cl-item.done .cl-check{background:var(--accent);border-color:var(--accent)}
-.cl-label{font-size:13px;font-weight:500}
-.cl-desc{font-size:11px;color:var(--text2);margin-top:2px}
-.prog-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:10px}
-.prog-fill{height:100%;border-radius:3px;background:var(--accent);transition:width .4s}
+    a:hover {
+      text-decoration: underline
+    }
 
-/* ===== GLOSSARY ===== */
-.gloss-item{padding:12px 0;border-bottom:1px solid var(--border)}
-.gloss-item:last-child{border-bottom:none}
-.gloss-term{font-size:14px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
-.gloss-def{font-size:12.5px;color:var(--text2);line-height:1.7}
+    /* ===== SIDEBAR (desktop) ===== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: transform .28s cubic-bezier(.4, 0, .2, 1), background .25s
+    }
 
-/* ===== COLOR TOOL ===== */
-.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
-.color-swatch{aspect-ratio:1;border-radius:10px;cursor:pointer;display:flex;align-items:flex-end;padding:6px;transition:transform .12s}
-.color-swatch:hover{transform:scale(1.06)}
-.color-swatch span{font-size:9px;font-weight:700;background:rgba(0,0,0,.45);color:#fff;padding:2px 5px;border-radius:4px}
+    .sidebar-hdr {
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--border)
+    }
 
-/* ===== SHORTCUTS ===== */
-.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
-.sc-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
-.sc-item .sl{font-size:12.5px}
-.kbd{display:inline-block;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:600;background:var(--surface2);border:1px solid var(--border);font-family:monospace}
+    .sidebar-hdr h1 {
+      font-size: 17px;
+      font-weight: 800
+    }
 
-/* ===== UI PARTS ===== */
-.uip-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:all .15s}
-.uip-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.uip-hdr:hover{background:var(--card-hover)}
-.uip-prev{width:44px;height:44px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;overflow:hidden;border:1px solid var(--border);background:var(--surface2)}
-.uip-info{flex:1;min-width:0}
-.uip-name{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.uip-name-en{font-size:11px;color:var(--text3);font-weight:400}
-.uip-one{font-size:12px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.uip-arrow{color:var(--text3);font-size:16px;transition:transform .2s;flex-shrink:0}
-.uip-arrow.open{transform:rotate(180deg)}
-.uip-detail{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
-.uip-detail.open{display:block;padding-top:14px}
-.uip-demo{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:center;min-height:50px;flex-wrap:wrap;gap:8px;margin-bottom:12px;overflow-x:auto}
-.uip-sec{margin-bottom:10px}
-.uip-sec-t{font-size:11px;font-weight:700;color:var(--accent2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
-.uip-sec p{font-size:12.5px;color:var(--text2);line-height:1.7}
-.cat-hdr{font-size:15px;font-weight:800;padding:16px 0 10px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.cat-cnt{font-size:11px;color:var(--text3);font-weight:400}
+    .sidebar-hdr h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
 
-/* ===== MINI DEMOS ===== */
-.d-btn{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:none;cursor:pointer}
-.d-btn-p{background:var(--accent);color:#fff}
-.d-btn-o{background:transparent;border:1px solid var(--border);color:var(--text)}
-.d-btn-g{background:transparent;color:var(--accent2);border:none}
-.d-btn-i{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
-.d-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;width:160px}
-.d-toggle{width:42px;height:22px;border-radius:11px;background:var(--surface3);position:relative;cursor:pointer;border:none}
-.d-toggle::after{content:'';width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;left:3px;top:3px;transition:left .2s}
-.d-toggle.on{background:var(--accent)}.d-toggle.on::after{left:23px}
-.d-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
-.d-prog{width:160px;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden}
-.d-prog-f{height:100%;width:65%;background:var(--accent);border-radius:3px}
-.d-skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:5px}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .sidebar-hdr p {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 3px
+    }
 
-/* ===== MOBILE BOTTOM NAV ===== */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:100;padding:6px 0 env(safe-area-inset-bottom,6px);transition:background .25s}
-.bottom-nav-inner{display:flex;justify-content:space-around}
-.bnav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;cursor:pointer;color:var(--text3);font-size:10px;font-weight:500;-webkit-tap-highlight-color:transparent;transition:color .1s;flex:1}
-.bnav-item.active{color:var(--accent2)}
-.bnav-item .bi{font-size:19px}
+    .nav {
+      flex: 1;
+      padding: 10px 6px;
+      overflow-y: auto
+    }
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
-  .menu-btn{display:block}
-  .topbar{padding:8px 14px}
-  .content{padding:14px;padding-bottom:80px}
-  .bottom-nav{display:block}
-  .home-grid{grid-template-columns:1fr}
-  .cols-2,.cols-3{grid-template-columns:1fr}
-  .cols-4{grid-template-columns:repeat(2,1fr)}
-  .quick-grid{grid-template-columns:repeat(4,1fr)}
-  .search-box{max-width:160px;font-size:12px;padding:6px 10px}
-  .news-desc{-webkit-line-clamp:1}
-  .sc-grid{grid-template-columns:1fr}
-  .card{padding:14px}
-  .uip-hdr{padding:12px 14px}
-  .color-grid{grid-template-columns:repeat(auto-fill,minmax(70px,1fr))}
-}
-@media(max-width:380px){
-  .quick-grid{grid-template-columns:repeat(3,1fr)}
-  .cols-4{grid-template-columns:1fr}
-}
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text2);
+      transition: all .12s;
+      margin-bottom: 1px
+    }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{animation:fadeIn .3s ease}
+    .nav-item:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
 
-/* ===== FAVORITES ===== */
-.fav-btn{background:none;border:none;cursor:pointer;font-size:18px;color:var(--text3);transition:all .15s;padding:4px;-webkit-tap-highlight-color:transparent;flex-shrink:0}
-.fav-btn:hover{transform:scale(1.2)}
-.fav-btn.active{color:var(--yellow)}
-.fav-star{display:inline}
+    .nav-item.active {
+      background: rgba(124, 92, 252, .14);
+      color: var(--accent2)
+    }
 
-/* ===== TOAST ===== */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:12px;font-size:12px;font-weight:500;z-index:9999;animation:slideUp .25s ease;box-shadow:0 4px 16px rgba(0,0,0,.2)}
-@keyframes slideUp{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+    .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 15px
+    }
 
-/* ===== MOBILE TOUCH TARGETS ===== */
-@media(max-width:768px){
-  .nav-item{padding:12px 14px;font-size:14px}
-  .news-tab{padding:9px 16px;font-size:13px}
-  .cl-item{padding:12px 14px}
-  .quick-card{padding:16px 6px}
-  .quick-card .qi{font-size:26px}
-  .quick-card .ql{font-size:11.5px}
-  .bnav-item{padding:8px 0}
-  .bnav-item .bi{font-size:22px}
-  .bnav-item{font-size:10.5px;font-weight:600}
-  .card{padding:16px}
-  .news-item{padding:16px 0}
-  .section-title{font-size:16px}
-  .topbar h2{font-size:17px}
-}
-</style>
+    .nav-badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 99px
+    }
+
+    .sidebar-foot {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .clock {
+      font-size: 22px;
+      font-weight: 800
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 24px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background .2s
+    }
+
+    [data-theme="dark"] .theme-toggle {
+      background: var(--surface3)
+    }
+
+    [data-theme="light"] .theme-toggle {
+      background: var(--accent)
+    }
+
+    .theme-toggle::after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      transition: left .2s
+    }
+
+    [data-theme="dark"] .theme-toggle::after {
+      left: 3px
+    }
+
+    [data-theme="light"] .theme-toggle::after {
+      left: 19px
+    }
+
+    .theme-label {
+      font-size: 10px;
+      color: var(--text3)
+    }
+
+    /* ===== OVERLAY ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--overlay);
+      z-index: 90;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .overlay.open {
+      display: block
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-width: 0;
+      transition: margin .28s
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background .25s
+    }
+
+    .topbar h2 {
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap
+    }
+
+    .menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 22px;
+      cursor: pointer;
+      padding: 4px;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .search-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 12px;
+      color: var(--text);
+      font-size: 13px;
+      flex: 1;
+      max-width: 280px;
+      outline: none;
+      margin-left: auto;
+      transition: border .2s, background .25s
+    }
+
+    .search-box:focus {
+      border-color: var(--accent)
+    }
+
+    .content {
+      padding: 20px
+    }
+
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block
+    }
+
+    /* ===== CARDS ===== */
+    .card-grid {
+      display: grid;
+      gap: 12px
+    }
+
+    .cols-2 {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+    }
+
+    .cols-3 {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
+    }
+
+    .cols-4 {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: all .15s
+    }
+
+    .card:hover {
+      border-color: var(--surface3);
+      transform: translateY(-1px)
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .card-body {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.7
+    }
+
+    .card-footer {
+      margin-top: 10px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--surface2);
+      color: var(--text2);
+      border: 1px solid var(--border)
+    }
+
+    .tag.figma {
+      background: rgba(162, 89, 255, .12);
+      color: var(--figma);
+      border-color: rgba(162, 89, 255, .25)
+    }
+
+    .tag.ai {
+      background: rgba(0, 212, 170, .1);
+      color: var(--ai);
+      border-color: rgba(0, 212, 170, .2)
+    }
+
+    .tag.beginner {
+      background: rgba(96, 165, 250, .1);
+      color: var(--blue);
+      border-color: rgba(96, 165, 250, .2)
+    }
+
+    .tag.hot {
+      background: rgba(248, 113, 113, .1);
+      color: var(--red);
+      border-color: rgba(248, 113, 113, .2)
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .12s
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      opacity: .85
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text2)
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent2)
+    }
+
+    .section {
+      margin-bottom: 24px
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    /* ===== NEWS ===== */
+    .news-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+      scrollbar-width: none
+    }
+
+    .news-tabs::-webkit-scrollbar {
+      display: none
+    }
+
+    .news-tab {
+      padding: 7px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      white-space: nowrap;
+      transition: all .12s;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .news-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent)
+    }
+
+    .news-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start
+    }
+
+    .news-item:last-child {
+      border-bottom: none
+    }
+
+    .news-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px
+    }
+
+    .news-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .news-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.5;
+      display: block;
+      color: var(--text)
+    }
+
+    .news-title:hover {
+      color: var(--accent2);
+      text-decoration: none
+    }
+
+    .news-meta {
+      font-size: 11px;
+      color: var(--text3);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 3px;
+      flex-wrap: wrap
+    }
+
+    .news-desc {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 5px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
+
+    /* ===== HOME ===== */
+    .quote-box {
+      background: linear-gradient(135deg, rgba(124, 92, 252, .1), rgba(244, 114, 182, .06));
+      border: 1px solid rgba(124, 92, 252, .18);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 20px
+    }
+
+    .quote-text {
+      font-size: 14.5px;
+      font-weight: 500;
+      line-height: 1.7;
+      font-style: italic
+    }
+
+    .quote-author {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 6px
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px
+    }
+
+    .quick-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .12s;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .quick-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px)
+    }
+
+    .quick-card .qi {
+      font-size: 22px;
+      margin-bottom: 4px
+    }
+
+    .quick-card .ql {
+      font-size: 10.5px;
+      font-weight: 600
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px
+    }
+
+    /* ===== CHECKLIST ===== */
+    .cl-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all .12s;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .cl-item:active {
+      transform: scale(.98)
+    }
+
+    .cl-item.done {
+      opacity: .45
+    }
+
+    .cl-item.done .cl-label {
+      text-decoration: line-through
+    }
+
+    .cl-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-top: 1px;
+      transition: all .12s
+    }
+
+    .cl-item.done .cl-check {
+      background: var(--accent);
+      border-color: var(--accent)
+    }
+
+    .cl-label {
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .cl-desc {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .prog-bar {
+      height: 5px;
+      background: var(--surface2);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--accent);
+      transition: width .4s
+    }
+
+    /* ===== GLOSSARY ===== */
+    .gloss-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .gloss-item:last-child {
+      border-bottom: none
+    }
+
+    .gloss-term {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .gloss-def {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.7
+    }
+
+    /* ===== COLOR TOOL ===== */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      padding: 6px;
+      transition: transform .12s
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.06)
+    }
+
+    .color-swatch span {
+      font-size: 9px;
+      font-weight: 700;
+      background: rgba(0, 0, 0, .45);
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 4px
+    }
+
+    /* ===== SHORTCUTS ===== */
+    .sc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px
+    }
+
+    .sc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px
+    }
+
+    .sc-item .sl {
+      font-size: 12.5px
+    }
+
+    .kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-family: monospace
+    }
+
+    /* ===== UI PARTS ===== */
+    .uip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: all .15s
+    }
+
+    .uip-hdr {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .uip-hdr:hover {
+      background: var(--card-hover)
+    }
+
+    .uip-prev {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface2)
+    }
+
+    .uip-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .uip-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .uip-name-en {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 400
+    }
+
+    .uip-one {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .uip-arrow {
+      color: var(--text3);
+      font-size: 16px;
+      transition: transform .2s;
+      flex-shrink: 0
+    }
+
+    .uip-arrow.open {
+      transform: rotate(180deg)
+    }
+
+    .uip-detail {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border)
+    }
+
+    .uip-detail.open {
+      display: block;
+      padding-top: 14px
+    }
+
+    .uip-demo {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      overflow-x: auto
+    }
+
+    .uip-sec {
+      margin-bottom: 10px
+    }
+
+    .uip-sec-t {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .uip-sec p {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.7
+    }
+
+    .cat-hdr {
+      font-size: 15px;
+      font-weight: 800;
+      padding: 16px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px
+    }
+
+    .cat-cnt {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 400
+    }
+
+    /* ===== MINI DEMOS ===== */
+    .d-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer
+    }
+
+    .d-btn-p {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .d-btn-o {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text)
+    }
+
+    .d-btn-g {
+      background: transparent;
+      color: var(--accent2);
+      border: none
+    }
+
+    .d-btn-i {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px
+    }
+
+    .d-input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      color: var(--text);
+      font-size: 12px;
+      width: 160px
+    }
+
+    .d-toggle {
+      width: 42px;
+      height: 22px;
+      border-radius: 11px;
+      background: var(--surface3);
+      position: relative;
+      cursor: pointer;
+      border: none
+    }
+
+    .d-toggle::after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      transition: left .2s
+    }
+
+    .d-toggle.on {
+      background: var(--accent)
+    }
+
+    .d-toggle.on::after {
+      left: 23px
+    }
+
+    .d-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px
+    }
+
+    .d-prog {
+      width: 160px;
+      height: 5px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden
+    }
+
+    .d-prog-f {
+      height: 100%;
+      width: 65%;
+      background: var(--accent);
+      border-radius: 3px
+    }
+
+    .d-skel {
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 5px
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    /* ===== MOBILE BOTTOM NAV ===== */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 100;
+      padding: 6px 0 env(safe-area-inset-bottom, 6px);
+      transition: background .25s
+    }
+
+    .bottom-nav-inner {
+      display: flex;
+      justify-content: space-around
+    }
+
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 4px 0;
+      cursor: pointer;
+      color: var(--text3);
+      font-size: 10px;
+      font-weight: 500;
+      -webkit-tap-highlight-color: transparent;
+      transition: color .1s;
+      flex: 1
+    }
+
+    .bnav-item.active {
+      color: var(--accent2)
+    }
+
+    .bnav-item .bi {
+      font-size: 19px
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .sidebar {
+        transform: translateX(-100%)
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .main {
+        margin-left: 0
+      }
+
+      .menu-btn {
+        display: block
+      }
+
+      .topbar {
+        padding: 8px 14px
+      }
+
+      .content {
+        padding: 14px;
+        padding-bottom: 80px
+      }
+
+      .bottom-nav {
+        display: block
+      }
+
+      .home-grid {
+        grid-template-columns: 1fr
+      }
+
+      .cols-2,
+      .cols-3 {
+        grid-template-columns: 1fr
+      }
+
+      .cols-4 {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .quick-grid {
+        grid-template-columns: repeat(4, 1fr)
+      }
+
+      .search-box {
+        max-width: 160px;
+        font-size: 12px;
+        padding: 6px 10px
+      }
+
+      .news-desc {
+        -webkit-line-clamp: 1
+      }
+
+      .sc-grid {
+        grid-template-columns: 1fr
+      }
+
+      .card {
+        padding: 14px
+      }
+
+      .uip-hdr {
+        padding: 12px 14px
+      }
+
+      .color-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr))
+      }
+    }
+
+    @media(max-width:380px) {
+      .quick-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .cols-4 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 3px
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn .3s ease
+    }
+
+    /* ===== FAVORITES ===== */
+    .fav-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--text3);
+      transition: all .15s;
+      padding: 4px;
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0
+    }
+
+    .fav-btn:hover {
+      transform: scale(1.2)
+    }
+
+    .fav-btn.active {
+      color: var(--yellow)
+    }
+
+    .fav-star {
+      display: inline
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      z-index: 9999;
+      animation: slideUp .25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .2)
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0)
+      }
+    }
+
+    /* ===== PROCESS FLOW ===== */
+    .process-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      padding-bottom: 16px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch
+    }
+
+    .process-carousel::-webkit-scrollbar {
+      display: none
+    }
+
+    .process-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform .2s
+    }
+
+    @media(min-width:769px) {
+      .process-carousel {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 20px
+      }
+
+      .process-card {
+        flex: 0 0 320px
+      }
+
+      .add-project-card {
+        flex: 0 0 320px
+      }
+    }
+
+    .process-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px rgba(124, 92, 252, .15)
+    }
+
+    .process-header {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .process-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px
+    }
+
+    .process-client {
+      font-size: 12px;
+      color: var(--text2);
+      display: flex;
+      justify-content: space-between
+    }
+
+    .project-delete-btn {
+      background: none;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      padding: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+      pointer-events: auto
+    }
+
+    .project-delete-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red)
+    }
+
+    .project-delete-btn span {
+      font-size: 20px;
+      pointer-events: none
+    }
+
+    .flow-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      padding-bottom: 24px;
+      cursor: pointer
+    }
+
+    .flow-step:last-child {
+      padding-bottom: 0
+    }
+
+    .flow-line {
+      position: absolute;
+      left: 11px;
+      top: 24px;
+      bottom: -4px;
+      width: 2px;
+      background: var(--surface3);
+      z-index: 0
+    }
+
+    .flow-step:last-child .flow-line {
+      display: none
+    }
+
+    .flow-marker {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--surface3);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text3);
+      transition: all .3s
+    }
+
+    .flow-step.done .flow-marker {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .flow-step.active .flow-marker {
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      transform: scale(1.2)
+    }
+
+    .flow-step.done .flow-line {
+      background: var(--accent)
+    }
+
+    .flow-content {
+      flex: 1;
+      transition: opacity .3s
+    }
+
+    .flow-step.future .flow-content {
+      opacity: .5
+    }
+
+    .flow-name {
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .flow-desc {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .add-project-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      background: var(--surface2);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text3);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .add-project-card:hover {
+      background: var(--surface3);
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    /* ===== MOBILE TOUCH TARGETS ===== */
+    @media(max-width:768px) {
+      .nav-item {
+        padding: 12px 14px;
+        font-size: 14px
+      }
+
+      .news-tab {
+        padding: 9px 16px;
+        font-size: 13px
+      }
+
+      .cl-item {
+        padding: 12px 14px
+      }
+
+      .quick-card {
+        padding: 16px 6px
+      }
+
+      .quick-card .qi {
+        font-size: 26px
+      }
+
+      .quick-card .ql {
+        font-size: 11.5px
+      }
+
+      .bnav-item {
+        padding: 8px 0
+      }
+
+      .bnav-item .bi {
+        font-size: 22px
+      }
+
+      .bnav-item {
+        font-size: 10.5px;
+        font-weight: 600
+      }
+
+      .card {
+        padding: 16px
+      }
+
+      .news-item {
+        padding: 16px 0
+      }
+
+      .section-title {
+        font-size: 16px
+      }
+
+      .topbar h2 {
+        font-size: 17px
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- ===== SIDEBAR ===== -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-hdr">
-    <h1><span>Designer</span> Hub</h1>
-    <p>新人デザイナーのためのポータル</p>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-hdr">
+      <h1><span>Designer</span> Hub</h1>
+      <p>新人デザイナーのためのポータル</p>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-item active" data-page="home"><span class="nav-icon mi">home</span> ホーム</div>
+      <div class="nav-item" data-page="news"><span class="nav-icon mi">newspaper</span> ニュース <span
+          class="nav-badge">NEW</span></div>
+      <div class="nav-item" data-page="process"><span class="nav-icon mi">account_tree</span> 制作フロー</div>
+      <div class="nav-item" data-page="figma"><span class="nav-icon mi">draw</span> Figma入門</div>
+      <div class="nav-item" data-page="uiparts"><span class="nav-icon mi">widgets</span> UIパーツ図鑑</div>
+      <div class="nav-item" data-page="glossary"><span class="nav-icon mi">menu_book</span> 用語集</div>
+      <div class="nav-item" data-page="colors"><span class="nav-icon mi">palette</span> カラーツール</div>
+      <div class="nav-item" data-page="shortcuts"><span class="nav-icon mi">keyboard</span> ショートカット</div>
+      <div class="nav-item" data-page="resources"><span class="nav-icon mi">link</span> リソース集</div>
+    </nav>
+    <div class="sidebar-foot">
+      <div>
+        <div class="clock" id="clock">00:00</div>
+        <div class="theme-label" id="theme-label">ダークモード</div>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="テーマ切替"></button>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()"><span class="mi">menu</span></button>
+      <h2 id="page-title">ホーム</h2>
+      <input class="search-box" type="text" placeholder="検索..." id="search-input" oninput="handleSearch(this.value)">
+    </div>
+
+    <div class="content">
+
+      <!-- HOME -->
+      <div class="page active fade-in" id="page-home">
+        <div class="quote-box" id="daily-quote"></div>
+        <div class="quick-grid" id="quick-access"></div>
+        <div class="home-grid">
+          <div>
+            <div class="section-title"><span class="dot" style="background:var(--accent)"></span> 今日のやること</div>
+            <div id="daily-checklist"></div>
+            <div class="prog-bar">
+              <div class="prog-fill" id="cl-prog" style="width:0%"></div>
+            </div>
+            <p style="font-size:11px;color:var(--text3);margin-top:5px" id="cl-label">0/0</p>
+          </div>
+          <div>
+            <div class="section-title" style="cursor:pointer" onclick="navigate('news')"><span class="dot"
+                style="background:var(--ai)"></span> 最新ニュース <span
+                style="font-size:11px;color:var(--accent2);font-weight:400;margin-left:auto">すべて &#8250;</span></div>
+            <div id="home-news"></div>
+          </div>
+        </div>
+        <div class="section" id="fav-section" style="display:none">
+          <div class="section-title"><span class="dot" style="background:var(--yellow)"></span> お気に入りUIパーツ</div>
+          <div id="home-favs" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        </div>
+        <div class="section">
+          <div class="section-title"><span class="dot" style="background:var(--pink)"></span> デザイン基本原則</div>
+          <div class="card-grid cols-4" id="principles"></div>
+        </div>
+      </div>
+
+      <!-- PROCESS FLOW -->
+      <div class="page" id="page-process">
+        <div class="section-title"><span class="dot" style="background:var(--accent)"></span> 進行中のプロジェクト</div>
+        <p style="font-size:12px;color:var(--text2);margin-bottom:20px">左右にスワイプしてプロジェクトを切り替え、工程をタップして進捗を更新します。</p>
+        <div class="process-carousel" id="project-list"></div>
+      </div>
+
+      <!-- NEWS -->
+      <div class="page" id="page-news">
+        <div class="news-tabs" id="news-tabs">
+          <div class="news-tab active" data-filter="all">すべて</div>
+          <div class="news-tab" data-filter="ai">AI</div>
+          <div class="news-tab" data-filter="figma">Figma</div>
+          <div class="news-tab" data-filter="design">デザイン</div>
+          <div class="news-tab" data-filter="tool">ツール</div>
+        </div>
+        <div id="news-list"></div>
+        <div style="text-align:center;margin-top:20px"><button class="btn btn-outline"
+            onclick="newsLimit+=8;renderNews()">もっと見る</button></div>
+      </div>
+
+      <!-- FIGMA -->
+      <div class="page" id="page-figma">
+        <div class="section">
+          <div class="section-title"><span class="dot" style="background:var(--figma)"></span> Figma 基本操作ガイド</div>
+          <div class="card-grid cols-2" id="figma-guides"></div>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--orange)"></span> おすすめプラグイン</div>
+          <div class="card-grid cols-3" id="figma-plugins"></div>
+        </div>
+      </div>
+
+      <!-- UI PARTS -->
+      <div class="page" id="page-uiparts">
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <input class="search-box" style="flex:1;min-width:160px;max-width:100%" placeholder="パーツ名を検索..."
+            id="uip-search" oninput="renderUIParts()">
+        </div>
+        <div class="news-tabs" id="uip-tabs" style="margin-bottom:14px"></div>
+        <p style="font-size:11px;color:var(--text3);margin-bottom:14px" id="uip-count"></p>
+        <div id="uip-list"></div>
+      </div>
+
+      <!-- GLOSSARY -->
+      <div class="page" id="page-glossary">
+        <div class="section">
+          <div class="section-title"><span class="dot" style="background:var(--blue)"></span> デザイン用語集</div>
+          <input class="search-box" style="width:100%;max-width:100%;margin-bottom:16px" placeholder="用語を検索..."
+            id="gloss-search" oninput="renderGlossary()">
+          <div id="gloss-list"></div>
+        </div>
+      </div>
+
+      <!-- COLORS -->
+      <div class="page" id="page-colors">
+        <div class="section">
+          <div class="section-title"><span class="dot" style="background:var(--pink)"></span> カラーパレット生成</div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+            <input type="color" id="base-color" value="#7c5cfc"
+              style="width:44px;height:34px;border:none;border-radius:8px;cursor:pointer;background:none">
+            <button class="btn btn-primary" onclick="genPalette()">生成</button>
+            <button class="btn btn-outline" onclick="randPalette()">ランダム</button>
+          </div>
+          <div class="color-grid" id="color-palette"></div>
+          <p style="font-size:11px;color:var(--text3);margin-top:10px">タップでコピー</p>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--orange)"></span> 定番パレット</div>
+          <div id="presets"></div>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--green)"></span> コントラストチェッカー</div>
+          <p style="font-size:12px;color:var(--text2);margin-bottom:14px">WCAG基準で文字色と背景色のコントラスト比を確認できます</p>
+          <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+            <label style="font-size:12px;color:var(--text2)">文字色
+              <input type="color" id="cc-fg" value="#ffffff"
+                style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none;vertical-align:middle;margin-left:4px">
+            </label>
+            <label style="font-size:12px;color:var(--text2)">背景色
+              <input type="color" id="cc-bg" value="#1c1c1e"
+                style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none;vertical-align:middle;margin-left:4px">
+            </label>
+            <button class="btn btn-outline" onclick="swapCC()" style="padding:6px 12px;font-size:12px">&#8645;
+              入替</button>
+          </div>
+          <div id="cc-preview"
+            style="border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px;border:1px solid var(--border)">
+            <div style="font-size:22px;font-weight:700;margin-bottom:4px">Aa サンプルテキスト</div>
+            <div style="font-size:14px">このテキストは読みやすいですか？</div>
+          </div>
+          <div id="cc-result" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--blue)"></span> px / rem 変換</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <input type="number" id="px-val" value="16" min="0"
+              style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;text-align:center"
+              oninput="calcRem()">
+            <span style="font-size:13px;font-weight:600">px</span>
+            <span style="color:var(--text3)">=</span>
+            <span id="rem-result" style="font-size:18px;font-weight:700;color:var(--accent2)">1</span>
+            <span style="font-size:13px;font-weight:600">rem</span>
+            <span style="font-size:11px;color:var(--text3);margin-left:8px">(base: 16px)</span>
+          </div>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--figma)"></span> グラデーション生成</div>
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+            <input type="color" id="grad-c1" value="#7c5cfc"
+              style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none"
+              oninput="updateGrad()">
+            <span style="color:var(--text3);font-size:13px">&#8594;</span>
+            <input type="color" id="grad-c2" value="#f472b6"
+              style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none"
+              oninput="updateGrad()">
+            <select id="grad-dir"
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px"
+              onchange="updateGrad()">
+              <option value="to right">&#8594; 右</option>
+              <option value="to bottom">&#8595; 下</option>
+              <option value="to bottom right">&#8600; 右下</option>
+              <option value="135deg" selected>&#8600; 135deg</option>
+              <option value="to top right">&#8599; 右上</option>
+              <option value="circle">&#9711; 円形</option>
+            </select>
+            <button class="btn btn-outline" onclick="randGrad()" style="padding:6px 12px;font-size:12px">ランダム</button>
+          </div>
+          <div id="grad-preview"
+            style="height:80px;border-radius:var(--radius);margin-bottom:10px;border:1px solid var(--border)"></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <code id="grad-code"
+              style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
+            <button class="btn btn-outline" onclick="copyGrad()"
+              style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
+          </div>
+        </div>
+        <div class="section" style="margin-top:24px">
+          <div class="section-title"><span class="dot" style="background:var(--orange)"></span> ボックスシャドウ生成</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <label style="font-size:11px;color:var(--text2)">X <input type="range" id="sh-x" min="-30" max="30"
+                value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+            <label style="font-size:11px;color:var(--text2)">Y <input type="range" id="sh-y" min="-30" max="30"
+                value="8" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+            <label style="font-size:11px;color:var(--text2)">ぼかし <input type="range" id="sh-blur" min="0" max="60"
+                value="24" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+            <label style="font-size:11px;color:var(--text2)">広がり <input type="range" id="sh-spread" min="-20" max="20"
+                value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+            <label style="font-size:11px;color:var(--text2)">色 <input type="color" id="sh-color" value="#000000"
+                oninput="updateShadow()"
+                style="width:36px;height:24px;border:none;border-radius:4px;cursor:pointer;background:none;vertical-align:middle"></label>
+            <label style="font-size:11px;color:var(--text2)">透明度 <input type="range" id="sh-alpha" min="0" max="100"
+                value="15" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
+          </div>
+          <div
+            style="display:flex;justify-content:center;padding:30px;background:var(--surface2);border-radius:var(--radius);margin-bottom:10px">
+            <div id="sh-preview" style="width:120px;height:80px;background:var(--surface);border-radius:12px"></div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <code id="sh-code"
+              style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
+            <button class="btn btn-outline" onclick="copyShadow()"
+              style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHORTCUTS -->
+      <div class="page" id="page-shortcuts">
+        <div class="news-tabs" id="sc-tabs">
+          <div class="news-tab active" data-stab="figma">Figma</div>
+          <div class="news-tab" data-stab="general">一般</div>
+        </div>
+        <div id="sc-content"></div>
+      </div>
+
+      <!-- RESOURCES -->
+      <div class="page" id="page-resources">
+        <div class="section">
+          <div class="section-title"><span class="dot" style="background:var(--green)"></span> おすすめリソース</div>
+          <div class="card-grid cols-2" id="res-list"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== MOBILE BOTTOM NAV ===== -->
+  <div class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <div class="bnav-item active" data-page="home"><span class="bi mi">home</span>ホーム</div>
+      <div class="bnav-item" data-page="process"><span class="bi mi">account_tree</span>工程</div>
+      <div class="bnav-item" data-page="uiparts"><span class="bi mi">widgets</span>UI図鑑</div>
+      <div class="bnav-item" data-page="colors"><span class="bi mi">palette</span>ツール</div>
+      <div class="bnav-item" data-page="news"><span class="bi mi">newspaper</span>ニュース</div>
+      <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi mi">more_horiz</span>もっと</div>
+    </div>
   </div>
-  <nav class="nav" id="nav">
-    <div class="nav-item active" data-page="home"><span class="nav-icon mi">home</span> ホーム</div>
-    <div class="nav-item" data-page="news"><span class="nav-icon mi">newspaper</span> ニュース <span class="nav-badge">NEW</span></div>
-    <div class="nav-item" data-page="figma"><span class="nav-icon mi">draw</span> Figma入門</div>
-    <div class="nav-item" data-page="uiparts"><span class="nav-icon mi">widgets</span> UIパーツ図鑑</div>
-    <div class="nav-item" data-page="glossary"><span class="nav-icon mi">menu_book</span> 用語集</div>
-    <div class="nav-item" data-page="colors"><span class="nav-icon mi">palette</span> カラーツール</div>
-    <div class="nav-item" data-page="shortcuts"><span class="nav-icon mi">keyboard</span> ショートカット</div>
-    <div class="nav-item" data-page="resources"><span class="nav-icon mi">link</span> リソース集</div>
-  </nav>
-  <div class="sidebar-foot">
-    <div>
-      <div class="clock" id="clock">00:00</div>
-      <div class="theme-label" id="theme-label">ダークモード</div>
-    </div>
-    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="テーマ切替"></button>
-  </div>
-</aside>
 
-<!-- ===== MAIN ===== -->
-<main class="main">
-  <div class="topbar">
-    <button class="menu-btn" onclick="toggleSidebar()"><span class="mi">menu</span></button>
-    <h2 id="page-title">ホーム</h2>
-    <input class="search-box" type="text" placeholder="検索..." id="search-input" oninput="handleSearch(this.value)">
-  </div>
-
-  <div class="content">
-
-    <!-- HOME -->
-    <div class="page active fade-in" id="page-home">
-      <div class="quote-box" id="daily-quote"></div>
-      <div class="quick-grid" id="quick-access"></div>
-      <div class="home-grid">
-        <div>
-          <div class="section-title"><span class="dot" style="background:var(--accent)"></span> 今日のやること</div>
-          <div id="daily-checklist"></div>
-          <div class="prog-bar"><div class="prog-fill" id="cl-prog" style="width:0%"></div></div>
-          <p style="font-size:11px;color:var(--text3);margin-top:5px" id="cl-label">0/0</p>
-        </div>
-        <div>
-          <div class="section-title" style="cursor:pointer" onclick="navigate('news')"><span class="dot" style="background:var(--ai)"></span> 最新ニュース <span style="font-size:11px;color:var(--accent2);font-weight:400;margin-left:auto">すべて &#8250;</span></div>
-          <div id="home-news"></div>
-        </div>
+  <!-- MORE MENU (BOTTOM SHEET) -->
+  <div id="more-overlay" style="display:none;position:fixed;inset:0;background:var(--overlay);z-index:150"
+    onclick="toggleMore()"></div>
+  <div id="more-sheet"
+    style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;z-index:160;padding:12px 16px calc(env(safe-area-inset-bottom,6px) + 12px);animation:slideUp .25s ease">
+    <div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 16px"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div class="quick-card" onclick="navigate('figma');toggleMore()">
+        <div class="qi mi" style="font-size:26px">draw</div>
+        <div class="ql" style="color:var(--figma)">Figma</div>
       </div>
-      <div class="section" id="fav-section" style="display:none">
-        <div class="section-title"><span class="dot" style="background:var(--yellow)"></span> お気に入りUIパーツ</div>
-        <div id="home-favs" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      <div class="quick-card" onclick="navigate('glossary');toggleMore()">
+        <div class="qi mi" style="font-size:26px">menu_book</div>
+        <div class="ql" style="color:var(--blue)">用語集</div>
       </div>
-      <div class="section">
-        <div class="section-title"><span class="dot" style="background:var(--pink)"></span> デザイン基本原則</div>
-        <div class="card-grid cols-4" id="principles"></div>
+      <div class="quick-card" onclick="navigate('shortcuts');toggleMore()">
+        <div class="qi mi" style="font-size:26px">keyboard</div>
+        <div class="ql" style="color:var(--orange)">ショトカ</div>
       </div>
-    </div>
-
-    <!-- NEWS -->
-    <div class="page" id="page-news">
-      <div class="news-tabs" id="news-tabs">
-        <div class="news-tab active" data-filter="all">すべて</div>
-        <div class="news-tab" data-filter="ai">AI</div>
-        <div class="news-tab" data-filter="figma">Figma</div>
-        <div class="news-tab" data-filter="design">デザイン</div>
-        <div class="news-tab" data-filter="tool">ツール</div>
-      </div>
-      <div id="news-list"></div>
-      <div style="text-align:center;margin-top:20px"><button class="btn btn-outline" onclick="newsLimit+=8;renderNews()">もっと見る</button></div>
-    </div>
-
-    <!-- FIGMA -->
-    <div class="page" id="page-figma">
-      <div class="section">
-        <div class="section-title"><span class="dot" style="background:var(--figma)"></span> Figma 基本操作ガイド</div>
-        <div class="card-grid cols-2" id="figma-guides"></div>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--orange)"></span> おすすめプラグイン</div>
-        <div class="card-grid cols-3" id="figma-plugins"></div>
-      </div>
-    </div>
-
-    <!-- UI PARTS -->
-    <div class="page" id="page-uiparts">
-      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-        <input class="search-box" style="flex:1;min-width:160px;max-width:100%" placeholder="パーツ名を検索..." id="uip-search" oninput="renderUIParts()">
-      </div>
-      <div class="news-tabs" id="uip-tabs" style="margin-bottom:14px"></div>
-      <p style="font-size:11px;color:var(--text3);margin-bottom:14px" id="uip-count"></p>
-      <div id="uip-list"></div>
-    </div>
-
-    <!-- GLOSSARY -->
-    <div class="page" id="page-glossary">
-      <div class="section">
-        <div class="section-title"><span class="dot" style="background:var(--blue)"></span> デザイン用語集</div>
-        <input class="search-box" style="width:100%;max-width:100%;margin-bottom:16px" placeholder="用語を検索..." id="gloss-search" oninput="renderGlossary()">
-        <div id="gloss-list"></div>
-      </div>
-    </div>
-
-    <!-- COLORS -->
-    <div class="page" id="page-colors">
-      <div class="section">
-        <div class="section-title"><span class="dot" style="background:var(--pink)"></span> カラーパレット生成</div>
-        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
-          <input type="color" id="base-color" value="#7c5cfc" style="width:44px;height:34px;border:none;border-radius:8px;cursor:pointer;background:none">
-          <button class="btn btn-primary" onclick="genPalette()">生成</button>
-          <button class="btn btn-outline" onclick="randPalette()">ランダム</button>
-        </div>
-        <div class="color-grid" id="color-palette"></div>
-        <p style="font-size:11px;color:var(--text3);margin-top:10px">タップでコピー</p>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--orange)"></span> 定番パレット</div>
-        <div id="presets"></div>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--green)"></span> コントラストチェッカー</div>
-        <p style="font-size:12px;color:var(--text2);margin-bottom:14px">WCAG基準で文字色と背景色のコントラスト比を確認できます</p>
-        <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-          <label style="font-size:12px;color:var(--text2)">文字色
-            <input type="color" id="cc-fg" value="#ffffff" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none;vertical-align:middle;margin-left:4px">
-          </label>
-          <label style="font-size:12px;color:var(--text2)">背景色
-            <input type="color" id="cc-bg" value="#1c1c1e" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none;vertical-align:middle;margin-left:4px">
-          </label>
-          <button class="btn btn-outline" onclick="swapCC()" style="padding:6px 12px;font-size:12px">&#8645; 入替</button>
-        </div>
-        <div id="cc-preview" style="border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px;border:1px solid var(--border)">
-          <div style="font-size:22px;font-weight:700;margin-bottom:4px">Aa サンプルテキスト</div>
-          <div style="font-size:14px">このテキストは読みやすいですか？</div>
-        </div>
-        <div id="cc-result" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--blue)"></span> px / rem 変換</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input type="number" id="px-val" value="16" min="0" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;text-align:center" oninput="calcRem()">
-          <span style="font-size:13px;font-weight:600">px</span>
-          <span style="color:var(--text3)">=</span>
-          <span id="rem-result" style="font-size:18px;font-weight:700;color:var(--accent2)">1</span>
-          <span style="font-size:13px;font-weight:600">rem</span>
-          <span style="font-size:11px;color:var(--text3);margin-left:8px">(base: 16px)</span>
-        </div>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--figma)"></span> グラデーション生成</div>
-        <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
-          <input type="color" id="grad-c1" value="#7c5cfc" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none" oninput="updateGrad()">
-          <span style="color:var(--text3);font-size:13px">&#8594;</span>
-          <input type="color" id="grad-c2" value="#f472b6" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none" oninput="updateGrad()">
-          <select id="grad-dir" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px" onchange="updateGrad()">
-            <option value="to right">&#8594; 右</option><option value="to bottom">&#8595; 下</option>
-            <option value="to bottom right">&#8600; 右下</option><option value="135deg" selected>&#8600; 135deg</option>
-            <option value="to top right">&#8599; 右上</option><option value="circle">&#9711; 円形</option>
-          </select>
-          <button class="btn btn-outline" onclick="randGrad()" style="padding:6px 12px;font-size:12px">ランダム</button>
-        </div>
-        <div id="grad-preview" style="height:80px;border-radius:var(--radius);margin-bottom:10px;border:1px solid var(--border)"></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <code id="grad-code" style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
-          <button class="btn btn-outline" onclick="copyGrad()" style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
-        </div>
-      </div>
-      <div class="section" style="margin-top:24px">
-        <div class="section-title"><span class="dot" style="background:var(--orange)"></span> ボックスシャドウ生成</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-          <label style="font-size:11px;color:var(--text2)">X <input type="range" id="sh-x" min="-30" max="30" value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
-          <label style="font-size:11px;color:var(--text2)">Y <input type="range" id="sh-y" min="-30" max="30" value="8" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
-          <label style="font-size:11px;color:var(--text2)">ぼかし <input type="range" id="sh-blur" min="0" max="60" value="24" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
-          <label style="font-size:11px;color:var(--text2)">広がり <input type="range" id="sh-spread" min="-20" max="20" value="0" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
-          <label style="font-size:11px;color:var(--text2)">色 <input type="color" id="sh-color" value="#000000" oninput="updateShadow()" style="width:36px;height:24px;border:none;border-radius:4px;cursor:pointer;background:none;vertical-align:middle"></label>
-          <label style="font-size:11px;color:var(--text2)">透明度 <input type="range" id="sh-alpha" min="0" max="100" value="15" oninput="updateShadow()" style="width:100%;accent-color:var(--accent)"></label>
-        </div>
-        <div style="display:flex;justify-content:center;padding:30px;background:var(--surface2);border-radius:var(--radius);margin-bottom:10px">
-          <div id="sh-preview" style="width:120px;height:80px;background:var(--surface);border-radius:12px"></div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <code id="sh-code" style="flex:1;font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap"></code>
-          <button class="btn btn-outline" onclick="copyShadow()" style="padding:6px 12px;font-size:11px;flex-shrink:0">コピー</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SHORTCUTS -->
-    <div class="page" id="page-shortcuts">
-      <div class="news-tabs" id="sc-tabs">
-        <div class="news-tab active" data-stab="figma">Figma</div>
-        <div class="news-tab" data-stab="general">一般</div>
-      </div>
-      <div id="sc-content"></div>
-    </div>
-
-    <!-- RESOURCES -->
-    <div class="page" id="page-resources">
-      <div class="section">
-        <div class="section-title"><span class="dot" style="background:var(--green)"></span> おすすめリソース</div>
-        <div class="card-grid cols-2" id="res-list"></div>
+      <div class="quick-card" onclick="navigate('resources');toggleMore()">
+        <div class="qi mi" style="font-size:26px">link</div>
+        <div class="ql" style="color:var(--green)">リソース</div>
       </div>
     </div>
   </div>
-</main>
 
-<!-- ===== MOBILE BOTTOM NAV ===== -->
-<div class="bottom-nav">
-  <div class="bottom-nav-inner">
-    <div class="bnav-item active" data-page="home"><span class="bi mi">home</span>ホーム</div>
-    <div class="bnav-item" data-page="uiparts"><span class="bi mi">widgets</span>UI図鑑</div>
-    <div class="bnav-item" data-page="colors"><span class="bi mi">palette</span>ツール</div>
-    <div class="bnav-item" data-page="news"><span class="bi mi">newspaper</span>ニュース</div>
-    <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi mi">more_horiz</span>もっと</div>
+
+  <!-- PROJECT ADD MODAL -->
+  <div id="project-modal-overlay" style="display:none;position:fixed;inset:0;background:var(--overlay);z-index:200"
+    onclick="hideProjectModal()"></div>
+  <div id="project-modal"
+    style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--surface);border:1px solid var(--border);border-radius:16px;z-index:210;padding:20px;width:90%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,.3)">
+    <div style="font-size:18px;font-weight:800;margin-bottom:16px">新規プロジェクト登録</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input type="text" id="new-p-name" placeholder="プロジェクト名" class="search-box" style="max-width:100%;margin:0">
+      <input type="text" id="new-p-client" placeholder="クライアント名" class="search-box" style="max-width:100%;margin:0">
+      <input type="text" id="new-p-dead" placeholder="納期 (例: 2026/03/31)" class="search-box"
+        style="max-width:100%;margin:0">
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-outline" style="flex:1" onclick="hideProjectModal()">キャンセル</button>
+        <button class="btn btn-primary" style="flex:1" onclick="saveNewProject()">保存</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- MORE MENU (BOTTOM SHEET) -->
-<div id="more-overlay" style="display:none;position:fixed;inset:0;background:var(--overlay);z-index:150" onclick="toggleMore()"></div>
-<div id="more-sheet" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;z-index:160;padding:12px 16px calc(env(safe-area-inset-bottom,6px) + 12px);animation:slideUp .25s ease">
-  <div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 16px"></div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-    <div class="quick-card" onclick="navigate('figma');toggleMore()"><div class="qi mi" style="font-size:26px">draw</div><div class="ql" style="color:var(--figma)">Figma</div></div>
-    <div class="quick-card" onclick="navigate('glossary');toggleMore()"><div class="qi mi" style="font-size:26px">menu_book</div><div class="ql" style="color:var(--blue)">用語集</div></div>
-    <div class="quick-card" onclick="navigate('shortcuts');toggleMore()"><div class="qi mi" style="font-size:26px">keyboard</div><div class="ql" style="color:var(--orange)">ショトカ</div></div>
-    <div class="quick-card" onclick="navigate('resources');toggleMore()"><div class="qi mi" style="font-size:26px">link</div><div class="ql" style="color:var(--green)">リソース</div></div>
-  </div>
-</div>
+  <script>
+    // ===== THEME =====
+    function initTheme() { const t = localStorage.getItem('dh-theme') || 'dark'; document.documentElement.dataset.theme = t; document.getElementById('theme-label').textContent = t === 'dark' ? 'ダークモード' : 'ライトモード' }
+    function toggleTheme() { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = t; localStorage.setItem('dh-theme', t); document.getElementById('theme-label').textContent = t === 'dark' ? 'ダークモード' : 'ライトモード' }
+    initTheme();
 
-<script>
-// ===== THEME =====
-function initTheme(){const t=localStorage.getItem('dh-theme')||'dark';document.documentElement.dataset.theme=t;document.getElementById('theme-label').textContent=t==='dark'?'ダークモード':'ライトモード'}
-function toggleTheme(){const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('dh-theme',t);document.getElementById('theme-label').textContent=t==='dark'?'ダークモード':'ライトモード'}
-initTheme();
+    // ===== NAV =====
+    const pages = {}; document.querySelectorAll('.page').forEach(p => pages[p.id.replace('page-', '')] = p);
+    const titles = { home: 'ホーム', news: 'ニュース', process: '制作フロー', figma: 'Figma入門', uiparts: 'UIパーツ図鑑', glossary: '用語集', colors: 'カラーツール', shortcuts: 'ショートカット', resources: 'リソース集' };
+    function navigate(pg) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pg));
+      document.querySelectorAll('.bnav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pg));
+      Object.values(pages).forEach(p => p.classList.remove('active', 'fade-in'));
+      pages[pg].classList.add('active', 'fade-in');
+      document.getElementById('page-title').textContent = titles[pg];
+      if (window.innerWidth <= 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
+      window.scrollTo(0, 0);
+    }
+    document.querySelectorAll('.nav-item,.bnav-item').forEach(i => i.addEventListener('click', () => navigate(i.dataset.page)));
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
 
-// ===== NAV =====
-const pages={};document.querySelectorAll('.page').forEach(p=>pages[p.id.replace('page-','')]=p);
-const titles={home:'ホーム',news:'ニュース',figma:'Figma入門',uiparts:'UIパーツ図鑑',glossary:'用語集',colors:'カラーツール',shortcuts:'ショートカット',resources:'リソース集'};
-function navigate(pg){
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===pg));
-  document.querySelectorAll('.bnav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===pg));
-  Object.values(pages).forEach(p=>p.classList.remove('active','fade-in'));
-  pages[pg].classList.add('active','fade-in');
-  document.getElementById('page-title').textContent=titles[pg];
-  if(window.innerWidth<=768){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-  window.scrollTo(0,0);
-}
-document.querySelectorAll('.nav-item,.bnav-item').forEach(i=>i.addEventListener('click',()=>navigate(i.dataset.page)));
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
+    // ===== CLOCK =====
+    function tick() { document.getElementById('clock').textContent = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }) }
+    tick(); setInterval(tick, 10000);
 
-// ===== CLOCK =====
-function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
-tick();setInterval(tick,10000);
+    // ===== QUOTE =====
+    const quotes = [
+      { t: 'Design is not just what it looks like and feels like. Design is how it works.', a: 'Steve Jobs' },
+      { t: 'Good design is as little design as possible.', a: 'Dieter Rams' },
+      { t: 'Simplicity is the ultimate sophistication.', a: 'Leonardo da Vinci' },
+      { t: 'The details are not the details. They make the design.', a: 'Charles Eames' },
+      { t: 'Less, but better.', a: 'Dieter Rams' },
+      { t: 'Good design is obvious. Great design is transparent.', a: 'Joe Sparano' },
+      { t: 'Design adds value faster than it adds costs.', a: 'Joel Spolsky' },
+    ];
+    const qi = Math.floor(Date.now() / 864e5) % quotes.length;
+    document.getElementById('daily-quote').innerHTML = `<div class="quote-text">"${quotes[qi].t}"</div><div class="quote-author">— ${quotes[qi].a}</div>`;
 
-// ===== QUOTE =====
-const quotes=[
-  {t:'Design is not just what it looks like and feels like. Design is how it works.',a:'Steve Jobs'},
-  {t:'Good design is as little design as possible.',a:'Dieter Rams'},
-  {t:'Simplicity is the ultimate sophistication.',a:'Leonardo da Vinci'},
-  {t:'The details are not the details. They make the design.',a:'Charles Eames'},
-  {t:'Less, but better.',a:'Dieter Rams'},
-  {t:'Good design is obvious. Great design is transparent.',a:'Joe Sparano'},
-  {t:'Design adds value faster than it adds costs.',a:'Joel Spolsky'},
-];
-const qi=Math.floor(Date.now()/864e5)%quotes.length;
-document.getElementById('daily-quote').innerHTML=`<div class="quote-text">"${quotes[qi].t}"</div><div class="quote-author">— ${quotes[qi].a}</div>`;
+    // ===== QUICK ACCESS =====
+    document.getElementById('quick-access').innerHTML = [
+      { i: 'newspaper', l: 'ニュース', p: 'news', c: 'var(--ai)' }, { i: 'draw', l: 'Figma', p: 'figma', c: 'var(--figma)' },
+      { i: 'widgets', l: 'UI図鑑', p: 'uiparts', c: 'var(--accent)' }, { i: 'menu_book', l: '用語集', p: 'glossary', c: 'var(--blue)' },
+      { i: 'palette', l: 'カラー', p: 'colors', c: 'var(--pink)' }, { i: 'keyboard', l: 'ショートカット', p: 'shortcuts', c: 'var(--orange)' },
+      { i: 'link', l: 'リソース', p: 'resources', c: 'var(--green)' },
+      { i: 'account_tree', l: '制作フロー', p: 'process', c: 'var(--yellow)' },
+    ].map(q => `<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi mi" style="font-size:26px;color:${q.c}">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
 
-// ===== QUICK ACCESS =====
-document.getElementById('quick-access').innerHTML=[
-  {i:'newspaper',l:'ニュース',p:'news',c:'var(--ai)'},{i:'draw',l:'Figma',p:'figma',c:'var(--figma)'},
-  {i:'widgets',l:'UI図鑑',p:'uiparts',c:'var(--accent)'},{i:'menu_book',l:'用語集',p:'glossary',c:'var(--blue)'},
-  {i:'palette',l:'カラー',p:'colors',c:'var(--pink)'},{i:'keyboard',l:'ショートカット',p:'shortcuts',c:'var(--orange)'},
-  {i:'link',l:'リソース',p:'resources',c:'var(--green)'},
-].map(q=>`<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi mi" style="font-size:26px;color:${q.c}">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
+    // ===== CHECKLIST =====
+    const tasks = [
+      { id: 'd1', t: 'Dribbbleで3つのデザインを観察', d: '色使い・レイアウトに注目' },
+      { id: 'd2', t: 'Figmaでコンポーネント1つ作成', d: 'ボタン、カードなど' },
+      { id: 'd3', t: 'デザイン用語を3つ覚える', d: '用語集タブで学習' },
+      { id: 'd4', t: 'UIトレースを15分行う', d: '好きなアプリの画面を模写' },
+      { id: 'd5', t: 'ニュースを1つ読む', d: 'AI・Figma・デザインの最新動向' },
+    ];
+    function renderCL() {
+      const done = JSON.parse(localStorage.getItem('dh-cl-' + new Date().toDateString()) || '[]');
+      document.getElementById('daily-checklist').innerHTML = tasks.map(t => {
+        const d = done.includes(t.id);
+        return `<div class="cl-item ${d ? 'done' : ''}" onclick="toggleCL('${t.id}')"><div class="cl-check">${d ? '<span class="mi" style="font-size:14px">check</span>' : ''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
+      }).join('');
+      document.getElementById('cl-prog').style.width = (done.length / tasks.length * 100) + '%';
+      document.getElementById('cl-label').textContent = `${done.length}/${tasks.length} 完了`;
+    }
+    function toggleCL(id) { const k = 'dh-cl-' + new Date().toDateString(); let d = JSON.parse(localStorage.getItem(k) || '[]'); d.includes(id) ? d = d.filter(x => x !== id) : d.push(id); localStorage.setItem(k, JSON.stringify(d)); renderCL() }
+    renderCL();
 
-// ===== CHECKLIST =====
-const tasks=[
-  {id:'d1',t:'Dribbbleで3つのデザインを観察',d:'色使い・レイアウトに注目'},
-  {id:'d2',t:'Figmaでコンポーネント1つ作成',d:'ボタン、カードなど'},
-  {id:'d3',t:'デザイン用語を3つ覚える',d:'用語集タブで学習'},
-  {id:'d4',t:'UIトレースを15分行う',d:'好きなアプリの画面を模写'},
-  {id:'d5',t:'ニュースを1つ読む',d:'AI・Figma・デザインの最新動向'},
-];
-function renderCL(){
-  const done=JSON.parse(localStorage.getItem('dh-cl-'+new Date().toDateString())||'[]');
-  document.getElementById('daily-checklist').innerHTML=tasks.map(t=>{
-    const d=done.includes(t.id);
-    return`<div class="cl-item ${d?'done':''}" onclick="toggleCL('${t.id}')"><div class="cl-check">${d?'<span class="mi" style="font-size:14px">check</span>':''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
-  }).join('');
-  document.getElementById('cl-prog').style.width=(done.length/tasks.length*100)+'%';
-  document.getElementById('cl-label').textContent=`${done.length}/${tasks.length} 完了`;
-}
-function toggleCL(id){const k='dh-cl-'+new Date().toDateString();let d=JSON.parse(localStorage.getItem(k)||'[]');d.includes(id)?d=d.filter(x=>x!==id):d.push(id);localStorage.setItem(k,JSON.stringify(d));renderCL()}
-renderCL();
+    // ===== PRINCIPLES =====
+    document.getElementById('principles').innerHTML = [
+      { i: 'group_work', t: '近接', d: '関連要素を近くに配置', c: 'var(--accent)' },
+      { i: 'align_horizontal_left', t: '整列', d: '要素を揃えて秩序を作る', c: 'var(--blue)' },
+      { i: 'repeat', t: '反復', d: '一貫したパターンで統一感', c: 'var(--green)' },
+      { i: 'contrast', t: 'コントラスト', d: '違いを明確にして階層を作る', c: 'var(--pink)' },
+      { i: 'crop_free', t: '余白', d: '呼吸のある心地よいレイアウト', c: 'var(--orange)' },
+      { i: 'palette', t: 'カラー', d: '色で感情を伝える', c: 'var(--yellow)' },
+      { i: 'text_fields', t: 'タイポグラフィ', d: '読みやすさと雰囲気を両立', c: 'var(--ai)' },
+      { i: 'person', t: 'ユーザー中心', d: '常にユーザー視点で設計', c: 'var(--red)' },
+    ].map(p => `<div class="card"><div class="card-header"><div class="card-icon" style="background:${p.c}22;color:${p.c}"><span class="mi">${p.i}</span></div><div class="card-title">${p.t}</div></div><div class="card-body">${p.d}</div></div>`).join('');
 
-// ===== PRINCIPLES =====
-document.getElementById('principles').innerHTML=[
-  {i:'group_work',t:'近接',d:'関連要素を近くに配置',c:'var(--accent)'},
-  {i:'align_horizontal_left',t:'整列',d:'要素を揃えて秩序を作る',c:'var(--blue)'},
-  {i:'repeat',t:'反復',d:'一貫したパターンで統一感',c:'var(--green)'},
-  {i:'contrast',t:'コントラスト',d:'違いを明確にして階層を作る',c:'var(--pink)'},
-  {i:'crop_free',t:'余白',d:'呼吸のある心地よいレイアウト',c:'var(--orange)'},
-  {i:'palette',t:'カラー',d:'色で感情を伝える',c:'var(--yellow)'},
-  {i:'text_fields',t:'タイポグラフィ',d:'読みやすさと雰囲気を両立',c:'var(--ai)'},
-  {i:'person',t:'ユーザー中心',d:'常にユーザー視点で設計',c:'var(--red)'},
-].map(p=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:${p.c}22;color:${p.c}"><span class="mi">${p.i}</span></div><div class="card-title">${p.t}</div></div><div class="card-body">${p.d}</div></div>`).join('');
-
-// ===== NEWS =====
-const newsData=[
-  {cat:'ai',title:'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成',desc:'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。',time:'2時間前',icon:'smart_toy',src:'TechCrunch',url:'https://techcrunch.com/'},
-  {cat:'figma',title:'Figma AI を正式リリース — レイヤー自動整理・トークン提案',desc:'アクセシビリティチェックのAI支援機能が追加。無料プランでも一部利用可能。',time:'4時間前',icon:'draw',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'design',title:'Apple Human Interface Guidelines 2026年版が公開',desc:'visionOS 3向けの空間デザインガイドライン追加。ダークモード対応のベストプラクティスが注目。',time:'5時間前',icon:'phone_iphone',src:'Apple Developer',url:'https://developer.apple.com/design/human-interface-guidelines/'},
-  {cat:'ai',title:'Midjourney v7、UIデザインモードを搭載',desc:'アプリ画面やWebデザインに特化した生成モード。デザインシステムに沿った画像生成が可能に。',time:'6時間前',icon:'image',src:'Midjourney',url:'https://www.midjourney.com/'},
-  {cat:'figma',title:'Figma Dev Mode — VS Code連携が大幅強化',desc:'デザイントークン自動エクスポート、Reactコード自動生成精度が向上。',time:'8時間前',icon:'code',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'tool',title:'Framer、日本語フォント対応を大幅強化',desc:'Noto Sans JP等20以上の日本語Webフォントが追加。日本市場向けNoCodeサイト構築が容易に。',time:'10時間前',icon:'bolt',src:'Framer',url:'https://www.framer.com/'},
-  {cat:'ai',title:'Adobe Firefly 3.0 — アセット生成に特化した新モデル',desc:'アイコン・イラスト・パターンの生成品質が大幅向上。Creative Cloudとシームレス統合。',time:'12時間前',icon:'auto_awesome',src:'Adobe Blog',url:'https://blog.adobe.com/'},
-  {cat:'design',title:'Material Design 4のプレビューが公開',desc:'動的カラーシステムとモーションの新パラダイムが特徴。',time:'14時間前',icon:'design_services',src:'Google Design',url:'https://m3.material.io/'},
-  {cat:'figma',title:'Figma Variables 2.0 — デザインシステム管理の新標準',desc:'条件分岐ロジック、数式対応、チーム間の変数同期機能が追加。',time:'1日前',icon:'build',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'ai',title:'Canva Magic Studio を刷新',desc:'背景除去・スタイル変換・テキストからの画像生成がワンクリックで。',time:'1日前',icon:'auto_fix_high',src:'Canva',url:'https://www.canva.com/'},
-  {cat:'tool',title:'Figma to Code — 精度90%超のコード変換ツール',desc:'React/Vue/SwiftUIコードに変換。レスポンシブ・アクセシビリティ属性も自動付与。',time:'1日前',icon:'integration_instructions',src:'Product Hunt',url:'https://www.producthunt.com/'},
-  {cat:'design',title:'デザイントークンファーストアプローチが主流に',desc:'Figma VariablesとStyle Dictionaryの連携事例が増加。',time:'2日前',icon:'analytics',src:'Smashing Magazine',url:'https://www.smashingmagazine.com/'},
-  {cat:'ai',title:'Gemini 2.5がUXリサーチ分析に対応',desc:'インタビュー文字起こしからインサイト抽出、アフィニティダイアグラム自動生成。',time:'2日前',icon:'lightbulb',src:'Google AI Blog',url:'https://blog.google/technology/ai/'},
-  {cat:'figma',title:'Figma Community 日本語テンプレートが500件突破',desc:'UIキット、ワイヤーフレーム等の日本語テンプレートが充実。',time:'2日前',icon:'celebration',src:'Figma Community',url:'https://www.figma.com/community'},
-  {cat:'design',title:'アクセシビリティファーストデザインの実践ガイド',desc:'WCAG 3.0対応のチェックリストとFigmaテンプレートが公開。',time:'3日前',icon:'accessibility',src:'A11y Project',url:'https://www.a11yproject.com/'},
-  {cat:'ai',title:'Stable Diffusion XL、UIコンポーネント学習モデルを公開',desc:'ボタン・フォーム等UIパーツ特化LoRAモデル。デザインバリエーション検討が爆速に。',time:'3日前',icon:'science',src:'Stability AI',url:'https://stability.ai/'},
-];
-let newsLimit=8,newsFilter='all';
-function renderNews(){
-  const f=newsFilter==='all'?newsData:newsData.filter(n=>n.cat===newsFilter);
-  document.getElementById('news-list').innerHTML=f.slice(0,newsLimit).map(n=>`
+    // ===== NEWS =====
+    const newsData = [
+      { cat: 'ai', title: 'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成', desc: 'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。', time: '2時間前', icon: 'smart_toy', src: 'TechCrunch', url: 'https://techcrunch.com/' },
+      { cat: 'figma', title: 'Figma AI を正式リリース — レイヤー自動整理・トークン提案', desc: 'アクセシビリティチェックのAI支援機能が追加。無料プランでも一部利用可能。', time: '4時間前', icon: 'draw', src: 'Figma Blog', url: 'https://www.figma.com/blog/' },
+      { cat: 'design', title: 'Apple Human Interface Guidelines 2026年版が公開', desc: 'visionOS 3向けの空間デザインガイドライン追加。ダークモード対応のベストプラクティスが注目。', time: '5時間前', icon: 'phone_iphone', src: 'Apple Developer', url: 'https://developer.apple.com/design/human-interface-guidelines/' },
+      { cat: 'ai', title: 'Midjourney v7、UIデザインモードを搭載', desc: 'アプリ画面やWebデザインに特化した生成モード。デザインシステムに沿った画像生成が可能に。', time: '6時間前', icon: 'image', src: 'Midjourney', url: 'https://www.midjourney.com/' },
+      { cat: 'figma', title: 'Figma Dev Mode — VS Code連携が大幅強化', desc: 'デザイントークン自動エクスポート、Reactコード自動生成精度が向上。', time: '8時間前', icon: 'code', src: 'Figma Blog', url: 'https://www.figma.com/blog/' },
+      { cat: 'tool', title: 'Framer、日本語フォント対応を大幅強化', desc: 'Noto Sans JP等20以上の日本語Webフォントが追加。日本市場向けNoCodeサイト構築が容易に。', time: '10時間前', icon: 'bolt', src: 'Framer', url: 'https://www.framer.com/' },
+      { cat: 'ai', title: 'Adobe Firefly 3.0 — アセット生成に特化した新モデル', desc: 'アイコン・イラスト・パターンの生成品質が大幅向上。Creative Cloudとシームレス統合。', time: '12時間前', icon: 'auto_awesome', src: 'Adobe Blog', url: 'https://blog.adobe.com/' },
+      { cat: 'design', title: 'Material Design 4のプレビューが公開', desc: '動的カラーシステムとモーションの新パラダイムが特徴。', time: '14時間前', icon: 'design_services', src: 'Google Design', url: 'https://m3.material.io/' },
+      { cat: 'figma', title: 'Figma Variables 2.0 — デザインシステム管理の新標準', desc: '条件分岐ロジック、数式対応、チーム間の変数同期機能が追加。', time: '1日前', icon: 'build', src: 'Figma Blog', url: 'https://www.figma.com/blog/' },
+      { cat: 'ai', title: 'Canva Magic Studio を刷新', desc: '背景除去・スタイル変換・テキストからの画像生成がワンクリックで。', time: '1日前', icon: 'auto_fix_high', src: 'Canva', url: 'https://www.canva.com/' },
+      { cat: 'tool', title: 'Figma to Code — 精度90%超のコード変換ツール', desc: 'React/Vue/SwiftUIコードに変換。レスポンシブ・アクセシビリティ属性も自動付与。', time: '1日前', icon: 'integration_instructions', src: 'Product Hunt', url: 'https://www.producthunt.com/' },
+      { cat: 'design', title: 'デザイントークンファーストアプローチが主流に', desc: 'Figma VariablesとStyle Dictionaryの連携事例が増加。', time: '2日前', icon: 'analytics', src: 'Smashing Magazine', url: 'https://www.smashingmagazine.com/' },
+      { cat: 'ai', title: 'Gemini 2.5がUXリサーチ分析に対応', desc: 'インタビュー文字起こしからインサイト抽出、アフィニティダイアグラム自動生成。', time: '2日前', icon: 'lightbulb', src: 'Google AI Blog', url: 'https://blog.google/technology/ai/' },
+      { cat: 'figma', title: 'Figma Community 日本語テンプレートが500件突破', desc: 'UIキット、ワイヤーフレーム等の日本語テンプレートが充実。', time: '2日前', icon: 'celebration', src: 'Figma Community', url: 'https://www.figma.com/community' },
+      { cat: 'design', title: 'アクセシビリティファーストデザインの実践ガイド', desc: 'WCAG 3.0対応のチェックリストとFigmaテンプレートが公開。', time: '3日前', icon: 'accessibility', src: 'A11y Project', url: 'https://www.a11yproject.com/' },
+      { cat: 'ai', title: 'Stable Diffusion XL、UIコンポーネント学習モデルを公開', desc: 'ボタン・フォーム等UIパーツ特化LoRAモデル。デザインバリエーション検討が爆速に。', time: '3日前', icon: 'science', src: 'Stability AI', url: 'https://stability.ai/' },
+    ];
+    let newsLimit = 8, newsFilter = 'all';
+    function renderNews() {
+      const f = newsFilter === 'all' ? newsData : newsData.filter(n => n.cat === newsFilter);
+      document.getElementById('news-list').innerHTML = f.slice(0, newsLimit).map(n => `
     <div class="news-item">
       <div class="news-thumb"><span class="mi">${n.icon}</span></div>
       <div class="news-info">
         <a class="news-title" href="${n.url}" target="_blank" rel="noopener">${n.title} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></a>
-        <div class="news-meta"><span class="tag ${n.cat}">${{ai:'AI',figma:'Figma',tool:'ツール',design:'デザイン'}[n.cat]}</span><span>${n.src}</span><span>${n.time}</span></div>
+        <div class="news-meta"><span class="tag ${n.cat}">${{ ai: 'AI', figma: 'Figma', tool: 'ツール', design: 'デザイン' }[n.cat]}</span><span>${n.src}</span><span>${n.time}</span></div>
         <div class="news-desc">${n.desc}</div>
       </div>
     </div>`).join('');
-}
-document.querySelectorAll('#news-tabs .news-tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('#news-tabs .news-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');newsFilter=t.dataset.filter;newsLimit=8;renderNews();
-}));
-renderNews();
+    }
+    document.querySelectorAll('#news-tabs .news-tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('#news-tabs .news-tab').forEach(x => x.classList.remove('active')); t.classList.add('active'); newsFilter = t.dataset.filter; newsLimit = 8; renderNews();
+    }));
+    renderNews();
 
-// Home news
-document.getElementById('home-news').innerHTML=newsData.slice(0,5).map(n=>`
+    // Home news
+    document.getElementById('home-news').innerHTML = newsData.slice(0, 5).map(n => `
   <a href="${n.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)">
     <span class="mi" style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
     <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.title}</div>
@@ -612,265 +1989,353 @@ document.getElementById('home-news').innerHTML=newsData.slice(0,5).map(n=>`
     <span class="mi" style="color:var(--text3);font-size:14px;flex-shrink:0">open_in_new</span>
   </a>`).join('');
 
-// ===== FIGMA =====
-document.getElementById('figma-guides').innerHTML=[
-  {i:'crop_free',t:'フレームとグループ',d:'FrameはAuto Layout等の基本単位。Groupはまとめるだけのコンテナ。',tags:['基本','beginner']},
-  {i:'view_column',t:'Auto Layout',d:'方向・Gap・Paddingを設定してレスポンシブなレイアウト実現。CSSのFlexbox相当。',tags:['重要','figma']},
-  {i:'widgets',t:'コンポーネント',d:'再利用可能なUI部品。Main ComponentとInstanceの関係を理解。Variantでバリエーション管理。',tags:['重要','figma']},
-  {i:'palette',t:'スタイルとVariables',d:'カラー・テキスト・エフェクトをスタイル定義。Variablesでデザイントークン管理。',tags:['中級','figma']},
-  {i:'play_circle',t:'プロトタイプ',d:'画面遷移・ホバー・ドラッグのインタラクション設定。Smart Animateで滑らかなアニメーション。',tags:['基本']},
-  {i:'group',t:'チーム機能',d:'リアルタイム共同編集・コメント・Branch機能。Dev ModeでCSS/コード変換。',tags:['実践','figma']},
-].map(g=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(162,89,255,.12);color:var(--figma)"><span class="mi">${g.i}</span></div><div class="card-title">${g.t}</div></div><div class="card-body">${g.d}</div><div class="card-footer">${g.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div>`).join('');
+    // ===== FIGMA =====
+    document.getElementById('figma-guides').innerHTML = [
+      { i: 'crop_free', t: 'フレームとグループ', d: 'FrameはAuto Layout等の基本単位。Groupはまとめるだけのコンテナ。', tags: ['基本', 'beginner'] },
+      { i: 'view_column', t: 'Auto Layout', d: '方向・Gap・Paddingを設定してレスポンシブなレイアウト実現。CSSのFlexbox相当。', tags: ['重要', 'figma'] },
+      { i: 'widgets', t: 'コンポーネント', d: '再利用可能なUI部品。Main ComponentとInstanceの関係を理解。Variantでバリエーション管理。', tags: ['重要', 'figma'] },
+      { i: 'palette', t: 'スタイルとVariables', d: 'カラー・テキスト・エフェクトをスタイル定義。Variablesでデザイントークン管理。', tags: ['中級', 'figma'] },
+      { i: 'play_circle', t: 'プロトタイプ', d: '画面遷移・ホバー・ドラッグのインタラクション設定。Smart Animateで滑らかなアニメーション。', tags: ['基本'] },
+      { i: 'group', t: 'チーム機能', d: 'リアルタイム共同編集・コメント・Branch機能。Dev ModeでCSS/コード変換。', tags: ['実践', 'figma'] },
+    ].map(g => `<div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(162,89,255,.12);color:var(--figma)"><span class="mi">${g.i}</span></div><div class="card-title">${g.t}</div></div><div class="card-body">${g.d}</div><div class="card-footer">${g.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div></div>`).join('');
 
-document.getElementById('figma-plugins').innerHTML=[
-  {n:'Iconify',d:'15万以上のアイコンを直接使用',t:'必須'},{n:'Unsplash',d:'高品質フリー写真を直接挿入',t:'必須'},
-  {n:'Content Reel',d:'ダミーテキスト・画像を一括挿入',t:'便利'},{n:'Stark',d:'アクセシビリティチェック',t:'重要'},
-  {n:'Lorem ipsum',d:'日本語ダミーテキスト生成',t:'便利'},{n:'Autoflow',d:'フロー図コネクタを自動描画',t:'便利'},
-].map(p=>`<div class="card"><div class="card-title">${p.n}</div><div class="card-body" style="margin-top:4px">${p.d}</div><div class="card-footer"><span class="tag figma">${p.t}</span></div></div>`).join('');
+    document.getElementById('figma-plugins').innerHTML = [
+      { n: 'Iconify', d: '15万以上のアイコンを直接使用', t: '必須' }, { n: 'Unsplash', d: '高品質フリー写真を直接挿入', t: '必須' },
+      { n: 'Content Reel', d: 'ダミーテキスト・画像を一括挿入', t: '便利' }, { n: 'Stark', d: 'アクセシビリティチェック', t: '重要' },
+      { n: 'Lorem ipsum', d: '日本語ダミーテキスト生成', t: '便利' }, { n: 'Autoflow', d: 'フロー図コネクタを自動描画', t: '便利' },
+    ].map(p => `<div class="card"><div class="card-title">${p.n}</div><div class="card-body" style="margin-top:4px">${p.d}</div><div class="card-footer"><span class="tag figma">${p.t}</span></div></div>`).join('');
 
-// ===== GLOSSARY =====
-const glossary=[
-  {t:'UI (User Interface)',d:'ユーザーが直接触れる画面やボタン等のインターフェース。見た目と操作性のデザイン。'},
-  {t:'UX (User Experience)',d:'製品やサービスを通じて得る体験全体。使いやすさ、満足度、感情的な反応を含む。'},
-  {t:'ワイヤーフレーム',d:'画面の構造やレイアウトを示すシンプルな設計図。情報の配置に集中する。'},
-  {t:'モックアップ',d:'実際のデザインに近い高忠実度のビジュアル。色、フォント、画像を含む完成イメージ。'},
-  {t:'プロトタイプ',d:'インタラクションや画面遷移を含む動作するデモ。ユーザーテストに使用される。'},
-  {t:'レスポンシブデザイン',d:'異なる画面サイズ（PC・タブレット・スマホ）に対応するデザイン手法。'},
-  {t:'デザインシステム',d:'カラー・タイポグラフィ・コンポーネント等を体系化したルール集。一貫性を保つ仕組み。'},
-  {t:'デザイントークン',d:'カラーコード・余白の値等デザインの最小単位。変数として管理し再利用する。'},
-  {t:'コンポーネント',d:'ボタンやカード等、再利用可能なUI部品。プロパティ変更でバリエーションを作る。'},
-  {t:'バリアント',d:'コンポーネントの状態違い(default/hover/active等)やサイズ違いをまとめたもの。'},
-  {t:'Auto Layout',d:'Figmaの自動レイアウト機能。要素の追加・削除に応じて自動サイズ調整。Flexbox相当。'},
-  {t:'カーニング',d:'文字と文字の間隔を個別に調整すること。読みやすさや美しさに影響する。'},
-  {t:'リーディング（行間）',d:'テキストの行と行の間隔。一般的に文字サイズの1.5〜1.8倍が読みやすい。'},
-  {t:'ペルソナ',d:'ターゲットユーザーの架空の人物像。年齢・職業・目標・課題等を具体的に定義する。'},
-  {t:'CTA (Call to Action)',d:'ユーザーに行動を促すUI要素。「購入する」「無料で始める」等のボタン。'},
-  {t:'WCAG',d:'Webコンテンツアクセシビリティガイドライン。すべての人が使えるWebデザインの基準。'},
-  {t:'アフォーダンス',d:'デザイン要素がユーザーに「どう操作できるか」を自然に伝える特性。'},
-  {t:'グリッドシステム',d:'画面を等間隔のカラムで分割するレイアウト手法。8ptグリッドや12カラムが一般的。'},
-  {t:'ホワイトスペース（余白）',d:'要素間の空きスペース。情報の整理・視認性向上・高級感の演出に不可欠。'},
-  {t:'Figma',d:'ブラウザベースのデザインツール。リアルタイム共同編集が可能なUI/UXデザインの業界標準。'},
-  {t:'カスタマージャーニーマップ',d:'ユーザーが目的達成までの行動・感情・タッチポイントを時系列で可視化した図。'},
-  {t:'ヒューリスティック評価',d:'ユーザビリティ原則に基づいてUIの問題点を専門家が評価する手法。'},
-];
-function renderGlossary(){
-  const q=(document.getElementById('gloss-search')?.value||'').toLowerCase();
-  const f=q?glossary.filter(g=>g.t.toLowerCase().includes(q)||g.d.includes(q)):glossary;
-  document.getElementById('gloss-list').innerHTML=f.map(g=>`<div class="gloss-item"><div class="gloss-term"><span class="dot" style="background:var(--accent)"></span>${g.t}</div><div class="gloss-def">${g.d}</div></div>`).join('')||'<p style="color:var(--text3);padding:20px;text-align:center">該当なし</p>';
-}
-renderGlossary();
+    // ===== GLOSSARY =====
+    const glossary = [
+      { t: 'UI (User Interface)', d: 'ユーザーが直接触れる画面やボタン等のインターフェース。見た目と操作性のデザイン。' },
+      { t: 'UX (User Experience)', d: '製品やサービスを通じて得る体験全体。使いやすさ、満足度、感情的な反応を含む。' },
+      { t: 'ワイヤーフレーム', d: '画面の構造やレイアウトを示すシンプルな設計図。情報の配置に集中する。' },
+      { t: 'モックアップ', d: '実際のデザインに近い高忠実度のビジュアル。色、フォント、画像を含む完成イメージ。' },
+      { t: 'プロトタイプ', d: 'インタラクションや画面遷移を含む動作するデモ。ユーザーテストに使用される。' },
+      { t: 'レスポンシブデザイン', d: '異なる画面サイズ（PC・タブレット・スマホ）に対応するデザイン手法。' },
+      { t: 'デザインシステム', d: 'カラー・タイポグラフィ・コンポーネント等を体系化したルール集。一貫性を保つ仕組み。' },
+      { t: 'デザイントークン', d: 'カラーコード・余白の値等デザインの最小単位。変数として管理し再利用する。' },
+      { t: 'コンポーネント', d: 'ボタンやカード等、再利用可能なUI部品。プロパティ変更でバリエーションを作る。' },
+      { t: 'バリアント', d: 'コンポーネントの状態違い(default/hover/active等)やサイズ違いをまとめたもの。' },
+      { t: 'Auto Layout', d: 'Figmaの自動レイアウト機能。要素の追加・削除に応じて自動サイズ調整。Flexbox相当。' },
+      { t: 'カーニング', d: '文字と文字の間隔を個別に調整すること。読みやすさや美しさに影響する。' },
+      { t: 'リーディング（行間）', d: 'テキストの行と行の間隔。一般的に文字サイズの1.5〜1.8倍が読みやすい。' },
+      { t: 'ペルソナ', d: 'ターゲットユーザーの架空の人物像。年齢・職業・目標・課題等を具体的に定義する。' },
+      { t: 'CTA (Call to Action)', d: 'ユーザーに行動を促すUI要素。「購入する」「無料で始める」等のボタン。' },
+      { t: 'WCAG', d: 'Webコンテンツアクセシビリティガイドライン。すべての人が使えるWebデザインの基準。' },
+      { t: 'アフォーダンス', d: 'デザイン要素がユーザーに「どう操作できるか」を自然に伝える特性。' },
+      { t: 'グリッドシステム', d: '画面を等間隔のカラムで分割するレイアウト手法。8ptグリッドや12カラムが一般的。' },
+      { t: 'ホワイトスペース（余白）', d: '要素間の空きスペース。情報の整理・視認性向上・高級感の演出に不可欠。' },
+      { t: 'Figma', d: 'ブラウザベースのデザインツール。リアルタイム共同編集が可能なUI/UXデザインの業界標準。' },
+      { t: 'カスタマージャーニーマップ', d: 'ユーザーが目的達成までの行動・感情・タッチポイントを時系列で可視化した図。' },
+      { t: 'ヒューリスティック評価', d: 'ユーザビリティ原則に基づいてUIの問題点を専門家が評価する手法。' },
+    ];
+    function renderGlossary() {
+      const q = (document.getElementById('gloss-search')?.value || '').toLowerCase();
+      const f = q ? glossary.filter(g => g.t.toLowerCase().includes(q) || g.d.includes(q)) : glossary;
+      document.getElementById('gloss-list').innerHTML = f.map(g => `<div class="gloss-item"><div class="gloss-term"><span class="dot" style="background:var(--accent)"></span>${g.t}</div><div class="gloss-def">${g.d}</div></div>`).join('') || '<p style="color:var(--text3);padding:20px;text-align:center">該当なし</p>';
+    }
+    renderGlossary();
 
-// ===== COLORS =====
-function hsl2hex(h,s,l){l/=100;s/=100;const a=s*Math.min(l,1-l);const f=n=>{const k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(Math.min(k-3,9-k,1),-1)))};return`#${[f(0),f(8),f(4)].map(x=>x.toString(16).padStart(2,'0')).join('')}`}
-function hex2hsl(hex){let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let h=0,s=0,l=(mx+mn)/2;if(d){s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g-b)/d+(g<b?6:0))*60:mx===g?((b-r)/d+2)*60:((r-g)/d+4)*60}return[Math.round(h),Math.round(s*100),Math.round(l*100)]}
-function genPalette(){const hex=document.getElementById('base-color').value;const[h,s,l]=hex2hsl(hex);const c=[{h:hsl2hex(h,s,Math.min(95,l+40)),l:'Lightest'},{h:hsl2hex(h,s,Math.min(85,l+25)),l:'Light'},{h:hsl2hex(h,s,Math.min(75,l+12)),l:'Light Mid'},{h:hsl2hex(h,s,l),l:'Base'},{h:hsl2hex(h,s,Math.max(25,l-12)),l:'Dark Mid'},{h:hsl2hex(h,s,Math.max(15,l-25)),l:'Dark'},{h:hsl2hex((h+30)%360,s,l),l:'Analogous'},{h:hsl2hex((h+180)%360,s,l),l:'Complement'},{h:hsl2hex((h+120)%360,s,l),l:'Triadic 1'},{h:hsl2hex((h+240)%360,s,l),l:'Triadic 2'}];document.getElementById('color-palette').innerHTML=c.map(x=>`<div class="color-swatch" style="background:${x.h}" onclick="copyC('${x.h}')" title="${x.l}"><span>${x.h}</span></div>`).join('')}
-function randPalette(){const h=Math.floor(Math.random()*360);document.getElementById('base-color').value=hsl2hex(h,60+Math.floor(Math.random()*30),45+Math.floor(Math.random()*15));genPalette()}
-function copyC(hex){navigator.clipboard.writeText(hex);showToast(hex+' コピー!')}
-genPalette();
-document.getElementById('presets').innerHTML=[
-  {n:'モダンクリーン',c:['#0f172a','#1e293b','#3b82f6','#60a5fa','#e2e8f0','#f8fafc']},
-  {n:'ウォームナチュラル',c:['#292524','#78716c','#d97706','#fbbf24','#fef3c7','#fffbeb']},
-  {n:'クールミニマル',c:['#111827','#374151','#6366f1','#818cf8','#e0e7ff','#f5f3ff']},
-  {n:'フレッシュグリーン',c:['#064e3b','#065f46','#10b981','#34d399','#d1fae5','#ecfdf5']},
-  {n:'ポップビビッド',c:['#1e1b4b','#4338ca','#ec4899','#f472b6','#fce7f3','#fff1f2']},
-].map(p=>`<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:600;margin-bottom:6px">${p.n}</div><div style="display:flex;gap:5px;flex-wrap:wrap">${p.c.map(c=>`<div class="color-swatch" style="background:${c};width:50px;height:40px;border-radius:8px" onclick="copyC('${c}')"><span>${c}</span></div>`).join('')}</div></div>`).join('');
+    // ===== COLORS =====
+    function hsl2hex(h, s, l) { l /= 100; s /= 100; const a = s * Math.min(l, 1 - l); const f = n => { const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1))) }; return `#${[f(0), f(8), f(4)].map(x => x.toString(16).padStart(2, '0')).join('')}` }
+    function hex2hsl(hex) { let r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let h = 0, s = 0, l = (mx + mn) / 2; if (d) { s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? ((g - b) / d + (g < b ? 6 : 0)) * 60 : mx === g ? ((b - r) / d + 2) * 60 : ((r - g) / d + 4) * 60 } return [Math.round(h), Math.round(s * 100), Math.round(l * 100)] }
+    function genPalette() { const hex = document.getElementById('base-color').value; const [h, s, l] = hex2hsl(hex); const c = [{ h: hsl2hex(h, s, Math.min(95, l + 40)), l: 'Lightest' }, { h: hsl2hex(h, s, Math.min(85, l + 25)), l: 'Light' }, { h: hsl2hex(h, s, Math.min(75, l + 12)), l: 'Light Mid' }, { h: hsl2hex(h, s, l), l: 'Base' }, { h: hsl2hex(h, s, Math.max(25, l - 12)), l: 'Dark Mid' }, { h: hsl2hex(h, s, Math.max(15, l - 25)), l: 'Dark' }, { h: hsl2hex((h + 30) % 360, s, l), l: 'Analogous' }, { h: hsl2hex((h + 180) % 360, s, l), l: 'Complement' }, { h: hsl2hex((h + 120) % 360, s, l), l: 'Triadic 1' }, { h: hsl2hex((h + 240) % 360, s, l), l: 'Triadic 2' }]; document.getElementById('color-palette').innerHTML = c.map(x => `<div class="color-swatch" style="background:${x.h}" onclick="copyC('${x.h}')" title="${x.l}"><span>${x.h}</span></div>`).join('') }
+    function randPalette() { const h = Math.floor(Math.random() * 360); document.getElementById('base-color').value = hsl2hex(h, 60 + Math.floor(Math.random() * 30), 45 + Math.floor(Math.random() * 15)); genPalette() }
+    function copyC(hex) { navigator.clipboard.writeText(hex); showToast(hex + ' コピー!') }
+    genPalette();
+    document.getElementById('presets').innerHTML = [
+      { n: 'モダンクリーン', c: ['#0f172a', '#1e293b', '#3b82f6', '#60a5fa', '#e2e8f0', '#f8fafc'] },
+      { n: 'ウォームナチュラル', c: ['#292524', '#78716c', '#d97706', '#fbbf24', '#fef3c7', '#fffbeb'] },
+      { n: 'クールミニマル', c: ['#111827', '#374151', '#6366f1', '#818cf8', '#e0e7ff', '#f5f3ff'] },
+      { n: 'フレッシュグリーン', c: ['#064e3b', '#065f46', '#10b981', '#34d399', '#d1fae5', '#ecfdf5'] },
+      { n: 'ポップビビッド', c: ['#1e1b4b', '#4338ca', '#ec4899', '#f472b6', '#fce7f3', '#fff1f2'] },
+    ].map(p => `<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:600;margin-bottom:6px">${p.n}</div><div style="display:flex;gap:5px;flex-wrap:wrap">${p.c.map(c => `<div class="color-swatch" style="background:${c};width:50px;height:40px;border-radius:8px" onclick="copyC('${c}')"><span>${c}</span></div>`).join('')}</div></div>`).join('');
 
-// ===== CONTRAST CHECKER =====
-function luminance(hex){const r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;const f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b)}
-function contrastRatio(fg,bg){const l1=luminance(fg),l2=luminance(bg);return((Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05))}
-function updateCC(){
-  const fg=document.getElementById('cc-fg').value,bg=document.getElementById('cc-bg').value;
-  const ratio=contrastRatio(fg,bg);const r=ratio.toFixed(2);
-  document.getElementById('cc-preview').style.cssText=`background:${bg};color:${fg};border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px;border:1px solid var(--border)`;
-  const passAA=ratio>=4.5,passAAL=ratio>=3,passAAA=ratio>=7,passAAAL=ratio>=4.5;
-  document.getElementById('cc-result').innerHTML=[
-    {l:'AA 標準テキスト',v:passAA},{l:'AA 大きいテキスト',v:passAAL},
-    {l:'AAA 標準テキスト',v:passAAA},{l:'AAA 大きいテキスト',v:passAAAL}
-  ].map(x=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;font-weight:600">${x.l}</span><span style="font-size:12px;font-weight:700;color:${x.v?'var(--green)':'var(--red)'}">${x.v?'PASS':'FAIL'}</span></div>`).join('')+`<div style="grid-column:1/-1;text-align:center;font-size:13px;color:var(--text2);margin-top:4px">コントラスト比: <strong style="color:var(--text);font-size:18px">${r}:1</strong></div>`;
-}
-document.getElementById('cc-fg')?.addEventListener('input',updateCC);
-document.getElementById('cc-bg')?.addEventListener('input',updateCC);
-function swapCC(){const fg=document.getElementById('cc-fg'),bg=document.getElementById('cc-bg');const t=fg.value;fg.value=bg.value;bg.value=t;updateCC()}
-updateCC();
+    // ===== CONTRAST CHECKER =====
+    function luminance(hex) { const r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255; const f = c => c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); return .2126 * f(r) + .7152 * f(g) + .0722 * f(b) }
+    function contrastRatio(fg, bg) { const l1 = luminance(fg), l2 = luminance(bg); return ((Math.max(l1, l2) + .05) / (Math.min(l1, l2) + .05)) }
+    function updateCC() {
+      const fg = document.getElementById('cc-fg').value, bg = document.getElementById('cc-bg').value;
+      const ratio = contrastRatio(fg, bg); const r = ratio.toFixed(2);
+      document.getElementById('cc-preview').style.cssText = `background:${bg};color:${fg};border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:14px;border:1px solid var(--border)`;
+      const passAA = ratio >= 4.5, passAAL = ratio >= 3, passAAA = ratio >= 7, passAAAL = ratio >= 4.5;
+      document.getElementById('cc-result').innerHTML = [
+        { l: 'AA 標準テキスト', v: passAA }, { l: 'AA 大きいテキスト', v: passAAL },
+        { l: 'AAA 標準テキスト', v: passAAA }, { l: 'AAA 大きいテキスト', v: passAAAL }
+      ].map(x => `<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;font-weight:600">${x.l}</span><span style="font-size:12px;font-weight:700;color:${x.v ? 'var(--green)' : 'var(--red)'}">${x.v ? 'PASS' : 'FAIL'}</span></div>`).join('') + `<div style="grid-column:1/-1;text-align:center;font-size:13px;color:var(--text2);margin-top:4px">コントラスト比: <strong style="color:var(--text);font-size:18px">${r}:1</strong></div>`;
+    }
+    document.getElementById('cc-fg')?.addEventListener('input', updateCC);
+    document.getElementById('cc-bg')?.addEventListener('input', updateCC);
+    function swapCC() { const fg = document.getElementById('cc-fg'), bg = document.getElementById('cc-bg'); const t = fg.value; fg.value = bg.value; bg.value = t; updateCC() }
+    updateCC();
 
-// ===== PX/REM =====
-function calcRem(){const px=parseFloat(document.getElementById('px-val').value)||0;document.getElementById('rem-result').textContent=(px/16).toFixed(3).replace(/\.?0+$/,'')}
+    // ===== PX/REM =====
+    function calcRem() { const px = parseFloat(document.getElementById('px-val').value) || 0; document.getElementById('rem-result').textContent = (px / 16).toFixed(3).replace(/\.?0+$/, '') }
 
-// ===== GRADIENT =====
-function updateGrad(){
-  const c1=document.getElementById('grad-c1').value,c2=document.getElementById('grad-c2').value,dir=document.getElementById('grad-dir').value;
-  const isRadial=dir==='circle';
-  const css=isRadial?`radial-gradient(circle, ${c1}, ${c2})`:`linear-gradient(${dir}, ${c1}, ${c2})`;
-  document.getElementById('grad-preview').style.background=css;
-  document.getElementById('grad-code').textContent=`background: ${css};`;
-}
-function randGrad(){
-  const rh=()=>'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
-  document.getElementById('grad-c1').value=rh();document.getElementById('grad-c2').value=rh();updateGrad();
-}
-function copyGrad(){navigator.clipboard.writeText(document.getElementById('grad-code').textContent);showToast('CSSコピー!')}
-updateGrad();
+    // ===== GRADIENT =====
+    function updateGrad() {
+      const c1 = document.getElementById('grad-c1').value, c2 = document.getElementById('grad-c2').value, dir = document.getElementById('grad-dir').value;
+      const isRadial = dir === 'circle';
+      const css = isRadial ? `radial-gradient(circle, ${c1}, ${c2})` : `linear-gradient(${dir}, ${c1}, ${c2})`;
+      document.getElementById('grad-preview').style.background = css;
+      document.getElementById('grad-code').textContent = `background: ${css};`;
+    }
+    function randGrad() {
+      const rh = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      document.getElementById('grad-c1').value = rh(); document.getElementById('grad-c2').value = rh(); updateGrad();
+    }
+    function copyGrad() { navigator.clipboard.writeText(document.getElementById('grad-code').textContent); showToast('CSSコピー!') }
+    updateGrad();
 
-// ===== BOX SHADOW =====
-function updateShadow(){
-  const x=document.getElementById('sh-x').value,y=document.getElementById('sh-y').value,b=document.getElementById('sh-blur').value,s=document.getElementById('sh-spread').value;
-  const c=document.getElementById('sh-color').value,a=document.getElementById('sh-alpha').value;
-  const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),bl=parseInt(c.slice(5,7),16);
-  const css=`${x}px ${y}px ${b}px ${s}px rgba(${r},${g},${bl},${(a/100).toFixed(2)})`;
-  document.getElementById('sh-preview').style.boxShadow=css;
-  document.getElementById('sh-code').textContent=`box-shadow: ${css};`;
-}
-function copyShadow(){navigator.clipboard.writeText(document.getElementById('sh-code').textContent);showToast('CSSコピー!')}
-updateShadow();
-calcRem();
+    // ===== BOX SHADOW =====
+    function updateShadow() {
+      const x = document.getElementById('sh-x').value, y = document.getElementById('sh-y').value, b = document.getElementById('sh-blur').value, s = document.getElementById('sh-spread').value;
+      const c = document.getElementById('sh-color').value, a = document.getElementById('sh-alpha').value;
+      const r = parseInt(c.slice(1, 3), 16), g = parseInt(c.slice(3, 5), 16), bl = parseInt(c.slice(5, 7), 16);
+      const css = `${x}px ${y}px ${b}px ${s}px rgba(${r},${g},${bl},${(a / 100).toFixed(2)})`;
+      document.getElementById('sh-preview').style.boxShadow = css;
+      document.getElementById('sh-code').textContent = `box-shadow: ${css};`;
+    }
+    function copyShadow() { navigator.clipboard.writeText(document.getElementById('sh-code').textContent); showToast('CSSコピー!') }
+    updateShadow();
+    calcRem();
 
-// ===== SHORTCUTS =====
-const scData={figma:[
-  {l:'フレーム作成',k:'F'},{l:'長方形',k:'R'},{l:'テキスト',k:'T'},{l:'ペンツール',k:'P'},
-  {l:'Auto Layout追加',k:'Shift+A'},{l:'コンポーネント化',k:'Cmd+Alt+K'},{l:'グループ化',k:'Cmd+G'},
-  {l:'プロトタイプモード',k:'Shift+E'},{l:'ズームイン',k:'Cmd++'},{l:'ズームアウト',k:'Cmd+-'},
-  {l:'100%表示',k:'Cmd+0'},{l:'全体表示',k:'Cmd+1'},{l:'選択を表示',k:'Cmd+2'},
-  {l:'要素を複製',k:'Cmd+D'},{l:'レイヤー名変更',k:'Cmd+R'},{l:'前面へ',k:'Cmd+]'},
-  {l:'背面へ',k:'Cmd+['},{l:'カラーピッカー',k:'I'},{l:'マスク作成',k:'Cmd+Alt+M'},
-],general:[
-  {l:'取り消し',k:'Cmd+Z'},{l:'やり直し',k:'Cmd+Shift+Z'},{l:'コピー',k:'Cmd+C'},
-  {l:'ペースト',k:'Cmd+V'},{l:'すべて選択',k:'Cmd+A'},{l:'保存',k:'Cmd+S'},
-  {l:'拡大',k:'Cmd++'},{l:'縮小',k:'Cmd+-'},{l:'検索',k:'Cmd+F'},{l:'新規',k:'Cmd+N'},
-]};
-let scTab='figma';
-function renderSC(){document.getElementById('sc-content').innerHTML=`<div class="sc-grid">${scData[scTab].map(s=>`<div class="sc-item"><span class="sl">${s.l}</span><span>${s.k.split('+').map(k=>`<span class="kbd">${k}</span>`).join('+')}</span></div>`).join('')}</div>`}
-document.querySelectorAll('#sc-tabs .news-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('#sc-tabs .news-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');scTab=t.dataset.stab;renderSC()}));
-renderSC();
+    // ===== SHORTCUTS =====
+    const scData = {
+      figma: [
+        { l: 'フレーム作成', k: 'F' }, { l: '長方形', k: 'R' }, { l: 'テキスト', k: 'T' }, { l: 'ペンツール', k: 'P' },
+        { l: 'Auto Layout追加', k: 'Shift+A' }, { l: 'コンポーネント化', k: 'Cmd+Alt+K' }, { l: 'グループ化', k: 'Cmd+G' },
+        { l: 'プロトタイプモード', k: 'Shift+E' }, { l: 'ズームイン', k: 'Cmd++' }, { l: 'ズームアウト', k: 'Cmd+-' },
+        { l: '100%表示', k: 'Cmd+0' }, { l: '全体表示', k: 'Cmd+1' }, { l: '選択を表示', k: 'Cmd+2' },
+        { l: '要素を複製', k: 'Cmd+D' }, { l: 'レイヤー名変更', k: 'Cmd+R' }, { l: '前面へ', k: 'Cmd+]' },
+        { l: '背面へ', k: 'Cmd+[' }, { l: 'カラーピッカー', k: 'I' }, { l: 'マスク作成', k: 'Cmd+Alt+M' },
+      ], general: [
+        { l: '取り消し', k: 'Cmd+Z' }, { l: 'やり直し', k: 'Cmd+Shift+Z' }, { l: 'コピー', k: 'Cmd+C' },
+        { l: 'ペースト', k: 'Cmd+V' }, { l: 'すべて選択', k: 'Cmd+A' }, { l: '保存', k: 'Cmd+S' },
+        { l: '拡大', k: 'Cmd++' }, { l: '縮小', k: 'Cmd+-' }, { l: '検索', k: 'Cmd+F' }, { l: '新規', k: 'Cmd+N' },
+      ]
+    };
+    let scTab = 'figma';
+    function renderSC() { document.getElementById('sc-content').innerHTML = `<div class="sc-grid">${scData[scTab].map(s => `<div class="sc-item"><span class="sl">${s.l}</span><span>${s.k.split('+').map(k => `<span class="kbd">${k}</span>`).join('+')}</span></div>`).join('')}</div>` }
+    document.querySelectorAll('#sc-tabs .news-tab').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('#sc-tabs .news-tab').forEach(x => x.classList.remove('active')); t.classList.add('active'); scTab = t.dataset.stab; renderSC() }));
+    renderSC();
 
-// ===== RESOURCES =====
-document.getElementById('res-list').innerHTML=[
-  {i:'book',t:'ノンデザイナーズ・デザインブック',d:'デザイン4原則を学ぶ定番書籍。初心者が最初に読むべき一冊。',tags:['書籍','beginner'],c:'var(--blue)',url:'https://www.amazon.co.jp/dp/4839955557'},
-  {i:'brush',t:'Dribbble',d:'世界中のデザイナー作品が集まるプラットフォーム。インスピレーション源。',tags:['ギャラリー'],c:'var(--pink)',url:'https://dribbble.com/'},
-  {i:'draw',t:'Figma公式チュートリアル',d:'基本操作から応用まで公式の学習リソース。動画・記事の両方あり。',tags:['Figma','figma'],c:'var(--figma)',url:'https://help.figma.com/'},
-  {i:'school',t:'Google UX Design Certificate',d:'GoogleのUXデザイン無料オンラインコース。体系的に学べる。',tags:['コース','beginner'],c:'var(--green)',url:'https://grow.google/certificates/ux-design/'},
-  {i:'psychology',t:'Laws of UX',d:'UXデザインの心理学的法則をビジュアル解説。デザイン判断の根拠に。',tags:['UX'],c:'var(--orange)',url:'https://lawsofux.com/'},
-  {i:'palette',t:'Coolors',d:'カラーパレット生成ツール。スペースキーでランダム生成。',tags:['ツール'],c:'var(--yellow)',url:'https://coolors.co/'},
-  {i:'text_fields',t:'Google Fonts',d:'無料Webフォント集。日本語も充実。Noto Sans JPは定番。',tags:['フォント'],c:'var(--ai)',url:'https://fonts.google.com/'},
-  {i:'phone_iphone',t:'Mobbin',d:'実際のアプリUIスクリーンショット集。パターン検索でUI参考に最適。',tags:['ギャラリー'],c:'var(--accent)',url:'https://mobbin.com/'},
-  {i:'lightbulb',t:'Refactoring UI',d:'開発者向けUIデザインTips。実践的ビフォーアフター形式。',tags:['書籍'],c:'var(--red)',url:'https://www.refactoringui.com/'},
-  {i:'article',t:'Smashing Magazine',d:'Web/UIデザインの深い技術記事。CSS手法やトレンドを解説。',tags:['メディア'],c:'var(--blue)',url:'https://www.smashingmagazine.com/'},
-].map(r=>`<a href="${r.url}" target="_blank" rel="noopener" style="text-decoration:none"><div class="card"><div class="card-header"><div class="card-icon" style="background:${r.c}22;color:${r.c}"><span class="mi">${r.i}</span></div><div><div class="card-title">${r.t} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></div></div></div><div class="card-body">${r.d}</div><div class="card-footer">${r.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div></a>`).join('');
+    // ===== RESOURCES =====
+    document.getElementById('res-list').innerHTML = [
+      { i: 'book', t: 'ノンデザイナーズ・デザインブック', d: 'デザイン4原則を学ぶ定番書籍。初心者が最初に読むべき一冊。', tags: ['書籍', 'beginner'], c: 'var(--blue)', url: 'https://www.amazon.co.jp/dp/4839955557' },
+      { i: 'brush', t: 'Dribbble', d: '世界中のデザイナー作品が集まるプラットフォーム。インスピレーション源。', tags: ['ギャラリー'], c: 'var(--pink)', url: 'https://dribbble.com/' },
+      { i: 'draw', t: 'Figma公式チュートリアル', d: '基本操作から応用まで公式の学習リソース。動画・記事の両方あり。', tags: ['Figma', 'figma'], c: 'var(--figma)', url: 'https://help.figma.com/' },
+      { i: 'school', t: 'Google UX Design Certificate', d: 'GoogleのUXデザイン無料オンラインコース。体系的に学べる。', tags: ['コース', 'beginner'], c: 'var(--green)', url: 'https://grow.google/certificates/ux-design/' },
+      { i: 'psychology', t: 'Laws of UX', d: 'UXデザインの心理学的法則をビジュアル解説。デザイン判断の根拠に。', tags: ['UX'], c: 'var(--orange)', url: 'https://lawsofux.com/' },
+      { i: 'palette', t: 'Coolors', d: 'カラーパレット生成ツール。スペースキーでランダム生成。', tags: ['ツール'], c: 'var(--yellow)', url: 'https://coolors.co/' },
+      { i: 'text_fields', t: 'Google Fonts', d: '無料Webフォント集。日本語も充実。Noto Sans JPは定番。', tags: ['フォント'], c: 'var(--ai)', url: 'https://fonts.google.com/' },
+      { i: 'phone_iphone', t: 'Mobbin', d: '実際のアプリUIスクリーンショット集。パターン検索でUI参考に最適。', tags: ['ギャラリー'], c: 'var(--accent)', url: 'https://mobbin.com/' },
+      { i: 'lightbulb', t: 'Refactoring UI', d: '開発者向けUIデザインTips。実践的ビフォーアフター形式。', tags: ['書籍'], c: 'var(--red)', url: 'https://www.refactoringui.com/' },
+      { i: 'article', t: 'Smashing Magazine', d: 'Web/UIデザインの深い技術記事。CSS手法やトレンドを解説。', tags: ['メディア'], c: 'var(--blue)', url: 'https://www.smashingmagazine.com/' },
+    ].map(r => `<a href="${r.url}" target="_blank" rel="noopener" style="text-decoration:none"><div class="card"><div class="card-header"><div class="card-icon" style="background:${r.c}22;color:${r.c}"><span class="mi">${r.i}</span></div><div><div class="card-title">${r.t} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></div></div></div><div class="card-body">${r.d}</div><div class="card-footer">${r.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div></div></a>`).join('');
 
-// ===== UI PARTS =====
-const uip=[
-  {cat:'ボタン',name:'Primary Button',ja:'プライマリボタン',one:'最も重要なアクション用のメインボタン',usage:'1画面に1つが原則。購入・送信・保存に使用。',when:'最も実行してほしいアクション',dont:'1画面に複数配置しない',demo:'<button class="d-btn d-btn-p">送信する</button>',tags:['基本','必須']},
-  {cat:'ボタン',name:'Secondary Button',ja:'セカンダリボタン',one:'補助的なアクション用の控えめなボタン',usage:'キャンセル・戻る等の副次的アクションに。',when:'Primaryの隣に並べる補助操作',dont:'Primaryより目立たせない',demo:'<button class="d-btn d-btn-o">キャンセル</button>',tags:['基本']},
-  {cat:'ボタン',name:'Icon Button',ja:'アイコンボタン',one:'アイコンのみのコンパクトなボタン',usage:'ツールバー、削除・編集等に。ツールチップ推奨。',when:'スペースが限られている時',dont:'意味が曖昧なアイコンを単独で使わない',demo:'<button class="d-btn-i">&#9998;</button><button class="d-btn-i">&#128465;</button><button class="d-btn-i">&#9829;</button>',tags:['基本']},
-  {cat:'ボタン',name:'FAB',ja:'フローティングアクションボタン',one:'画面に浮かぶ丸い主要アクションボタン',usage:'新規作成・投稿など。右下に配置が一般的。',when:'モバイルで常にアクセスしたい操作',dont:'複数のFABを同時に表示しない',demo:'<div style="width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 4px 12px rgba(124,92,252,.4)">+</div>',tags:['モバイル']},
-  {cat:'ボタン',name:'Toggle Button',ja:'トグルボタン',one:'ON/OFF状態を切り替えるボタン',usage:'太字/斜体の切替、表示モード切替等。',when:'2つの状態を切り替えるUI',dont:'トグルスイッチ(設定系)と混同しない',demo:'<div style="display:flex;gap:2px"><button class="d-btn" style="background:var(--accent);color:#fff;border-radius:8px 0 0 8px;font-weight:900">B</button><button class="d-btn" style="background:var(--surface2);color:var(--text2);border-radius:0 8px 8px 0;font-style:italic">I</button></div>',tags:['基本']},
-  {cat:'入力',name:'Text Input',ja:'テキスト入力',one:'1行テキストを入力するフィールド',usage:'名前、メール等。ラベル・プレースホルダーとセット。',when:'短いテキスト情報の入力',dont:'長文にはTextareaを使う',demo:'<input class="d-input" placeholder="メールアドレス">',tags:['基本','必須']},
-  {cat:'入力',name:'Textarea',ja:'テキストエリア',one:'複数行テキストの入力領域',usage:'コメント、説明文等。文字数カウンターを付けると親切。',when:'1行では足りないテキスト入力',dont:'短い入力にはText Inputを使う',demo:'<textarea style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;width:180px;height:50px;resize:vertical" placeholder="コメント..."></textarea>',tags:['基本']},
-  {cat:'入力',name:'Checkbox',ja:'チェックボックス',one:'複数の選択肢から複数選択する入力',usage:'フィルター条件、TODO項目等。複数選択が前提。',when:'複数選択OK、またはON/OFF切替',dont:'1つだけ選ばせたい時はRadioを',demo:'<label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" checked style="accent-color:var(--accent)"> デザイン</label>',tags:['基本','必須']},
-  {cat:'入力',name:'Radio Button',ja:'ラジオボタン',one:'複数の選択肢から1つだけ選ぶ入力',usage:'性別・プラン選択等の排他的選択に。',when:'1つだけ選んでほしい排他的選択',dont:'選択肢が多い場合はSelectを使う',demo:'<label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="radio" name="dr" checked style="accent-color:var(--accent)"> A</label><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="radio" name="dr" style="accent-color:var(--accent)"> B</label>',tags:['基本','必須']},
-  {cat:'入力',name:'Toggle Switch',ja:'トグルスイッチ',one:'ON/OFFを即座に切り替えるスイッチ',usage:'通知設定、ダークモード等。即座に反映される設定に最適。',when:'設定の即時反映、保存ボタンなし',dont:'即時反映されない場合はCheckboxを',demo:'<button class="d-toggle on" onclick="this.classList.toggle(\'on\')"></button>',tags:['基本','必須']},
-  {cat:'入力',name:'Select / Dropdown',ja:'セレクト',one:'選択肢リストから1つ選ぶ折りたたみ式メニュー',usage:'都道府県、カテゴリ等選択肢が多い場合。',when:'選択肢が5個以上ある時',dont:'2〜3個ならRadioの方が見やすい',demo:'<select style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px"><option>選択してください</option></select>',tags:['基本','必須']},
-  {cat:'入力',name:'Slider',ja:'スライダー',one:'ドラッグで連続値を選ぶ入力',usage:'音量、価格帯、フィルター範囲等に。',when:'連続的な数値の選択',dont:'正確な値が必要なら直接入力欄を',demo:'<input type="range" style="width:140px;accent-color:var(--accent)" value="65">',tags:['基本']},
-  {cat:'入力',name:'Date Picker',ja:'日付ピッカー',one:'カレンダーUIから日付を選択',usage:'予約日、誕生日等に。手入力も許容する併用型がベスト。',when:'日付の入力',dont:'カレンダーなしの手入力だけだと不便',demo:'<input type="date" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px">',tags:['応用']},
-  {cat:'入力',name:'File Upload',ja:'ファイルアップロード',one:'ファイルを選択・ドラッグして送信する領域',usage:'画像投稿、書類提出等。D&D対応・プレビュー表示が理想。',when:'ファイルを受け取る時',dont:'対応形式やサイズ制限を明示する',demo:'<div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;font-size:12px;color:var(--text2)">&#128206; ファイルをドロップ</div>',tags:['応用']},
-  {cat:'入力',name:'Star Rating',ja:'星評価',one:'星で段階的な評価を入力するUI',usage:'レビュー投稿、満足度評価。5段階が標準。',when:'段階的評価の入力',dont:'星の意味(1=最低 5=最高)を明示',demo:'<div style="font-size:22px;color:var(--yellow);letter-spacing:3px">&#9733;&#9733;&#9733;&#9733;&#9734;</div>',tags:['応用']},
-  {cat:'ナビ',name:'Navigation Bar',ja:'ナビゲーションバー',one:'画面上部のメイン水平バー',usage:'ロゴ・メニュー・アクションを配置。グローバルナビ。',when:'サイト全体の共通導線',dont:'項目数は7つ以下が理想',demo:'<div style="display:flex;align-items:center;gap:14px;background:var(--surface2);padding:8px 14px;border-radius:8px;font-size:12px;width:100%"><span style="font-weight:800">Logo</span><span style="color:var(--accent2)">ホーム</span><span style="color:var(--text2)">機能</span><span style="margin-left:auto"><button class="d-btn d-btn-p" style="padding:5px 12px;font-size:11px">登録</button></span></div>',tags:['基本','必須']},
-  {cat:'ナビ',name:'Tab Bar (Bottom)',ja:'タブバー（下部）',one:'モバイル画面下部のメインナビ',usage:'3〜5個のメイン機能への導線。アイコン+ラベル。',when:'モバイルアプリのメインナビ',dont:'5個を超えない。「その他」で集約',demo:'<div style="display:flex;justify-content:space-around;background:var(--surface2);border-radius:8px;padding:6px 4px;width:100%"><div style="text-align:center;font-size:9px;color:var(--accent2)"><div style="font-size:16px">&#127968;</div>ホーム</div><div style="text-align:center;font-size:9px;color:var(--text3)"><div style="font-size:16px">&#128269;</div>検索</div><div style="text-align:center;font-size:9px;color:var(--text3)"><div style="font-size:16px">&#128276;</div>通知</div></div>',tags:['モバイル','必須']},
-  {cat:'ナビ',name:'Tabs',ja:'タブ',one:'同一画面内でコンテンツを切り替える水平タブ',usage:'関連コンテンツのセクション切り替え。',when:'同じ画面で関連コンテンツを整理',dont:'タブ切替でURL変更しない方が良い',demo:'<div style="display:flex;gap:0;border-bottom:2px solid var(--border)"><div style="padding:8px 16px;font-size:12px;font-weight:600;color:var(--accent2);border-bottom:2px solid var(--accent);margin-bottom:-2px">概要</div><div style="padding:8px 16px;font-size:12px;color:var(--text3)">詳細</div></div>',tags:['基本','必須']},
-  {cat:'ナビ',name:'Breadcrumb',ja:'パンくずリスト',one:'現在ページの階層位置を表示',usage:'ECサイトやドキュメント等の深い階層で使用。',when:'3階層以上のページ構造',dont:'トップページやシンプルなアプリでは不要',demo:'<div style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="color:var(--accent2)">ホーム</span><span style="color:var(--text3)">&#8250;</span><span style="color:var(--accent2)">カテゴリ</span><span style="color:var(--text3)">&#8250;</span><span>現在</span></div>',tags:['基本']},
-  {cat:'ナビ',name:'Pagination',ja:'ページネーション',one:'コンテンツを複数ページに分割',usage:'検索結果・商品一覧等のページ分割。',when:'一度に表示しきれない量のコンテンツ',dont:'無限スクロールと併用しない',demo:'<div style="display:flex;gap:3px"><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">&#9664;</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px;background:var(--accent);border-color:var(--accent);color:#fff">1</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">2</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">&#9654;</button></div>',tags:['基本']},
-  {cat:'ナビ',name:'Stepper',ja:'ステッパー',one:'マルチステップの進行状況を表示',usage:'会員登録・購入手続き等のフロー可視化。',when:'3〜5ステップの入力フロー',dont:'ステップ名は短く簡潔に',demo:'<div style="display:flex;align-items:center;gap:0"><div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">&#10003;</div><div style="width:28px;height:2px;background:var(--green)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">2</div><div style="width:28px;height:2px;background:var(--border)"></div><div style="width:24px;height:24px;border-radius:50%;border:2px solid var(--border);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">3</div></div>',tags:['応用']},
-  {cat:'表示',name:'Card',ja:'カード',one:'関連情報をまとめた矩形コンテナ',usage:'商品・記事・プロフィール等のグループ化。',when:'繰り返し表示される情報のまとまり',dont:'カード内に情報を詰め込みすぎない',demo:'<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;width:160px"><div style="height:36px;background:var(--surface3);border-radius:5px;margin-bottom:8px"></div><div style="font-size:12px;font-weight:600">タイトル</div><div style="font-size:10px;color:var(--text2);margin-top:3px">説明テキスト</div></div>',tags:['基本','必須']},
-  {cat:'表示',name:'Avatar',ja:'アバター',one:'プロフィール画像を丸く表示',usage:'コメント・メッセージ等でユーザー識別。',when:'ユーザーの識別が必要な場所',dont:'一貫したサイズで使用する',demo:'<div style="display:flex;gap:6px"><div class="d-avatar">A</div><div class="d-avatar" style="background:var(--pink)">K</div><div class="d-avatar" style="width:28px;height:28px;font-size:11px;background:var(--green)">T</div></div>',tags:['基本']},
-  {cat:'表示',name:'Badge',ja:'バッジ',one:'通知数や状態を示す小さな装飾',usage:'未読数、新着マーク、ステータス表示に。',when:'注意を引きたい未読/新着情報',dont:'数が多い場合は「99+」と省略',demo:'<div style="display:flex;gap:12px;align-items:center"><span style="background:var(--red);color:#fff;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700">NEW</span><span style="background:var(--green);color:#fff;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700">完了</span></div>',tags:['基本']},
-  {cat:'表示',name:'Chip / Tag',ja:'チップ / タグ',one:'カテゴリやフィルター条件を示すラベル',usage:'フィルター選択・カテゴリ表示・スキルタグ等。',when:'属性やカテゴリの可視化',dont:'長すぎるテキストは入れない',demo:'<div style="display:flex;gap:5px;flex-wrap:wrap"><span style="padding:4px 10px;border-radius:99px;font-size:10px;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--text2)">UIデザイン</span><span style="padding:4px 10px;border-radius:99px;font-size:10px;font-weight:600;background:rgba(124,92,252,.12);color:var(--accent2);border:1px solid rgba(124,92,252,.25)">Figma</span></div>',tags:['基本']},
-  {cat:'表示',name:'Tooltip',ja:'ツールチップ',one:'ホバー時に表示される補足説明',usage:'アイコンボタンの説明、専門用語の注釈等。',when:'UIをシンプルに保ちつつ補足情報を提供',dont:'重要な情報は隠さない。モバイルでは使えない',demo:'<div style="position:relative;display:inline-block;padding:6px 14px;background:var(--surface2);border-radius:8px;font-size:12px">&#9432; ホバーで表示<div style="position:absolute;bottom:calc(100%+6px);left:50%;transform:translateX(-50%);background:var(--surface3);padding:4px 10px;border-radius:5px;font-size:10px;white-space:nowrap">ツールチップ</div></div>',tags:['基本']},
-  {cat:'表示',name:'Progress Bar',ja:'プログレスバー',one:'タスク進行状況を水平バーで表示',usage:'ファイルアップロード・学習進捗等。',when:'処理の進行状況を伝えたい時',dont:'進捗不明ならIndeterminateタイプを',demo:'<div style="width:100%"><div class="d-prog"><div class="d-prog-f"></div></div><div style="font-size:10px;color:var(--text2);margin-top:3px">65%</div></div>',tags:['基本']},
-  {cat:'表示',name:'Spinner',ja:'スピナー',one:'読み込み中を示す回転アニメーション',usage:'データ取得中・ページ遷移中の状態表示。',when:'ユーザーに待機を伝える時',dont:'3秒以上ならプログレスバーを検討',demo:'<div style="width:24px;height:24px;border:3px solid var(--surface3);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite"></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>',tags:['基本','必須']},
-  {cat:'表示',name:'Skeleton',ja:'スケルトンスクリーン',one:'読み込み前のプレースホルダー',usage:'実際のレイアウトに近い灰色ブロックをシマーで表示。',when:'コンテンツ読み込み待ち',dont:'実際のレイアウトに合わせた形にする',demo:'<div style="width:180px"><div class="d-skel" style="width:36px;height:36px;border-radius:50%;margin-bottom:8px"></div><div class="d-skel" style="width:140px;height:10px;margin-bottom:6px"></div><div class="d-skel" style="width:100px;height:10px"></div></div>',tags:['基本','必須']},
-  {cat:'表示',name:'Empty State',ja:'エンプティステート',one:'コンテンツがない時のプレースホルダー',usage:'検索結果0件、初回利用時等。次のアクションを明示。',when:'データがない状態',dont:'ユーザーが何をすべきか示す',demo:'<div style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">&#128194;</div><div style="font-size:13px;font-weight:600">まだ投稿はありません</div><div style="font-size:11px;color:var(--text2);margin:3px 0 10px">最初の投稿を作成しましょう</div><button class="d-btn d-btn-p" style="font-size:11px;padding:5px 14px">投稿する</button></div>',tags:['基本','重要']},
-  {cat:'表示',name:'Accordion',ja:'アコーディオン',one:'クリックで展開/折りたたみするUI',usage:'FAQ・設定の詳細・長いコンテンツの整理に。',when:'多くの情報を省スペースで整理',dont:'すべて閉じた初期状態だと発見性が低い',demo:'<div style="width:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden"><div style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;background:var(--surface2)">FAQ <span>&#9660;</span></div><div style="padding:10px 14px;font-size:11px;color:var(--text2);border-top:1px solid var(--border)">回答テキスト</div></div>',tags:['基本']},
-  {cat:'FB',name:'Toast',ja:'トースト',one:'一時的に表示される通知メッセージ',usage:'操作成功・失敗の通知。数秒で自動消失。',when:'操作結果をさりげなく伝える',dont:'重要なエラーにはDialog/Alertを使う',demo:'<div style="display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px"><span style="color:var(--green)">&#10003;</span> 保存しました</div>',tags:['基本','必須']},
-  {cat:'FB',name:'Alert / Banner',ja:'アラート',one:'重要情報やエラーを目立つ色で表示',usage:'エラー(赤)、警告(黄)、成功(緑)、情報(青)の4パターン。',when:'ユーザーに注意を促す重要な情報',dont:'多用するとユーザーが無視する',demo:'<div style="display:flex;flex-direction:column;gap:5px;width:100%"><div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);font-size:11px;color:var(--red)">&#9888; エラーが発生</div><div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);font-size:11px;color:var(--green)">&#10003; 完了しました</div></div>',tags:['基本','必須']},
-  {cat:'FB',name:'Modal / Dialog',ja:'モーダル',one:'画面に重ねて表示される操作パネル',usage:'確認ダイアログ、フォーム入力、詳細表示等。',when:'重要な判断や入力を求める時',dont:'頻繁に使うとUX悪化。モーダル内モーダルは避ける',demo:'<div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;width:220px;box-shadow:0 6px 24px rgba(0,0,0,.3)"><div style="font-size:14px;font-weight:700;margin-bottom:6px">確認</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px">削除しますか？</div><div style="display:flex;gap:6px;justify-content:flex-end"><button class="d-btn d-btn-o" style="padding:5px 12px;font-size:11px">戻る</button><button class="d-btn" style="background:var(--red);color:#fff;padding:5px 12px;font-size:11px">削除</button></div></div>',tags:['基本','必須']},
-  {cat:'FB',name:'Bottom Sheet',ja:'ボトムシート',one:'画面下部からスライドする半画面パネル',usage:'モバイルでのアクション選択・フィルター設定等。',when:'モバイルでのモーダル代替',dont:'コンテンツが多すぎたら全画面に遷移',demo:'<div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px 12px 0 0;padding:14px;width:200px"><div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 12px"></div><div style="font-size:13px;font-weight:700;margin-bottom:10px">共有</div><div style="font-size:12px;padding:8px 0;border-bottom:1px solid var(--border)">&#128279; リンクをコピー</div><div style="font-size:12px;padding:8px 0">&#128231; メールで送信</div></div>',tags:['モバイル','基本']},
-  {cat:'高度',name:'Command Palette',ja:'コマンドパレット',one:'Cmd+Kで呼び出す検索付きアクションメニュー',usage:'Figma・Notion等で採用。パワーユーザー向け高速操作。',when:'多機能アプリでの素早い機能アクセス',dont:'初心者向けにはツールバーも維持',demo:'<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:4px;width:240px;box-shadow:0 6px 24px rgba(0,0,0,.3)"><input class="d-input" style="width:100%;border:none;background:transparent;margin-bottom:3px" placeholder="コマンドを検索..."><div style="padding:6px 10px;border-radius:6px;background:rgba(124,92,252,.08);font-size:11px;color:var(--accent2)">ダークモード切替</div><div style="padding:6px 10px;font-size:11px;color:var(--text2)">設定を開く</div></div>',tags:['応用','トレンド']},
-  {cat:'高度',name:'Drag & Drop',ja:'ドラッグ＆ドロップ',one:'要素をマウスで掴んで移動するインタラクション',usage:'タスクボード(Kanban)、リスト並び替え等。',when:'要素の順序変更やグルーピング',dont:'モバイルではロングプレス。代替操作も用意',demo:'<div style="width:180px"><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;margin-bottom:3px;font-size:11px"><span style="color:var(--text3)">&#9776;</span> タスク A</div><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(124,92,252,.08);border:1px solid var(--accent);border-radius:6px;margin-bottom:3px;font-size:11px;opacity:.8"><span style="color:var(--text3)">&#9776;</span> タスク B</div><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:11px"><span style="color:var(--text3)">&#9776;</span> タスク C</div></div>',tags:['応用']},
-  {cat:'高度',name:'Onboarding',ja:'オンボーディング',one:'初回利用時の機能説明ステップ',usage:'スワイプ式の紹介画面やチェックリスト式の初期設定。',when:'新規ユーザーの初回体験',dont:'スキップ可能にする。強制しすぎない',demo:'<div style="text-align:center;width:170px"><div style="font-size:28px;margin-bottom:8px">&#128075;</div><div style="font-size:13px;font-weight:700">ようこそ！</div><div style="font-size:11px;color:var(--text2);margin:4px 0 10px">セットアップしましょう</div><div style="display:flex;justify-content:center;gap:5px;margin-bottom:10px"><div style="width:20px;height:3px;border-radius:2px;background:var(--accent)"></div><div style="width:20px;height:3px;border-radius:2px;background:var(--surface3)"></div><div style="width:20px;height:3px;border-radius:2px;background:var(--surface3)"></div></div><button class="d-btn d-btn-p" style="font-size:11px;padding:5px 16px">始める</button></div>',tags:['UX','重要']},
-  {cat:'高度',name:'Autocomplete',ja:'オートコンプリート',one:'入力に応じて候補を表示する予測入力',usage:'検索サジェスト、住所入力、タグ入力等。',when:'選択肢が多くテキストで絞り込みたい',dont:'候補表示が遅延するとUX悪化',demo:'<div style="width:180px"><input class="d-input" style="width:100%" value="デザ"><div style="background:var(--surface2);border:1px solid var(--border);border-radius:0 0 8px 8px;border-top:none"><div style="padding:6px 12px;font-size:11px;background:rgba(124,92,252,.08);color:var(--accent2)">デザイン</div><div style="padding:6px 12px;font-size:11px;color:var(--text2)">デザインシステム</div></div></div>',tags:['応用']},
-  {cat:'レイアウト',name:'Header / App Bar',ja:'ヘッダー',one:'画面最上部のタイトルとアクション領域',usage:'タイトル、戻るボタン、アクションアイコンを配置。',when:'すべてのページの上部',dont:'アクションを詰め込みすぎない',demo:'<div style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--surface2);border-radius:8px;width:100%"><span>&#9664;</span><span style="flex:1;font-size:13px;font-weight:700">タイトル</span><span>&#9881;</span></div>',tags:['基本','必須']},
-  {cat:'レイアウト',name:'Footer',ja:'フッター',one:'画面最下部の補助情報エリア',usage:'リンク集・著作権・SNSリンク等。Webサイトでは必須。',when:'Webサイトの共通下部',dont:'アプリではTab Barが代替',demo:'<div style="padding:12px;border-top:1px solid var(--border);width:100%;font-size:11px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span>&copy; 2026 Company</span><div style="display:flex;gap:10px"><span>利用規約</span><span>プライバシー</span></div></div>',tags:['基本']},
-  {cat:'レイアウト',name:'Divider',ja:'区切り線',one:'セクション間を区切る水平線',usage:'コンテンツの論理的な区切りに使用。',when:'関連度の異なるコンテンツの境界',dont:'多用すると画面がうるさい。余白で代替可能',demo:'<div style="width:100%"><div style="font-size:12px;margin-bottom:6px">セクション A</div><div style="height:1px;background:var(--border)"></div><div style="font-size:12px;margin-top:6px">セクション B</div></div>',tags:['基本']},
-];
+    // ===== UI PARTS =====
+    const uip = [
+      { cat: 'ボタン', name: 'Primary Button', ja: 'プライマリボタン', one: '最も重要なアクション用のメインボタン', usage: '1画面に1つが原則。購入・送信・保存に使用。', when: '最も実行してほしいアクション', dont: '1画面に複数配置しない', demo: '<button class="d-btn d-btn-p">送信する</button>', tags: ['基本', '必須'] },
+      { cat: 'ボタン', name: 'Secondary Button', ja: 'セカンダリボタン', one: '補助的なアクション用の控えめなボタン', usage: 'キャンセル・戻る等の副次的アクションに。', when: 'Primaryの隣に並べる補助操作', dont: 'Primaryより目立たせない', demo: '<button class="d-btn d-btn-o">キャンセル</button>', tags: ['基本'] },
+      { cat: 'ボタン', name: 'Icon Button', ja: 'アイコンボタン', one: 'アイコンのみのコンパクトなボタン', usage: 'ツールバー、削除・編集等に。ツールチップ推奨。', when: 'スペースが限られている時', dont: '意味が曖昧なアイコンを単独で使わない', demo: '<button class="d-btn-i">&#9998;</button><button class="d-btn-i">&#128465;</button><button class="d-btn-i">&#9829;</button>', tags: ['基本'] },
+      { cat: 'ボタン', name: 'FAB', ja: 'フローティングアクションボタン', one: '画面に浮かぶ丸い主要アクションボタン', usage: '新規作成・投稿など。右下に配置が一般的。', when: 'モバイルで常にアクセスしたい操作', dont: '複数のFABを同時に表示しない', demo: '<div style="width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 4px 12px rgba(124,92,252,.4)">+</div>', tags: ['モバイル'] },
+      { cat: 'ボタン', name: 'Toggle Button', ja: 'トグルボタン', one: 'ON/OFF状態を切り替えるボタン', usage: '太字/斜体の切替、表示モード切替等。', when: '2つの状態を切り替えるUI', dont: 'トグルスイッチ(設定系)と混同しない', demo: '<div style="display:flex;gap:2px"><button class="d-btn" style="background:var(--accent);color:#fff;border-radius:8px 0 0 8px;font-weight:900">B</button><button class="d-btn" style="background:var(--surface2);color:var(--text2);border-radius:0 8px 8px 0;font-style:italic">I</button></div>', tags: ['基本'] },
+      { cat: '入力', name: 'Text Input', ja: 'テキスト入力', one: '1行テキストを入力するフィールド', usage: '名前、メール等。ラベル・プレースホルダーとセット。', when: '短いテキスト情報の入力', dont: '長文にはTextareaを使う', demo: '<input class="d-input" placeholder="メールアドレス">', tags: ['基本', '必須'] },
+      { cat: '入力', name: 'Textarea', ja: 'テキストエリア', one: '複数行テキストの入力領域', usage: 'コメント、説明文等。文字数カウンターを付けると親切。', when: '1行では足りないテキスト入力', dont: '短い入力にはText Inputを使う', demo: '<textarea style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;width:180px;height:50px;resize:vertical" placeholder="コメント..."></textarea>', tags: ['基本'] },
+      { cat: '入力', name: 'Checkbox', ja: 'チェックボックス', one: '複数の選択肢から複数選択する入力', usage: 'フィルター条件、TODO項目等。複数選択が前提。', when: '複数選択OK、またはON/OFF切替', dont: '1つだけ選ばせたい時はRadioを', demo: '<label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" checked style="accent-color:var(--accent)"> デザイン</label>', tags: ['基本', '必須'] },
+      { cat: '入力', name: 'Radio Button', ja: 'ラジオボタン', one: '複数の選択肢から1つだけ選ぶ入力', usage: '性別・プラン選択等の排他的選択に。', when: '1つだけ選んでほしい排他的選択', dont: '選択肢が多い場合はSelectを使う', demo: '<label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="radio" name="dr" checked style="accent-color:var(--accent)"> A</label><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="radio" name="dr" style="accent-color:var(--accent)"> B</label>', tags: ['基本', '必須'] },
+      { cat: '入力', name: 'Toggle Switch', ja: 'トグルスイッチ', one: 'ON/OFFを即座に切り替えるスイッチ', usage: '通知設定、ダークモード等。即座に反映される設定に最適。', when: '設定の即時反映、保存ボタンなし', dont: '即時反映されない場合はCheckboxを', demo: '<button class="d-toggle on" onclick="this.classList.toggle(\'on\')"></button>', tags: ['基本', '必須'] },
+      { cat: '入力', name: 'Select / Dropdown', ja: 'セレクト', one: '選択肢リストから1つ選ぶ折りたたみ式メニュー', usage: '都道府県、カテゴリ等選択肢が多い場合。', when: '選択肢が5個以上ある時', dont: '2〜3個ならRadioの方が見やすい', demo: '<select style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px"><option>選択してください</option></select>', tags: ['基本', '必須'] },
+      { cat: '入力', name: 'Slider', ja: 'スライダー', one: 'ドラッグで連続値を選ぶ入力', usage: '音量、価格帯、フィルター範囲等に。', when: '連続的な数値の選択', dont: '正確な値が必要なら直接入力欄を', demo: '<input type="range" style="width:140px;accent-color:var(--accent)" value="65">', tags: ['基本'] },
+      { cat: '入力', name: 'Date Picker', ja: '日付ピッカー', one: 'カレンダーUIから日付を選択', usage: '予約日、誕生日等に。手入力も許容する併用型がベスト。', when: '日付の入力', dont: 'カレンダーなしの手入力だけだと不便', demo: '<input type="date" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px">', tags: ['応用'] },
+      { cat: '入力', name: 'File Upload', ja: 'ファイルアップロード', one: 'ファイルを選択・ドラッグして送信する領域', usage: '画像投稿、書類提出等。D&D対応・プレビュー表示が理想。', when: 'ファイルを受け取る時', dont: '対応形式やサイズ制限を明示する', demo: '<div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;font-size:12px;color:var(--text2)">&#128206; ファイルをドロップ</div>', tags: ['応用'] },
+      { cat: '入力', name: 'Star Rating', ja: '星評価', one: '星で段階的な評価を入力するUI', usage: 'レビュー投稿、満足度評価。5段階が標準。', when: '段階的評価の入力', dont: '星の意味(1=最低 5=最高)を明示', demo: '<div style="font-size:22px;color:var(--yellow);letter-spacing:3px">&#9733;&#9733;&#9733;&#9733;&#9734;</div>', tags: ['応用'] },
+      { cat: 'ナビ', name: 'Navigation Bar', ja: 'ナビゲーションバー', one: '画面上部のメイン水平バー', usage: 'ロゴ・メニュー・アクションを配置。グローバルナビ。', when: 'サイト全体の共通導線', dont: '項目数は7つ以下が理想', demo: '<div style="display:flex;align-items:center;gap:14px;background:var(--surface2);padding:8px 14px;border-radius:8px;font-size:12px;width:100%"><span style="font-weight:800">Logo</span><span style="color:var(--accent2)">ホーム</span><span style="color:var(--text2)">機能</span><span style="margin-left:auto"><button class="d-btn d-btn-p" style="padding:5px 12px;font-size:11px">登録</button></span></div>', tags: ['基本', '必須'] },
+      { cat: 'ナビ', name: 'Tab Bar (Bottom)', ja: 'タブバー（下部）', one: 'モバイル画面下部のメインナビ', usage: '3〜5個のメイン機能への導線。アイコン+ラベル。', when: 'モバイルアプリのメインナビ', dont: '5個を超えない。「その他」で集約', demo: '<div style="display:flex;justify-content:space-around;background:var(--surface2);border-radius:8px;padding:6px 4px;width:100%"><div style="text-align:center;font-size:9px;color:var(--accent2)"><div style="font-size:16px">&#127968;</div>ホーム</div><div style="text-align:center;font-size:9px;color:var(--text3)"><div style="font-size:16px">&#128269;</div>検索</div><div style="text-align:center;font-size:9px;color:var(--text3)"><div style="font-size:16px">&#128276;</div>通知</div></div>', tags: ['モバイル', '必須'] },
+      { cat: 'ナビ', name: 'Tabs', ja: 'タブ', one: '同一画面内でコンテンツを切り替える水平タブ', usage: '関連コンテンツのセクション切り替え。', when: '同じ画面で関連コンテンツを整理', dont: 'タブ切替でURL変更しない方が良い', demo: '<div style="display:flex;gap:0;border-bottom:2px solid var(--border)"><div style="padding:8px 16px;font-size:12px;font-weight:600;color:var(--accent2);border-bottom:2px solid var(--accent);margin-bottom:-2px">概要</div><div style="padding:8px 16px;font-size:12px;color:var(--text3)">詳細</div></div>', tags: ['基本', '必須'] },
+      { cat: 'ナビ', name: 'Breadcrumb', ja: 'パンくずリスト', one: '現在ページの階層位置を表示', usage: 'ECサイトやドキュメント等の深い階層で使用。', when: '3階層以上のページ構造', dont: 'トップページやシンプルなアプリでは不要', demo: '<div style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="color:var(--accent2)">ホーム</span><span style="color:var(--text3)">&#8250;</span><span style="color:var(--accent2)">カテゴリ</span><span style="color:var(--text3)">&#8250;</span><span>現在</span></div>', tags: ['基本'] },
+      { cat: 'ナビ', name: 'Pagination', ja: 'ページネーション', one: 'コンテンツを複数ページに分割', usage: '検索結果・商品一覧等のページ分割。', when: '一度に表示しきれない量のコンテンツ', dont: '無限スクロールと併用しない', demo: '<div style="display:flex;gap:3px"><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">&#9664;</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px;background:var(--accent);border-color:var(--accent);color:#fff">1</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">2</button><button class="d-btn-i" style="width:28px;height:28px;font-size:10px">&#9654;</button></div>', tags: ['基本'] },
+      { cat: 'ナビ', name: 'Stepper', ja: 'ステッパー', one: 'マルチステップの進行状況を表示', usage: '会員登録・購入手続き等のフロー可視化。', when: '3〜5ステップの入力フロー', dont: 'ステップ名は短く簡潔に', demo: '<div style="display:flex;align-items:center;gap:0"><div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">&#10003;</div><div style="width:28px;height:2px;background:var(--green)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">2</div><div style="width:28px;height:2px;background:var(--border)"></div><div style="width:24px;height:24px;border-radius:50%;border:2px solid var(--border);color:var(--text3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">3</div></div>', tags: ['応用'] },
+      { cat: '表示', name: 'Card', ja: 'カード', one: '関連情報をまとめた矩形コンテナ', usage: '商品・記事・プロフィール等のグループ化。', when: '繰り返し表示される情報のまとまり', dont: 'カード内に情報を詰め込みすぎない', demo: '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;width:160px"><div style="height:36px;background:var(--surface3);border-radius:5px;margin-bottom:8px"></div><div style="font-size:12px;font-weight:600">タイトル</div><div style="font-size:10px;color:var(--text2);margin-top:3px">説明テキスト</div></div>', tags: ['基本', '必須'] },
+      { cat: '表示', name: 'Avatar', ja: 'アバター', one: 'プロフィール画像を丸く表示', usage: 'コメント・メッセージ等でユーザー識別。', when: 'ユーザーの識別が必要な場所', dont: '一貫したサイズで使用する', demo: '<div style="display:flex;gap:6px"><div class="d-avatar">A</div><div class="d-avatar" style="background:var(--pink)">K</div><div class="d-avatar" style="width:28px;height:28px;font-size:11px;background:var(--green)">T</div></div>', tags: ['基本'] },
+      { cat: '表示', name: 'Badge', ja: 'バッジ', one: '通知数や状態を示す小さな装飾', usage: '未読数、新着マーク、ステータス表示に。', when: '注意を引きたい未読/新着情報', dont: '数が多い場合は「99+」と省略', demo: '<div style="display:flex;gap:12px;align-items:center"><span style="background:var(--red);color:#fff;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700">NEW</span><span style="background:var(--green);color:#fff;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700">完了</span></div>', tags: ['基本'] },
+      { cat: '表示', name: 'Chip / Tag', ja: 'チップ / タグ', one: 'カテゴリやフィルター条件を示すラベル', usage: 'フィルター選択・カテゴリ表示・スキルタグ等。', when: '属性やカテゴリの可視化', dont: '長すぎるテキストは入れない', demo: '<div style="display:flex;gap:5px;flex-wrap:wrap"><span style="padding:4px 10px;border-radius:99px;font-size:10px;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--text2)">UIデザイン</span><span style="padding:4px 10px;border-radius:99px;font-size:10px;font-weight:600;background:rgba(124,92,252,.12);color:var(--accent2);border:1px solid rgba(124,92,252,.25)">Figma</span></div>', tags: ['基本'] },
+      { cat: '表示', name: 'Tooltip', ja: 'ツールチップ', one: 'ホバー時に表示される補足説明', usage: 'アイコンボタンの説明、専門用語の注釈等。', when: 'UIをシンプルに保ちつつ補足情報を提供', dont: '重要な情報は隠さない。モバイルでは使えない', demo: '<div style="position:relative;display:inline-block;padding:6px 14px;background:var(--surface2);border-radius:8px;font-size:12px">&#9432; ホバーで表示<div style="position:absolute;bottom:calc(100%+6px);left:50%;transform:translateX(-50%);background:var(--surface3);padding:4px 10px;border-radius:5px;font-size:10px;white-space:nowrap">ツールチップ</div></div>', tags: ['基本'] },
+      { cat: '表示', name: 'Progress Bar', ja: 'プログレスバー', one: 'タスク進行状況を水平バーで表示', usage: 'ファイルアップロード・学習進捗等。', when: '処理の進行状況を伝えたい時', dont: '進捗不明ならIndeterminateタイプを', demo: '<div style="width:100%"><div class="d-prog"><div class="d-prog-f"></div></div><div style="font-size:10px;color:var(--text2);margin-top:3px">65%</div></div>', tags: ['基本'] },
+      { cat: '表示', name: 'Spinner', ja: 'スピナー', one: '読み込み中を示す回転アニメーション', usage: 'データ取得中・ページ遷移中の状態表示。', when: 'ユーザーに待機を伝える時', dont: '3秒以上ならプログレスバーを検討', demo: '<div style="width:24px;height:24px;border:3px solid var(--surface3);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite"></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>', tags: ['基本', '必須'] },
+      { cat: '表示', name: 'Skeleton', ja: 'スケルトンスクリーン', one: '読み込み前のプレースホルダー', usage: '実際のレイアウトに近い灰色ブロックをシマーで表示。', when: 'コンテンツ読み込み待ち', dont: '実際のレイアウトに合わせた形にする', demo: '<div style="width:180px"><div class="d-skel" style="width:36px;height:36px;border-radius:50%;margin-bottom:8px"></div><div class="d-skel" style="width:140px;height:10px;margin-bottom:6px"></div><div class="d-skel" style="width:100px;height:10px"></div></div>', tags: ['基本', '必須'] },
+      { cat: '表示', name: 'Empty State', ja: 'エンプティステート', one: 'コンテンツがない時のプレースホルダー', usage: '検索結果0件、初回利用時等。次のアクションを明示。', when: 'データがない状態', dont: 'ユーザーが何をすべきか示す', demo: '<div style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">&#128194;</div><div style="font-size:13px;font-weight:600">まだ投稿はありません</div><div style="font-size:11px;color:var(--text2);margin:3px 0 10px">最初の投稿を作成しましょう</div><button class="d-btn d-btn-p" style="font-size:11px;padding:5px 14px">投稿する</button></div>', tags: ['基本', '重要'] },
+      { cat: '表示', name: 'Accordion', ja: 'アコーディオン', one: 'クリックで展開/折りたたみするUI', usage: 'FAQ・設定の詳細・長いコンテンツの整理に。', when: '多くの情報を省スペースで整理', dont: 'すべて閉じた初期状態だと発見性が低い', demo: '<div style="width:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden"><div style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;background:var(--surface2)">FAQ <span>&#9660;</span></div><div style="padding:10px 14px;font-size:11px;color:var(--text2);border-top:1px solid var(--border)">回答テキスト</div></div>', tags: ['基本'] },
+      { cat: 'FB', name: 'Toast', ja: 'トースト', one: '一時的に表示される通知メッセージ', usage: '操作成功・失敗の通知。数秒で自動消失。', when: '操作結果をさりげなく伝える', dont: '重要なエラーにはDialog/Alertを使う', demo: '<div style="display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px"><span style="color:var(--green)">&#10003;</span> 保存しました</div>', tags: ['基本', '必須'] },
+      { cat: 'FB', name: 'Alert / Banner', ja: 'アラート', one: '重要情報やエラーを目立つ色で表示', usage: 'エラー(赤)、警告(黄)、成功(緑)、情報(青)の4パターン。', when: 'ユーザーに注意を促す重要な情報', dont: '多用するとユーザーが無視する', demo: '<div style="display:flex;flex-direction:column;gap:5px;width:100%"><div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);font-size:11px;color:var(--red)">&#9888; エラーが発生</div><div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);font-size:11px;color:var(--green)">&#10003; 完了しました</div></div>', tags: ['基本', '必須'] },
+      { cat: 'FB', name: 'Modal / Dialog', ja: 'モーダル', one: '画面に重ねて表示される操作パネル', usage: '確認ダイアログ、フォーム入力、詳細表示等。', when: '重要な判断や入力を求める時', dont: '頻繁に使うとUX悪化。モーダル内モーダルは避ける', demo: '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;width:220px;box-shadow:0 6px 24px rgba(0,0,0,.3)"><div style="font-size:14px;font-weight:700;margin-bottom:6px">確認</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px">削除しますか？</div><div style="display:flex;gap:6px;justify-content:flex-end"><button class="d-btn d-btn-o" style="padding:5px 12px;font-size:11px">戻る</button><button class="d-btn" style="background:var(--red);color:#fff;padding:5px 12px;font-size:11px">削除</button></div></div>', tags: ['基本', '必須'] },
+      { cat: 'FB', name: 'Bottom Sheet', ja: 'ボトムシート', one: '画面下部からスライドする半画面パネル', usage: 'モバイルでのアクション選択・フィルター設定等。', when: 'モバイルでのモーダル代替', dont: 'コンテンツが多すぎたら全画面に遷移', demo: '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px 12px 0 0;padding:14px;width:200px"><div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 12px"></div><div style="font-size:13px;font-weight:700;margin-bottom:10px">共有</div><div style="font-size:12px;padding:8px 0;border-bottom:1px solid var(--border)">&#128279; リンクをコピー</div><div style="font-size:12px;padding:8px 0">&#128231; メールで送信</div></div>', tags: ['モバイル', '基本'] },
+      { cat: '高度', name: 'Command Palette', ja: 'コマンドパレット', one: 'Cmd+Kで呼び出す検索付きアクションメニュー', usage: 'Figma・Notion等で採用。パワーユーザー向け高速操作。', when: '多機能アプリでの素早い機能アクセス', dont: '初心者向けにはツールバーも維持', demo: '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:4px;width:240px;box-shadow:0 6px 24px rgba(0,0,0,.3)"><input class="d-input" style="width:100%;border:none;background:transparent;margin-bottom:3px" placeholder="コマンドを検索..."><div style="padding:6px 10px;border-radius:6px;background:rgba(124,92,252,.08);font-size:11px;color:var(--accent2)">ダークモード切替</div><div style="padding:6px 10px;font-size:11px;color:var(--text2)">設定を開く</div></div>', tags: ['応用', 'トレンド'] },
+      { cat: '高度', name: 'Drag & Drop', ja: 'ドラッグ＆ドロップ', one: '要素をマウスで掴んで移動するインタラクション', usage: 'タスクボード(Kanban)、リスト並び替え等。', when: '要素の順序変更やグルーピング', dont: 'モバイルではロングプレス。代替操作も用意', demo: '<div style="width:180px"><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;margin-bottom:3px;font-size:11px"><span style="color:var(--text3)">&#9776;</span> タスク A</div><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(124,92,252,.08);border:1px solid var(--accent);border-radius:6px;margin-bottom:3px;font-size:11px;opacity:.8"><span style="color:var(--text3)">&#9776;</span> タスク B</div><div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:11px"><span style="color:var(--text3)">&#9776;</span> タスク C</div></div>', tags: ['応用'] },
+      { cat: '高度', name: 'Onboarding', ja: 'オンボーディング', one: '初回利用時の機能説明ステップ', usage: 'スワイプ式の紹介画面やチェックリスト式の初期設定。', when: '新規ユーザーの初回体験', dont: 'スキップ可能にする。強制しすぎない', demo: '<div style="text-align:center;width:170px"><div style="font-size:28px;margin-bottom:8px">&#128075;</div><div style="font-size:13px;font-weight:700">ようこそ！</div><div style="font-size:11px;color:var(--text2);margin:4px 0 10px">セットアップしましょう</div><div style="display:flex;justify-content:center;gap:5px;margin-bottom:10px"><div style="width:20px;height:3px;border-radius:2px;background:var(--accent)"></div><div style="width:20px;height:3px;border-radius:2px;background:var(--surface3)"></div><div style="width:20px;height:3px;border-radius:2px;background:var(--surface3)"></div></div><button class="d-btn d-btn-p" style="font-size:11px;padding:5px 16px">始める</button></div>', tags: ['UX', '重要'] },
+      { cat: '高度', name: 'Autocomplete', ja: 'オートコンプリート', one: '入力に応じて候補を表示する予測入力', usage: '検索サジェスト、住所入力、タグ入力等。', when: '選択肢が多くテキストで絞り込みたい', dont: '候補表示が遅延するとUX悪化', demo: '<div style="width:180px"><input class="d-input" style="width:100%" value="デザ"><div style="background:var(--surface2);border:1px solid var(--border);border-radius:0 0 8px 8px;border-top:none"><div style="padding:6px 12px;font-size:11px;background:rgba(124,92,252,.08);color:var(--accent2)">デザイン</div><div style="padding:6px 12px;font-size:11px;color:var(--text2)">デザインシステム</div></div></div>', tags: ['応用'] },
+      { cat: 'レイアウト', name: 'Header / App Bar', ja: 'ヘッダー', one: '画面最上部のタイトルとアクション領域', usage: 'タイトル、戻るボタン、アクションアイコンを配置。', when: 'すべてのページの上部', dont: 'アクションを詰め込みすぎない', demo: '<div style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--surface2);border-radius:8px;width:100%"><span>&#9664;</span><span style="flex:1;font-size:13px;font-weight:700">タイトル</span><span>&#9881;</span></div>', tags: ['基本', '必須'] },
+      { cat: 'レイアウト', name: 'Footer', ja: 'フッター', one: '画面最下部の補助情報エリア', usage: 'リンク集・著作権・SNSリンク等。Webサイトでは必須。', when: 'Webサイトの共通下部', dont: 'アプリではTab Barが代替', demo: '<div style="padding:12px;border-top:1px solid var(--border);width:100%;font-size:11px;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span>&copy; 2026 Company</span><div style="display:flex;gap:10px"><span>利用規約</span><span>プライバシー</span></div></div>', tags: ['基本'] },
+      { cat: 'レイアウト', name: 'Divider', ja: '区切り線', one: 'セクション間を区切る水平線', usage: 'コンテンツの論理的な区切りに使用。', when: '関連度の異なるコンテンツの境界', dont: '多用すると画面がうるさい。余白で代替可能', demo: '<div style="width:100%"><div style="font-size:12px;margin-bottom:6px">セクション A</div><div style="height:1px;background:var(--border)"></div><div style="font-size:12px;margin-top:6px">セクション B</div></div>', tags: ['基本'] },
+    ];
 
-const uipCats=[...new Set(uip.map(p=>p.cat))];
-let uipFilter='all';
-function renderUIPTabs(){
-  document.getElementById('uip-tabs').innerHTML=`<div class="news-tab active" data-uc="all">すべて</div>`+uipCats.map(c=>`<div class="news-tab" data-uc="${c}">${c}</div>`).join('');
-  document.querySelectorAll('#uip-tabs .news-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('#uip-tabs .news-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');uipFilter=t.dataset.uc;renderUIParts()}));
-}
-function renderUIParts(){
-  const q=(document.getElementById('uip-search')?.value||'').toLowerCase();
-  let f=uip;
-  if(uipFilter!=='all')f=f.filter(p=>p.cat===uipFilter);
-  if(q)f=f.filter(p=>p.name.toLowerCase().includes(q)||p.ja.includes(q)||p.one.includes(q)||p.cat.includes(q));
-  document.getElementById('uip-count').textContent=`${f.length} / ${uip.length} パーツ`;
-  const g={};f.forEach(p=>(g[p.cat]=g[p.cat]||[]).push(p));
-  let h='';
-  for(const[cat,items]of Object.entries(g)){
-    h+=`<div class="cat-hdr">${cat} <span class="cat-cnt">${items.length}件</span></div>`;
-    items.forEach((p,i)=>{const id=`u-${cat}-${i}`;
-      const isFav=getFavs().includes(p.name);
-      h+=`<div class="uip-card" id="${id}"><div class="uip-hdr"><div class="uip-prev" onclick="toggleUIP('${id}')"><div style="transform:scale(.32);transform-origin:center;pointer-events:none;white-space:nowrap">${p.demo||''}</div></div><div class="uip-info" onclick="toggleUIP('${id}')"><div class="uip-name">${p.ja} <span class="uip-name-en">${p.name}</span></div><div class="uip-one">${p.one}</div></div><button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${p.name}')" title="お気に入り"><span class="mi" style="font-variation-settings:'FILL' ${isFav?1:0}">${isFav?'star':'star'}</span></button><div style="display:flex;gap:3px;flex-shrink:0;flex-wrap:nowrap">${p.tags.slice(0,2).map(t=>{const c=t==='必須'?'hot':t==='基本'?'beginner':t==='モバイル'?'ai':'';return`<span class="tag ${c}">${t}</span>`}).join('')}</div><div class="uip-arrow mi" id="${id}-a" onclick="toggleUIP('${id}')" style="font-size:18px">expand_more</div></div><div class="uip-detail" id="${id}-d"><div class="uip-demo">${p.demo||''}</div><div class="uip-sec"><div class="uip-sec-t">使い方</div><p>${p.usage}</p></div><div class="uip-sec"><div class="uip-sec-t">いつ使う?</div><p>${p.when}</p></div><div class="uip-sec"><div class="uip-sec-t">注意点</div><p>${p.dont}</p></div></div></div>`;
-    });
-  }
-  document.getElementById('uip-list').innerHTML=h||'<p style="color:var(--text3);padding:30px;text-align:center">該当なし</p>';
-}
-function toggleUIP(id){document.getElementById(id+'-d').classList.toggle('open');document.getElementById(id+'-a').classList.toggle('open')}
-renderUIPTabs();renderUIParts();
+    const uipCats = [...new Set(uip.map(p => p.cat))];
+    let uipFilter = 'all';
+    function renderUIPTabs() {
+      document.getElementById('uip-tabs').innerHTML = `<div class="news-tab active" data-uc="all">すべて</div>` + uipCats.map(c => `<div class="news-tab" data-uc="${c}">${c}</div>`).join('');
+      document.querySelectorAll('#uip-tabs .news-tab').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('#uip-tabs .news-tab').forEach(x => x.classList.remove('active')); t.classList.add('active'); uipFilter = t.dataset.uc; renderUIParts() }));
+    }
+    function renderUIParts() {
+      const q = (document.getElementById('uip-search')?.value || '').toLowerCase();
+      let f = uip;
+      if (uipFilter !== 'all') f = f.filter(p => p.cat === uipFilter);
+      if (q) f = f.filter(p => p.name.toLowerCase().includes(q) || p.ja.includes(q) || p.one.includes(q) || p.cat.includes(q));
+      document.getElementById('uip-count').textContent = `${f.length} / ${uip.length} パーツ`;
+      const g = {}; f.forEach(p => (g[p.cat] = g[p.cat] || []).push(p));
+      let h = '';
+      for (const [cat, items] of Object.entries(g)) {
+        h += `<div class="cat-hdr">${cat} <span class="cat-cnt">${items.length}件</span></div>`;
+        items.forEach((p, i) => {
+          const id = `u-${cat}-${i}`;
+          const isFav = getFavs().includes(p.name);
+          h += `<div class="uip-card" id="${id}"><div class="uip-hdr"><div class="uip-prev" onclick="toggleUIP('${id}')"><div style="transform:scale(.32);transform-origin:center;pointer-events:none;white-space:nowrap">${p.demo || ''}</div></div><div class="uip-info" onclick="toggleUIP('${id}')"><div class="uip-name">${p.ja} <span class="uip-name-en">${p.name}</span></div><div class="uip-one">${p.one}</div></div><button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${p.name}')" title="お気に入り"><span class="mi" style="font-variation-settings:'FILL' ${isFav ? 1 : 0}">${isFav ? 'star' : 'star'}</span></button><div style="display:flex;gap:3px;flex-shrink:0;flex-wrap:nowrap">${p.tags.slice(0, 2).map(t => { const c = t === '必須' ? 'hot' : t === '基本' ? 'beginner' : t === 'モバイル' ? 'ai' : ''; return `<span class="tag ${c}">${t}</span>` }).join('')}</div><div class="uip-arrow mi" id="${id}-a" onclick="toggleUIP('${id}')" style="font-size:18px">expand_more</div></div><div class="uip-detail" id="${id}-d"><div class="uip-demo">${p.demo || ''}</div><div class="uip-sec"><div class="uip-sec-t">使い方</div><p>${p.usage}</p></div><div class="uip-sec"><div class="uip-sec-t">いつ使う?</div><p>${p.when}</p></div><div class="uip-sec"><div class="uip-sec-t">注意点</div><p>${p.dont}</p></div></div></div>`;
+        });
+      }
+      document.getElementById('uip-list').innerHTML = h || '<p style="color:var(--text3);padding:30px;text-align:center">該当なし</p>';
+    }
+    function toggleUIP(id) { document.getElementById(id + '-d').classList.toggle('open'); document.getElementById(id + '-a').classList.toggle('open') }
+    renderUIPTabs(); renderUIParts();
 
-// ===== SEARCH (GLOBAL) =====
-function handleSearch(q){
-  if(!q.trim())return;const s=q.toLowerCase();
-  if(glossary.some(g=>g.t.toLowerCase().includes(s)||g.d.toLowerCase().includes(s))){navigate('glossary');document.getElementById('gloss-search').value=q;renderGlossary();return}
-  if(uip.some(p=>p.name.toLowerCase().includes(s)||p.ja.includes(s)||p.one.includes(s))){navigate('uiparts');document.getElementById('uip-search').value=q;renderUIParts();return}
-  if(newsData.some(n=>n.title.toLowerCase().includes(s)||n.desc.toLowerCase().includes(s))){navigate('news');return}
-}
+    const flowSteps = [
+      { n: 'ヒアリング', d: '要件定義と目標設定' },
+      { n: 'ワイヤーフレーム', d: '画面構成の設計' },
+      { n: 'デザイン', d: 'ビジュアル作成' },
+      { n: 'プロトタイプ', d: '動作確認とテスト' },
+      { n: '実装', d: 'コーディング' },
+      { n: 'リリース', d: '公開と運用開始' }
+    ];
+    const defaultProjects = [
+      { id: 'p1', name: 'ECサイトリニューアル', client: '株式会社A', dead: '2026/03/31', curr: 2 },
+      { id: 'p2', name: '採用LP制作', client: 'B社', dead: '2026/02/28', curr: 4 },
+      { id: 'p3', name: '社内ポータルUI改善', client: '自社', dead: '2026/04/15', curr: 0 }
+    ];
+    let projects = JSON.parse(localStorage.getItem('dh-projects')) || defaultProjects;
+    function saveProjects() { localStorage.setItem('dh-projects', JSON.stringify(projects)) }
 
-// ===== TOAST =====
-function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1500)}
+    function renderProjects() {
+      const html = projects.map(p => {
+        const stepsHtml = flowSteps.map((s, i) => {
+          const state = i < p.curr ? 'done' : (i === p.curr ? 'active' : 'future');
+          return `
+        <div class="flow-step ${state}" onclick="updateProjectStep('${p.id}', ${i})">
+          <div class="flow-marker">${state === 'done' ? '<span class="mi">check</span>' : (i + 1)}</div>
+          <div class="flow-line"></div>
+          <div class="flow-content">
+            <div class="flow-name">${s.n}</div>
+            <div class="flow-desc">${s.d}</div>
+          </div>
+        </div>`;
+        }).join('');
 
-// ===== THEME COLOR SYNC =====
-function syncThemeColor(){const m=document.getElementById('meta-theme');if(m)m.content=document.documentElement.dataset.theme==='dark'?'#0c0c0c':'#f5f5f7'}
-const _origToggle=toggleTheme;toggleTheme=function(){_origToggle();syncThemeColor()};syncThemeColor();
+        return `
+      <div class="process-card">
+        <button class="project-delete-btn" onclick="event.stopPropagation();deleteProject('${p.id}')" ontouchstart="event.stopPropagation();deleteProject('${p.id}')">
+          <span class="mi">delete</span>
+        </button>
+        <div class="process-header">
+          <div class="process-title">${p.name}</div>
+          <div class="process-client"><span>${p.client}</span><span>納期: ${p.dead}</span></div>
+        </div>
+        <div class="flow-container">${stepsHtml}</div>
+      </div>`;
+      }).join('') + '<div class="add-project-card" onclick="showProjectModal()"><span class="mi" style="font-size:40px">add_circle</span><div>新規プロジェクト</div></div>';
 
-// ===== MORE MENU =====
-function toggleMore(){
-  const o=document.getElementById('more-overlay'),s=document.getElementById('more-sheet');
-  const isOpen=s.style.display==='block';
-  o.style.display=isOpen?'none':'block';s.style.display=isOpen?'none':'block';
-}
+      document.getElementById('project-list').innerHTML = html;
+    }
+    function updateProjectStep(pid, idx) {
+      const p = projects.find(x => x.id === pid);
+      if (p) { p.curr = idx; saveProjects(); renderProjects(); }
+    }
+    function deleteProject(pid) {
+      console.log('deleteProject called for:', pid);
+      if (!confirm('このプロジェクトを削除しますか？')) return;
+      projects = projects.filter(p => p.id !== pid);
+      saveProjects();
+      renderProjects();
+      showToast('プロジェクトを削除しました');
+    }
+    function showProjectModal() {
+      document.getElementById('project-modal-overlay').style.display = 'block';
+      document.getElementById('project-modal').style.display = 'block';
+    }
+    function hideProjectModal() {
+      document.getElementById('project-modal-overlay').style.display = 'none';
+      document.getElementById('project-modal').style.display = 'none';
+      document.getElementById('new-p-name').value = '';
+      document.getElementById('new-p-client').value = '';
+      document.getElementById('new-p-dead').value = '';
+    }
+    function saveNewProject() {
+      const name = document.getElementById('new-p-name').value;
+      const client = document.getElementById('new-p-client').value || '未指定';
+      const dead = document.getElementById('new-p-dead').value || '未定';
+      if (!name) { alert('プロジェクト名を入力してください'); return }
+      const newP = { id: 'p' + Date.now(), name, client, dead, curr: 0 };
+      projects.push(newP);
+      saveProjects();
+      renderProjects();
+      hideProjectModal();
+      showToast('新しいプロジェクトを追加しました');
+    }
+    renderProjects();
 
-// ===== FAVORITES =====
-function getFavs(){return JSON.parse(localStorage.getItem('dh-favs')||'[]')}
-function toggleFav(name){
-  let favs=getFavs();
-  if(favs.includes(name)){favs=favs.filter(f=>f!==name);showToast(name+' をお気に入りから削除')}
-  else{favs.push(name);showToast(name+' をお気に入りに追加')}
-  localStorage.setItem('dh-favs',JSON.stringify(favs));
-  renderUIParts();renderHomeFavs();
-}
-function renderHomeFavs(){
-  const favs=getFavs();const sec=document.getElementById('fav-section');const el=document.getElementById('home-favs');
-  if(!favs.length){sec.style.display='none';return}
-  sec.style.display='block';
-  el.innerHTML=favs.map(name=>{const p=uip.find(x=>x.name===name);if(!p)return'';
-    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px" onclick="navigate('uiparts');document.getElementById('uip-search').value='${p.ja}';renderUIParts()"><span class="mi" style="color:var(--yellow);font-size:16px;font-variation-settings:'FILL' 1">star</span>${p.ja}</div>`;
-  }).join('');
-}
-renderHomeFavs();
+    // ===== SEARCH (GLOBAL) =====
+    function handleSearch(q) {
+      if (!q.trim()) return; const s = q.toLowerCase();
+      if (glossary.some(g => g.t.toLowerCase().includes(s) || g.d.toLowerCase().includes(s))) { navigate('glossary'); document.getElementById('gloss-search').value = q; renderGlossary(); return }
+      if (uip.some(p => p.name.toLowerCase().includes(s) || p.ja.includes(s) || p.one.includes(s))) { navigate('uiparts'); document.getElementById('uip-search').value = q; renderUIParts(); return }
+      if (newsData.some(n => n.title.toLowerCase().includes(s) || n.desc.toLowerCase().includes(s))) { navigate('news'); return }
+    }
 
-// ===== SERVICE WORKER =====
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
-</script>
+    // ===== TOAST =====
+    function showToast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 1500) }
+
+    // ===== THEME COLOR SYNC =====
+    function syncThemeColor() { const m = document.getElementById('meta-theme'); if (m) m.content = document.documentElement.dataset.theme === 'dark' ? '#0c0c0c' : '#f5f5f7' }
+    const _origToggle = toggleTheme; toggleTheme = function () { _origToggle(); syncThemeColor() }; syncThemeColor();
+
+    // ===== MORE MENU =====
+    function toggleMore() {
+      const o = document.getElementById('more-overlay'), s = document.getElementById('more-sheet');
+      const isOpen = s.style.display === 'block';
+      o.style.display = isOpen ? 'none' : 'block'; s.style.display = isOpen ? 'none' : 'block';
+    }
+
+    // ===== FAVORITES =====
+    function getFavs() { return JSON.parse(localStorage.getItem('dh-favs') || '[]') }
+    function toggleFav(name) {
+      let favs = getFavs();
+      if (favs.includes(name)) { favs = favs.filter(f => f !== name); showToast(name + ' をお気に入りから削除') }
+      else { favs.push(name); showToast(name + ' をお気に入りに追加') }
+      localStorage.setItem('dh-favs', JSON.stringify(favs));
+      renderUIParts(); renderHomeFavs();
+    }
+    function renderHomeFavs() {
+      const favs = getFavs(); const sec = document.getElementById('fav-section'); const el = document.getElementById('home-favs');
+      if (!favs.length) { sec.style.display = 'none'; return }
+      sec.style.display = 'block';
+      el.innerHTML = favs.map(name => {
+        const p = uip.find(x => x.name === name); if (!p) return '';
+        return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px" onclick="navigate('uiparts');document.getElementById('uip-search').value='${p.ja}';renderUIParts()"><span class="mi" style="color:var(--yellow);font-size:16px;font-variation-settings:'FILL' 1">star</span>${p.ja}</div>`;
+      }).join('');
+    }
+    renderHomeFavs();
+
+    // ===== SERVICE WORKER =====
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => { }) }
+  </script>
 </body>
+
 </html>
