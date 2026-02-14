@@ -1544,11 +1544,12 @@
     </div>
   </main>
 
-  <!-- ===== MOBILE BOTTOM NAV ===== -->
+  <!-- ===== BOTTOM NAV ===== -->
   <div class="bottom-nav">
     <div class="bottom-nav-inner">
-      <div class="bnav-item active" data-page="home"><span class="bi mi">home</span>ホーム</div>
-      <div class="bnav-item" data-page="news"><span class="bi mi">newspaper</span>ニュース</div>
+      <div class="bnav-item active" data-page="home" onclick="navigate('home')"><span class="bi mi">home</span>ホーム</div>
+      <div class="bnav-item" data-page="news" onclick="navigate('news')"><span class="bi mi">newspaper</span>ニュース</div>
+      <div class="bnav-item" data-page="colors" onclick="navigate('colors')"><span class="bi mi">palette</span>ツール</div>
       <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi mi">more_horiz</span>もっと</div>
     </div>
   </div>
@@ -1567,10 +1568,6 @@
       <div class="quick-card" onclick="navigate('uiparts');toggleMore()">
         <div class="qi mi" style="font-size:26px">widgets</div>
         <div class="ql" style="color:var(--accent)">UI図鑑</div>
-      </div>
-      <div class="quick-card" onclick="navigate('colors');toggleMore()">
-        <div class="qi mi" style="font-size:26px">palette</div>
-        <div class="ql" style="color:var(--pink)">ツール</div>
       </div>
       <div class="quick-card" onclick="navigate('figma');toggleMore()">
         <div class="qi mi" style="font-size:26px">draw</div>
