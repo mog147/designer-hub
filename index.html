@@ -9,7 +9,10 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Designer Hub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
 <style>
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
+.mi{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:20px;line-height:1;display:inline-block;-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
 /* ===== THEME ===== */
 :root {
   --accent:#7c5cfc; --accent2:#a78bfa; --figma:#a259ff; --ai:#00d4aa;
@@ -261,14 +264,14 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
     <p>新人デザイナーのためのポータル</p>
   </div>
   <nav class="nav" id="nav">
-    <div class="nav-item active" data-page="home"><span class="nav-icon">&#127968;</span> ホーム</div>
-    <div class="nav-item" data-page="news"><span class="nav-icon">&#128240;</span> ニュース <span class="nav-badge">NEW</span></div>
-    <div class="nav-item" data-page="figma"><span class="nav-icon">&#9998;</span> Figma入門</div>
-    <div class="nav-item" data-page="uiparts"><span class="nav-icon">&#128444;</span> UIパーツ図鑑</div>
-    <div class="nav-item" data-page="glossary"><span class="nav-icon">&#128209;</span> 用語集</div>
-    <div class="nav-item" data-page="colors"><span class="nav-icon">&#127912;</span> カラーツール</div>
-    <div class="nav-item" data-page="shortcuts"><span class="nav-icon">&#9000;</span> ショートカット</div>
-    <div class="nav-item" data-page="resources"><span class="nav-icon">&#128279;</span> リソース集</div>
+    <div class="nav-item active" data-page="home"><span class="nav-icon mi">home</span> ホーム</div>
+    <div class="nav-item" data-page="news"><span class="nav-icon mi">newspaper</span> ニュース <span class="nav-badge">NEW</span></div>
+    <div class="nav-item" data-page="figma"><span class="nav-icon mi">draw</span> Figma入門</div>
+    <div class="nav-item" data-page="uiparts"><span class="nav-icon mi">widgets</span> UIパーツ図鑑</div>
+    <div class="nav-item" data-page="glossary"><span class="nav-icon mi">menu_book</span> 用語集</div>
+    <div class="nav-item" data-page="colors"><span class="nav-icon mi">palette</span> カラーツール</div>
+    <div class="nav-item" data-page="shortcuts"><span class="nav-icon mi">keyboard</span> ショートカット</div>
+    <div class="nav-item" data-page="resources"><span class="nav-icon mi">link</span> リソース集</div>
   </nav>
   <div class="sidebar-foot">
     <div>
@@ -282,7 +285,7 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
 <!-- ===== MAIN ===== -->
 <main class="main">
   <div class="topbar">
-    <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button>
+    <button class="menu-btn" onclick="toggleSidebar()"><span class="mi">menu</span></button>
     <h2 id="page-title">ホーム</h2>
     <input class="search-box" type="text" placeholder="検索..." id="search-input" oninput="handleSearch(this.value)">
   </div>
@@ -465,11 +468,11 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
 <!-- ===== MOBILE BOTTOM NAV ===== -->
 <div class="bottom-nav">
   <div class="bottom-nav-inner">
-    <div class="bnav-item active" data-page="home"><span class="bi">&#127968;</span>ホーム</div>
-    <div class="bnav-item" data-page="uiparts"><span class="bi">&#128444;</span>UI図鑑</div>
-    <div class="bnav-item" data-page="colors"><span class="bi">&#127912;</span>ツール</div>
-    <div class="bnav-item" data-page="news"><span class="bi">&#128240;</span>ニュース</div>
-    <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi">&#8943;</span>もっと</div>
+    <div class="bnav-item active" data-page="home"><span class="bi mi">home</span>ホーム</div>
+    <div class="bnav-item" data-page="uiparts"><span class="bi mi">widgets</span>UI図鑑</div>
+    <div class="bnav-item" data-page="colors"><span class="bi mi">palette</span>ツール</div>
+    <div class="bnav-item" data-page="news"><span class="bi mi">newspaper</span>ニュース</div>
+    <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi mi">more_horiz</span>もっと</div>
   </div>
 </div>
 
@@ -478,10 +481,10 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
 <div id="more-sheet" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;z-index:160;padding:12px 16px calc(env(safe-area-inset-bottom,6px) + 12px);animation:slideUp .25s ease">
   <div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 16px"></div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-    <div class="quick-card" onclick="navigate('figma');toggleMore()"><div class="qi">&#9998;</div><div class="ql" style="color:var(--figma)">Figma</div></div>
-    <div class="quick-card" onclick="navigate('glossary');toggleMore()"><div class="qi">&#128209;</div><div class="ql" style="color:var(--blue)">用語集</div></div>
-    <div class="quick-card" onclick="navigate('shortcuts');toggleMore()"><div class="qi">&#9000;</div><div class="ql" style="color:var(--orange)">ショトカ</div></div>
-    <div class="quick-card" onclick="navigate('resources');toggleMore()"><div class="qi">&#128279;</div><div class="ql" style="color:var(--green)">リソース</div></div>
+    <div class="quick-card" onclick="navigate('figma');toggleMore()"><div class="qi mi" style="font-size:26px">draw</div><div class="ql" style="color:var(--figma)">Figma</div></div>
+    <div class="quick-card" onclick="navigate('glossary');toggleMore()"><div class="qi mi" style="font-size:26px">menu_book</div><div class="ql" style="color:var(--blue)">用語集</div></div>
+    <div class="quick-card" onclick="navigate('shortcuts');toggleMore()"><div class="qi mi" style="font-size:26px">keyboard</div><div class="ql" style="color:var(--orange)">ショトカ</div></div>
+    <div class="quick-card" onclick="navigate('resources');toggleMore()"><div class="qi mi" style="font-size:26px">link</div><div class="ql" style="color:var(--green)">リソース</div></div>
   </div>
 </div>
 
@@ -525,11 +528,11 @@ document.getElementById('daily-quote').innerHTML=`<div class="quote-text">"${quo
 
 // ===== QUICK ACCESS =====
 document.getElementById('quick-access').innerHTML=[
-  {i:'&#128240;',l:'ニュース',p:'news',c:'var(--ai)'},{i:'&#9998;',l:'Figma',p:'figma',c:'var(--figma)'},
-  {i:'&#128444;',l:'UI図鑑',p:'uiparts',c:'var(--accent)'},{i:'&#128209;',l:'用語集',p:'glossary',c:'var(--blue)'},
-  {i:'&#127912;',l:'カラー',p:'colors',c:'var(--pink)'},{i:'&#9000;',l:'ショートカット',p:'shortcuts',c:'var(--orange)'},
-  {i:'&#128279;',l:'リソース',p:'resources',c:'var(--green)'},
-].map(q=>`<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
+  {i:'newspaper',l:'ニュース',p:'news',c:'var(--ai)'},{i:'draw',l:'Figma',p:'figma',c:'var(--figma)'},
+  {i:'widgets',l:'UI図鑑',p:'uiparts',c:'var(--accent)'},{i:'menu_book',l:'用語集',p:'glossary',c:'var(--blue)'},
+  {i:'palette',l:'カラー',p:'colors',c:'var(--pink)'},{i:'keyboard',l:'ショートカット',p:'shortcuts',c:'var(--orange)'},
+  {i:'link',l:'リソース',p:'resources',c:'var(--green)'},
+].map(q=>`<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi mi" style="font-size:26px;color:${q.c}">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
 
 // ===== CHECKLIST =====
 const tasks=[
@@ -543,7 +546,7 @@ function renderCL(){
   const done=JSON.parse(localStorage.getItem('dh-cl-'+new Date().toDateString())||'[]');
   document.getElementById('daily-checklist').innerHTML=tasks.map(t=>{
     const d=done.includes(t.id);
-    return`<div class="cl-item ${d?'done':''}" onclick="toggleCL('${t.id}')"><div class="cl-check">${d?'&#10003;':''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
+    return`<div class="cl-item ${d?'done':''}" onclick="toggleCL('${t.id}')"><div class="cl-check">${d?'<span class="mi" style="font-size:14px">check</span>':''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
   }).join('');
   document.getElementById('cl-prog').style.width=(done.length/tasks.length*100)+'%';
   document.getElementById('cl-label').textContent=`${done.length}/${tasks.length} 完了`;
@@ -553,43 +556,43 @@ renderCL();
 
 // ===== PRINCIPLES =====
 document.getElementById('principles').innerHTML=[
-  {i:'&#9881;',t:'近接',d:'関連要素を近くに配置',c:'var(--accent)'},
-  {i:'&#8596;',t:'整列',d:'要素を揃えて秩序を作る',c:'var(--blue)'},
-  {i:'&#128257;',t:'反復',d:'一貫したパターンで統一感',c:'var(--green)'},
-  {i:'&#9733;',t:'コントラスト',d:'違いを明確にして階層を作る',c:'var(--pink)'},
-  {i:'&#9635;',t:'余白',d:'呼吸のある心地よいレイアウト',c:'var(--orange)'},
-  {i:'&#127912;',t:'カラー',d:'色で感情を伝える',c:'var(--yellow)'},
-  {i:'Aa',t:'タイポグラフィ',d:'読みやすさと雰囲気を両立',c:'var(--ai)'},
-  {i:'&#128100;',t:'ユーザー中心',d:'常にユーザー視点で設計',c:'var(--red)'},
-].map(p=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:${p.c}22;color:${p.c}">${p.i}</div><div class="card-title">${p.t}</div></div><div class="card-body">${p.d}</div></div>`).join('');
+  {i:'group_work',t:'近接',d:'関連要素を近くに配置',c:'var(--accent)'},
+  {i:'align_horizontal_left',t:'整列',d:'要素を揃えて秩序を作る',c:'var(--blue)'},
+  {i:'repeat',t:'反復',d:'一貫したパターンで統一感',c:'var(--green)'},
+  {i:'contrast',t:'コントラスト',d:'違いを明確にして階層を作る',c:'var(--pink)'},
+  {i:'crop_free',t:'余白',d:'呼吸のある心地よいレイアウト',c:'var(--orange)'},
+  {i:'palette',t:'カラー',d:'色で感情を伝える',c:'var(--yellow)'},
+  {i:'text_fields',t:'タイポグラフィ',d:'読みやすさと雰囲気を両立',c:'var(--ai)'},
+  {i:'person',t:'ユーザー中心',d:'常にユーザー視点で設計',c:'var(--red)'},
+].map(p=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:${p.c}22;color:${p.c}"><span class="mi">${p.i}</span></div><div class="card-title">${p.t}</div></div><div class="card-body">${p.d}</div></div>`).join('');
 
 // ===== NEWS =====
 const newsData=[
-  {cat:'ai',title:'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成',desc:'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。',time:'2時間前',icon:'&#129302;',src:'TechCrunch',url:'https://techcrunch.com/'},
-  {cat:'figma',title:'Figma AI を正式リリース — レイヤー自動整理・トークン提案',desc:'アクセシビリティチェックのAI支援機能が追加。無料プランでも一部利用可能。',time:'4時間前',icon:'&#9998;',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'design',title:'Apple Human Interface Guidelines 2026年版が公開',desc:'visionOS 3向けの空間デザインガイドライン追加。ダークモード対応のベストプラクティスが注目。',time:'5時間前',icon:'&#127823;',src:'Apple Developer',url:'https://developer.apple.com/design/human-interface-guidelines/'},
-  {cat:'ai',title:'Midjourney v7、UIデザインモードを搭載',desc:'アプリ画面やWebデザインに特化した生成モード。デザインシステムに沿った画像生成が可能に。',time:'6時間前',icon:'&#127912;',src:'Midjourney',url:'https://www.midjourney.com/'},
-  {cat:'figma',title:'Figma Dev Mode — VS Code連携が大幅強化',desc:'デザイントークン自動エクスポート、Reactコード自動生成精度が向上。',time:'8時間前',icon:'&#128187;',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'tool',title:'Framer、日本語フォント対応を大幅強化',desc:'Noto Sans JP等20以上の日本語Webフォントが追加。日本市場向けNoCodeサイト構築が容易に。',time:'10時間前',icon:'&#9889;',src:'Framer',url:'https://www.framer.com/'},
-  {cat:'ai',title:'Adobe Firefly 3.0 — アセット生成に特化した新モデル',desc:'アイコン・イラスト・パターンの生成品質が大幅向上。Creative Cloudとシームレス統合。',time:'12時間前',icon:'&#127752;',src:'Adobe Blog',url:'https://blog.adobe.com/'},
-  {cat:'design',title:'Material Design 4のプレビューが公開',desc:'動的カラーシステムとモーションの新パラダイムが特徴。',time:'14時間前',icon:'&#128204;',src:'Google Design',url:'https://m3.material.io/'},
-  {cat:'figma',title:'Figma Variables 2.0 — デザインシステム管理の新標準',desc:'条件分岐ロジック、数式対応、チーム間の変数同期機能が追加。',time:'1日前',icon:'&#128295;',src:'Figma Blog',url:'https://www.figma.com/blog/'},
-  {cat:'ai',title:'Canva Magic Studio を刷新',desc:'背景除去・スタイル変換・テキストからの画像生成がワンクリックで。',time:'1日前',icon:'&#10024;',src:'Canva',url:'https://www.canva.com/'},
-  {cat:'tool',title:'Figma to Code — 精度90%超のコード変換ツール',desc:'React/Vue/SwiftUIコードに変換。レスポンシブ・アクセシビリティ属性も自動付与。',time:'1日前',icon:'&#128736;',src:'Product Hunt',url:'https://www.producthunt.com/'},
-  {cat:'design',title:'デザイントークンファーストアプローチが主流に',desc:'Figma VariablesとStyle Dictionaryの連携事例が増加。',time:'2日前',icon:'&#128202;',src:'Smashing Magazine',url:'https://www.smashingmagazine.com/'},
-  {cat:'ai',title:'Gemini 2.5がUXリサーチ分析に対応',desc:'インタビュー文字起こしからインサイト抽出、アフィニティダイアグラム自動生成。',time:'2日前',icon:'&#128161;',src:'Google AI Blog',url:'https://blog.google/technology/ai/'},
-  {cat:'figma',title:'Figma Community 日本語テンプレートが500件突破',desc:'UIキット、ワイヤーフレーム等の日本語テンプレートが充実。',time:'2日前',icon:'&#127881;',src:'Figma Community',url:'https://www.figma.com/community'},
-  {cat:'design',title:'アクセシビリティファーストデザインの実践ガイド',desc:'WCAG 3.0対応のチェックリストとFigmaテンプレートが公開。',time:'3日前',icon:'&#9855;',src:'A11y Project',url:'https://www.a11yproject.com/'},
-  {cat:'ai',title:'Stable Diffusion XL、UIコンポーネント学習モデルを公開',desc:'ボタン・フォーム等UIパーツ特化LoRAモデル。デザインバリエーション検討が爆速に。',time:'3日前',icon:'&#128300;',src:'Stability AI',url:'https://stability.ai/'},
+  {cat:'ai',title:'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成',desc:'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。',time:'2時間前',icon:'smart_toy',src:'TechCrunch',url:'https://techcrunch.com/'},
+  {cat:'figma',title:'Figma AI を正式リリース — レイヤー自動整理・トークン提案',desc:'アクセシビリティチェックのAI支援機能が追加。無料プランでも一部利用可能。',time:'4時間前',icon:'draw',src:'Figma Blog',url:'https://www.figma.com/blog/'},
+  {cat:'design',title:'Apple Human Interface Guidelines 2026年版が公開',desc:'visionOS 3向けの空間デザインガイドライン追加。ダークモード対応のベストプラクティスが注目。',time:'5時間前',icon:'phone_iphone',src:'Apple Developer',url:'https://developer.apple.com/design/human-interface-guidelines/'},
+  {cat:'ai',title:'Midjourney v7、UIデザインモードを搭載',desc:'アプリ画面やWebデザインに特化した生成モード。デザインシステムに沿った画像生成が可能に。',time:'6時間前',icon:'image',src:'Midjourney',url:'https://www.midjourney.com/'},
+  {cat:'figma',title:'Figma Dev Mode — VS Code連携が大幅強化',desc:'デザイントークン自動エクスポート、Reactコード自動生成精度が向上。',time:'8時間前',icon:'code',src:'Figma Blog',url:'https://www.figma.com/blog/'},
+  {cat:'tool',title:'Framer、日本語フォント対応を大幅強化',desc:'Noto Sans JP等20以上の日本語Webフォントが追加。日本市場向けNoCodeサイト構築が容易に。',time:'10時間前',icon:'bolt',src:'Framer',url:'https://www.framer.com/'},
+  {cat:'ai',title:'Adobe Firefly 3.0 — アセット生成に特化した新モデル',desc:'アイコン・イラスト・パターンの生成品質が大幅向上。Creative Cloudとシームレス統合。',time:'12時間前',icon:'auto_awesome',src:'Adobe Blog',url:'https://blog.adobe.com/'},
+  {cat:'design',title:'Material Design 4のプレビューが公開',desc:'動的カラーシステムとモーションの新パラダイムが特徴。',time:'14時間前',icon:'design_services',src:'Google Design',url:'https://m3.material.io/'},
+  {cat:'figma',title:'Figma Variables 2.0 — デザインシステム管理の新標準',desc:'条件分岐ロジック、数式対応、チーム間の変数同期機能が追加。',time:'1日前',icon:'build',src:'Figma Blog',url:'https://www.figma.com/blog/'},
+  {cat:'ai',title:'Canva Magic Studio を刷新',desc:'背景除去・スタイル変換・テキストからの画像生成がワンクリックで。',time:'1日前',icon:'auto_fix_high',src:'Canva',url:'https://www.canva.com/'},
+  {cat:'tool',title:'Figma to Code — 精度90%超のコード変換ツール',desc:'React/Vue/SwiftUIコードに変換。レスポンシブ・アクセシビリティ属性も自動付与。',time:'1日前',icon:'integration_instructions',src:'Product Hunt',url:'https://www.producthunt.com/'},
+  {cat:'design',title:'デザイントークンファーストアプローチが主流に',desc:'Figma VariablesとStyle Dictionaryの連携事例が増加。',time:'2日前',icon:'analytics',src:'Smashing Magazine',url:'https://www.smashingmagazine.com/'},
+  {cat:'ai',title:'Gemini 2.5がUXリサーチ分析に対応',desc:'インタビュー文字起こしからインサイト抽出、アフィニティダイアグラム自動生成。',time:'2日前',icon:'lightbulb',src:'Google AI Blog',url:'https://blog.google/technology/ai/'},
+  {cat:'figma',title:'Figma Community 日本語テンプレートが500件突破',desc:'UIキット、ワイヤーフレーム等の日本語テンプレートが充実。',time:'2日前',icon:'celebration',src:'Figma Community',url:'https://www.figma.com/community'},
+  {cat:'design',title:'アクセシビリティファーストデザインの実践ガイド',desc:'WCAG 3.0対応のチェックリストとFigmaテンプレートが公開。',time:'3日前',icon:'accessibility',src:'A11y Project',url:'https://www.a11yproject.com/'},
+  {cat:'ai',title:'Stable Diffusion XL、UIコンポーネント学習モデルを公開',desc:'ボタン・フォーム等UIパーツ特化LoRAモデル。デザインバリエーション検討が爆速に。',time:'3日前',icon:'science',src:'Stability AI',url:'https://stability.ai/'},
 ];
 let newsLimit=8,newsFilter='all';
 function renderNews(){
   const f=newsFilter==='all'?newsData:newsData.filter(n=>n.cat===newsFilter);
   document.getElementById('news-list').innerHTML=f.slice(0,newsLimit).map(n=>`
     <div class="news-item">
-      <div class="news-thumb">${n.icon}</div>
+      <div class="news-thumb"><span class="mi">${n.icon}</span></div>
       <div class="news-info">
-        <a class="news-title" href="${n.url}" target="_blank" rel="noopener">${n.title} <span style="font-size:10px;color:var(--text3)">&#8599;</span></a>
+        <a class="news-title" href="${n.url}" target="_blank" rel="noopener">${n.title} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></a>
         <div class="news-meta"><span class="tag ${n.cat}">${{ai:'AI',figma:'Figma',tool:'ツール',design:'デザイン'}[n.cat]}</span><span>${n.src}</span><span>${n.time}</span></div>
         <div class="news-desc">${n.desc}</div>
       </div>
@@ -603,21 +606,21 @@ renderNews();
 // Home news
 document.getElementById('home-news').innerHTML=newsData.slice(0,5).map(n=>`
   <a href="${n.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)">
-    <span style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
+    <span class="mi" style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
     <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.title}</div>
     <div style="font-size:10px;color:var(--text3);margin-top:2px">${n.src} ・ ${n.time}</div></div>
-    <span style="color:var(--text3);font-size:11px;flex-shrink:0">&#8599;</span>
+    <span class="mi" style="color:var(--text3);font-size:14px;flex-shrink:0">open_in_new</span>
   </a>`).join('');
 
 // ===== FIGMA =====
 document.getElementById('figma-guides').innerHTML=[
-  {i:'&#128444;',t:'フレームとグループ',d:'FrameはAuto Layout等の基本単位。Groupはまとめるだけのコンテナ。',tags:['基本','beginner']},
-  {i:'&#128295;',t:'Auto Layout',d:'方向・Gap・Paddingを設定してレスポンシブなレイアウト実現。CSSのFlexbox相当。',tags:['重要','figma']},
-  {i:'&#128230;',t:'コンポーネント',d:'再利用可能なUI部品。Main ComponentとInstanceの関係を理解。Variantでバリエーション管理。',tags:['重要','figma']},
-  {i:'&#127912;',t:'スタイルとVariables',d:'カラー・テキスト・エフェクトをスタイル定義。Variablesでデザイントークン管理。',tags:['中級','figma']},
-  {i:'&#128260;',t:'プロトタイプ',d:'画面遷移・ホバー・ドラッグのインタラクション設定。Smart Animateで滑らかなアニメーション。',tags:['基本']},
-  {i:'&#128101;',t:'チーム機能',d:'リアルタイム共同編集・コメント・Branch機能。Dev ModeでCSS/コード変換。',tags:['実践','figma']},
-].map(g=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(162,89,255,.12);color:var(--figma)">${g.i}</div><div class="card-title">${g.t}</div></div><div class="card-body">${g.d}</div><div class="card-footer">${g.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div>`).join('');
+  {i:'crop_free',t:'フレームとグループ',d:'FrameはAuto Layout等の基本単位。Groupはまとめるだけのコンテナ。',tags:['基本','beginner']},
+  {i:'view_column',t:'Auto Layout',d:'方向・Gap・Paddingを設定してレスポンシブなレイアウト実現。CSSのFlexbox相当。',tags:['重要','figma']},
+  {i:'widgets',t:'コンポーネント',d:'再利用可能なUI部品。Main ComponentとInstanceの関係を理解。Variantでバリエーション管理。',tags:['重要','figma']},
+  {i:'palette',t:'スタイルとVariables',d:'カラー・テキスト・エフェクトをスタイル定義。Variablesでデザイントークン管理。',tags:['中級','figma']},
+  {i:'play_circle',t:'プロトタイプ',d:'画面遷移・ホバー・ドラッグのインタラクション設定。Smart Animateで滑らかなアニメーション。',tags:['基本']},
+  {i:'group',t:'チーム機能',d:'リアルタイム共同編集・コメント・Branch機能。Dev ModeでCSS/コード変換。',tags:['実践','figma']},
+].map(g=>`<div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(162,89,255,.12);color:var(--figma)"><span class="mi">${g.i}</span></div><div class="card-title">${g.t}</div></div><div class="card-body">${g.d}</div><div class="card-footer">${g.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div>`).join('');
 
 document.getElementById('figma-plugins').innerHTML=[
   {n:'Iconify',d:'15万以上のアイコンを直接使用',t:'必須'},{n:'Unsplash',d:'高品質フリー写真を直接挿入',t:'必須'},
@@ -741,17 +744,17 @@ renderSC();
 
 // ===== RESOURCES =====
 document.getElementById('res-list').innerHTML=[
-  {i:'&#128218;',t:'ノンデザイナーズ・デザインブック',d:'デザイン4原則を学ぶ定番書籍。初心者が最初に読むべき一冊。',tags:['書籍','beginner'],c:'var(--blue)',url:'https://www.amazon.co.jp/dp/4839955557'},
-  {i:'&#127912;',t:'Dribbble',d:'世界中のデザイナー作品が集まるプラットフォーム。インスピレーション源。',tags:['ギャラリー'],c:'var(--pink)',url:'https://dribbble.com/'},
-  {i:'&#9998;',t:'Figma公式チュートリアル',d:'基本操作から応用まで公式の学習リソース。動画・記事の両方あり。',tags:['Figma','figma'],c:'var(--figma)',url:'https://help.figma.com/'},
-  {i:'&#128187;',t:'Google UX Design Certificate',d:'GoogleのUXデザイン無料オンラインコース。体系的に学べる。',tags:['コース','beginner'],c:'var(--green)',url:'https://grow.google/certificates/ux-design/'},
-  {i:'&#128202;',t:'Laws of UX',d:'UXデザインの心理学的法則をビジュアル解説。デザイン判断の根拠に。',tags:['UX'],c:'var(--orange)',url:'https://lawsofux.com/'},
-  {i:'&#127752;',t:'Coolors',d:'カラーパレット生成ツール。スペースキーでランダム生成。',tags:['ツール'],c:'var(--yellow)',url:'https://coolors.co/'},
-  {i:'Aa',t:'Google Fonts',d:'無料Webフォント集。日本語も充実。Noto Sans JPは定番。',tags:['フォント'],c:'var(--ai)',url:'https://fonts.google.com/'},
-  {i:'&#128444;',t:'Mobbin',d:'実際のアプリUIスクリーンショット集。パターン検索でUI参考に最適。',tags:['ギャラリー'],c:'var(--accent)',url:'https://mobbin.com/'},
-  {i:'&#128161;',t:'Refactoring UI',d:'開発者向けUIデザインTips。実践的ビフォーアフター形式。',tags:['書籍'],c:'var(--red)',url:'https://www.refactoringui.com/'},
-  {i:'&#128240;',t:'Smashing Magazine',d:'Web/UIデザインの深い技術記事。CSS手法やトレンドを解説。',tags:['メディア'],c:'var(--blue)',url:'https://www.smashingmagazine.com/'},
-].map(r=>`<a href="${r.url}" target="_blank" rel="noopener" style="text-decoration:none"><div class="card"><div class="card-header"><div class="card-icon" style="background:${r.c}22;color:${r.c}">${r.i}</div><div><div class="card-title">${r.t} <span style="font-size:10px;color:var(--text3)">&#8599;</span></div></div></div><div class="card-body">${r.d}</div><div class="card-footer">${r.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div></a>`).join('');
+  {i:'book',t:'ノンデザイナーズ・デザインブック',d:'デザイン4原則を学ぶ定番書籍。初心者が最初に読むべき一冊。',tags:['書籍','beginner'],c:'var(--blue)',url:'https://www.amazon.co.jp/dp/4839955557'},
+  {i:'brush',t:'Dribbble',d:'世界中のデザイナー作品が集まるプラットフォーム。インスピレーション源。',tags:['ギャラリー'],c:'var(--pink)',url:'https://dribbble.com/'},
+  {i:'draw',t:'Figma公式チュートリアル',d:'基本操作から応用まで公式の学習リソース。動画・記事の両方あり。',tags:['Figma','figma'],c:'var(--figma)',url:'https://help.figma.com/'},
+  {i:'school',t:'Google UX Design Certificate',d:'GoogleのUXデザイン無料オンラインコース。体系的に学べる。',tags:['コース','beginner'],c:'var(--green)',url:'https://grow.google/certificates/ux-design/'},
+  {i:'psychology',t:'Laws of UX',d:'UXデザインの心理学的法則をビジュアル解説。デザイン判断の根拠に。',tags:['UX'],c:'var(--orange)',url:'https://lawsofux.com/'},
+  {i:'palette',t:'Coolors',d:'カラーパレット生成ツール。スペースキーでランダム生成。',tags:['ツール'],c:'var(--yellow)',url:'https://coolors.co/'},
+  {i:'text_fields',t:'Google Fonts',d:'無料Webフォント集。日本語も充実。Noto Sans JPは定番。',tags:['フォント'],c:'var(--ai)',url:'https://fonts.google.com/'},
+  {i:'phone_iphone',t:'Mobbin',d:'実際のアプリUIスクリーンショット集。パターン検索でUI参考に最適。',tags:['ギャラリー'],c:'var(--accent)',url:'https://mobbin.com/'},
+  {i:'lightbulb',t:'Refactoring UI',d:'開発者向けUIデザインTips。実践的ビフォーアフター形式。',tags:['書籍'],c:'var(--red)',url:'https://www.refactoringui.com/'},
+  {i:'article',t:'Smashing Magazine',d:'Web/UIデザインの深い技術記事。CSS手法やトレンドを解説。',tags:['メディア'],c:'var(--blue)',url:'https://www.smashingmagazine.com/'},
+].map(r=>`<a href="${r.url}" target="_blank" rel="noopener" style="text-decoration:none"><div class="card"><div class="card-header"><div class="card-icon" style="background:${r.c}22;color:${r.c}"><span class="mi">${r.i}</span></div><div><div class="card-title">${r.t} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></div></div></div><div class="card-body">${r.d}</div><div class="card-footer">${r.tags.map(t=>`<span class="tag ${t}">${t}</span>`).join('')}</div></div></a>`).join('');
 
 // ===== UI PARTS =====
 const uip=[
@@ -817,7 +820,7 @@ function renderUIParts(){
     h+=`<div class="cat-hdr">${cat} <span class="cat-cnt">${items.length}件</span></div>`;
     items.forEach((p,i)=>{const id=`u-${cat}-${i}`;
       const isFav=getFavs().includes(p.name);
-      h+=`<div class="uip-card" id="${id}"><div class="uip-hdr"><div class="uip-prev" onclick="toggleUIP('${id}')"><div style="transform:scale(.32);transform-origin:center;pointer-events:none;white-space:nowrap">${p.demo||''}</div></div><div class="uip-info" onclick="toggleUIP('${id}')"><div class="uip-name">${p.ja} <span class="uip-name-en">${p.name}</span></div><div class="uip-one">${p.one}</div></div><button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${p.name}')" title="お気に入り">${isFav?'&#9733;':'&#9734;'}</button><div style="display:flex;gap:3px;flex-shrink:0;flex-wrap:nowrap">${p.tags.slice(0,2).map(t=>{const c=t==='必須'?'hot':t==='基本'?'beginner':t==='モバイル'?'ai':'';return`<span class="tag ${c}">${t}</span>`}).join('')}</div><div class="uip-arrow" id="${id}-a" onclick="toggleUIP('${id}')">&#9660;</div></div><div class="uip-detail" id="${id}-d"><div class="uip-demo">${p.demo||''}</div><div class="uip-sec"><div class="uip-sec-t">使い方</div><p>${p.usage}</p></div><div class="uip-sec"><div class="uip-sec-t">いつ使う?</div><p>${p.when}</p></div><div class="uip-sec"><div class="uip-sec-t">注意点</div><p>${p.dont}</p></div></div></div>`;
+      h+=`<div class="uip-card" id="${id}"><div class="uip-hdr"><div class="uip-prev" onclick="toggleUIP('${id}')"><div style="transform:scale(.32);transform-origin:center;pointer-events:none;white-space:nowrap">${p.demo||''}</div></div><div class="uip-info" onclick="toggleUIP('${id}')"><div class="uip-name">${p.ja} <span class="uip-name-en">${p.name}</span></div><div class="uip-one">${p.one}</div></div><button class="fav-btn ${isFav?'active':''}" onclick="toggleFav('${p.name}')" title="お気に入り"><span class="mi" style="font-variation-settings:'FILL' ${isFav?1:0}">${isFav?'star':'star'}</span></button><div style="display:flex;gap:3px;flex-shrink:0;flex-wrap:nowrap">${p.tags.slice(0,2).map(t=>{const c=t==='必須'?'hot':t==='基本'?'beginner':t==='モバイル'?'ai':'';return`<span class="tag ${c}">${t}</span>`}).join('')}</div><div class="uip-arrow mi" id="${id}-a" onclick="toggleUIP('${id}')" style="font-size:18px">expand_more</div></div><div class="uip-detail" id="${id}-d"><div class="uip-demo">${p.demo||''}</div><div class="uip-sec"><div class="uip-sec-t">使い方</div><p>${p.usage}</p></div><div class="uip-sec"><div class="uip-sec-t">いつ使う?</div><p>${p.when}</p></div><div class="uip-sec"><div class="uip-sec-t">注意点</div><p>${p.dont}</p></div></div></div>`;
     });
   }
   document.getElementById('uip-list').innerHTML=h||'<p style="color:var(--text3);padding:30px;text-align:center">該当なし</p>';
@@ -861,7 +864,7 @@ function renderHomeFavs(){
   if(!favs.length){sec.style.display='none';return}
   sec.style.display='block';
   el.innerHTML=favs.map(name=>{const p=uip.find(x=>x.name===name);if(!p)return'';
-    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px" onclick="navigate('uiparts');document.getElementById('uip-search').value='${p.ja}';renderUIParts()"><span style="color:var(--yellow)">&#9733;</span>${p.ja}</div>`;
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px" onclick="navigate('uiparts');document.getElementById('uip-search').value='${p.ja}';renderUIParts()"><span class="mi" style="color:var(--yellow);font-size:16px;font-variation-settings:'FILL' 1">star</span>${p.ja}</div>`;
   }).join('');
 }
 renderHomeFavs();
