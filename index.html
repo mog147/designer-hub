@@ -947,8 +947,13 @@
     }
 
     /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { display: none }
-    body { scrollbar-width: none }
+    ::-webkit-scrollbar {
+      display: none
+    }
+
+    body {
+      scrollbar-width: none
+    }
 
     @keyframes fadeIn {
       from {
@@ -1237,7 +1242,9 @@
   <main class="main">
     <div class="topbar">
       <h2 id="page-title">ホーム</h2>
-      <button onclick="toggleTheme()" style="background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;margin-left:auto" aria-label="テーマ切替"><span class="mi" style="font-size:18px">dark_mode</span></button>
+      <button onclick="toggleTheme()"
+        style="background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;margin-left:auto"
+        aria-label="テーマ切替"><span class="mi" style="font-size:18px">dark_mode</span></button>
     </div>
 
     <div class="content">
@@ -1248,19 +1255,12 @@
         <div class="quick-grid" id="quick-access"></div>
         <div class="home-grid">
           <div>
-            <div class="section-title"><span class="dot" style="background:var(--accent)"></span> 今日のやること</div>
-            <div id="daily-checklist"></div>
-            <div class="prog-bar">
-              <div class="prog-fill" id="cl-prog" style="width:0%"></div>
-            </div>
-            <p style="font-size:11px;color:var(--text3);margin-top:5px" id="cl-label">0/0</p>
-          </div>
-          <div>
             <div class="section-title" style="cursor:pointer" onclick="navigate('news')"><span class="dot"
                 style="background:var(--ai)"></span> 最新ニュース <span
                 style="font-size:11px;color:var(--accent2);font-weight:400;margin-left:auto">すべて &#8250;</span></div>
             <div id="home-news"></div>
           </div>
+
         </div>
         <div class="section" id="fav-section" style="display:none">
           <div class="section-title"><span class="dot" style="background:var(--yellow)"></span> お気に入りUIパーツ</div>
@@ -1584,25 +1584,7 @@
       { i: 'fact_check', l: 'チェック', p: 'checklist', c: 'var(--accent2)' },
     ].map(q => `<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi mi" style="font-size:26px;color:${q.c}">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
 
-    // ===== CHECKLIST =====
-    const tasks = [
-      { id: 'd1', t: 'Dribbbleで3つのデザインを観察', d: '色使い・レイアウトに注目' },
-      { id: 'd2', t: 'Figmaでコンポーネント1つ作成', d: 'ボタン、カードなど' },
-      { id: 'd3', t: 'デザイン用語を3つ覚える', d: '用語集タブで学習' },
-      { id: 'd4', t: 'UIトレースを15分行う', d: '好きなアプリの画面を模写' },
-      { id: 'd5', t: 'ニュースを1つ読む', d: 'AI・Figma・デザインの最新動向' },
-    ];
-    function renderCL() {
-      const done = JSON.parse(localStorage.getItem('dh-cl-' + new Date().toDateString()) || '[]');
-      document.getElementById('daily-checklist').innerHTML = tasks.map(t => {
-        const d = done.includes(t.id);
-        return `<div class="cl-item ${d ? 'done' : ''}" onclick="toggleCL('${t.id}')"><div class="cl-check">${d ? '<span class="mi" style="font-size:14px">check</span>' : ''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
-      }).join('');
-      document.getElementById('cl-prog').style.width = (done.length / tasks.length * 100) + '%';
-      document.getElementById('cl-label').textContent = `${done.length}/${tasks.length} 完了`;
-    }
-    function toggleCL(id) { const k = 'dh-cl-' + new Date().toDateString(); let d = JSON.parse(localStorage.getItem(k) || '[]'); d.includes(id) ? d = d.filter(x => x !== id) : d.push(id); localStorage.setItem(k, JSON.stringify(d)); renderCL() }
-    renderCL();
+
 
     // ===== PRINCIPLES =====
     document.getElementById('principles').innerHTML = [
