@@ -2066,8 +2066,10 @@
 
     async function fetchLatestNews() {
       const feeds = [
+        { url: 'https://www.theverge.com/rss/ai-artificial-intelligence/index.xml', cat: 'ai', icon: 'smart_toy' },
+        { url: 'https://medium.com/feed/muzli-design-inspiration', cat: 'design', icon: 'auto_awesome' },
+        { url: 'https://feeds.uxmag.com/uxm', cat: 'design', icon: 'psychology' },
         { url: 'https://www.figma.com/blog/feed/', cat: 'figma', icon: 'draw' },
-        { url: 'https://www.smashingmagazine.com/feed/', cat: 'design', icon: 'analytics' },
         { url: 'https://css-tricks.com/feed/', cat: 'design', icon: 'code' }
       ];
 
@@ -2078,10 +2080,9 @@
             const json = await resp.json();
             if (json.status !== 'ok') return [];
 
-            // Translate items in parallel
-            return await Promise.all(json.items.map(async item => {
+            return await Promise.all(json.items.slice(0, 5).map(async item => {
               const titleJa = await translateText(item.title);
-              const descJa = await translateText(item.description.replace(/<[^>]*>/g, '').slice(0, 100));
+              const descJa = await translateText(item.description.replace(/<[^>]*>/g, '').slice(0, 80));
               return {
                 cat: f.cat,
                 title: titleJa,
@@ -2089,14 +2090,23 @@
                 desc: descJa + '...',
                 time: '最新',
                 icon: f.icon,
-                src: json.feed.title,
+                src: f.url.includes('figma') ? 'Figma Blog' : json.feed.title || 'News',
                 url: item.link
               };
             }));
           } catch (e) { return [] }
         }));
 
-        const dynamicNews = results.flat().sort(() => Math.random() - 0.5);
+        let dynamicNews = results.flat();
+        // Remove duplicates by title
+        const seen = new Set();
+        dynamicNews = dynamicNews.filter(n => {
+          const key = n.origTitle || n.title;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        }).sort(() => Math.random() - 0.5);
+
         if (dynamicNews.length > 0) {
           newsData = [...dynamicNews, ...initialNewsData];
           renderNews();
