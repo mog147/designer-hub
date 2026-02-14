@@ -466,10 +466,22 @@ a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
 <div class="bottom-nav">
   <div class="bottom-nav-inner">
     <div class="bnav-item active" data-page="home"><span class="bi">&#127968;</span>ホーム</div>
-    <div class="bnav-item" data-page="news"><span class="bi">&#128240;</span>ニュース</div>
     <div class="bnav-item" data-page="uiparts"><span class="bi">&#128444;</span>UI図鑑</div>
-    <div class="bnav-item" data-page="colors"><span class="bi">&#127912;</span>カラー</div>
-    <div class="bnav-item" data-page="resources"><span class="bi">&#128279;</span>リソース</div>
+    <div class="bnav-item" data-page="colors"><span class="bi">&#127912;</span>ツール</div>
+    <div class="bnav-item" data-page="news"><span class="bi">&#128240;</span>ニュース</div>
+    <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi">&#8943;</span>もっと</div>
+  </div>
+</div>
+
+<!-- MORE MENU (BOTTOM SHEET) -->
+<div id="more-overlay" style="display:none;position:fixed;inset:0;background:var(--overlay);z-index:150" onclick="toggleMore()"></div>
+<div id="more-sheet" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;z-index:160;padding:12px 16px calc(env(safe-area-inset-bottom,6px) + 12px);animation:slideUp .25s ease">
+  <div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 16px"></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <div class="quick-card" onclick="navigate('figma');toggleMore()"><div class="qi">&#9998;</div><div class="ql" style="color:var(--figma)">Figma</div></div>
+    <div class="quick-card" onclick="navigate('glossary');toggleMore()"><div class="qi">&#128209;</div><div class="ql" style="color:var(--blue)">用語集</div></div>
+    <div class="quick-card" onclick="navigate('shortcuts');toggleMore()"><div class="qi">&#9000;</div><div class="ql" style="color:var(--orange)">ショトカ</div></div>
+    <div class="quick-card" onclick="navigate('resources');toggleMore()"><div class="qi">&#128279;</div><div class="ql" style="color:var(--green)">リソース</div></div>
   </div>
 </div>
 
@@ -827,6 +839,13 @@ function showToast(msg){const t=document.createElement('div');t.className='toast
 // ===== THEME COLOR SYNC =====
 function syncThemeColor(){const m=document.getElementById('meta-theme');if(m)m.content=document.documentElement.dataset.theme==='dark'?'#0c0c0c':'#f5f5f7'}
 const _origToggle=toggleTheme;toggleTheme=function(){_origToggle();syncThemeColor()};syncThemeColor();
+
+// ===== MORE MENU =====
+function toggleMore(){
+  const o=document.getElementById('more-overlay'),s=document.getElementById('more-sheet');
+  const isOpen=s.style.display==='block';
+  o.style.display=isOpen?'none':'block';s.style.display=isOpen?'none':'block';
+}
 
 // ===== FAVORITES =====
 function getFavs(){return JSON.parse(localStorage.getItem('dh-favs')||'[]')}
