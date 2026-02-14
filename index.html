@@ -1571,6 +1571,7 @@
       <div class="nav-item" data-page="colors"><span class="nav-icon mi">palette</span> カラーツール</div>
       <div class="nav-item" data-page="shortcuts"><span class="nav-icon mi">keyboard</span> ショートカット</div>
       <div class="nav-item" data-page="resources"><span class="nav-icon mi">link</span> リソース集</div>
+      <div class="nav-item" data-page="checklist"><span class="nav-icon mi">fact_check</span> デザインチェック</div>
     </nav>
     <div class="sidebar-foot">
       <div>
@@ -1804,6 +1805,16 @@
           <div class="card-grid cols-2" id="res-list"></div>
         </div>
       </div>
+
+      <!-- DESIGN CHECKLIST -->
+      <div class="page" id="page-checklist">
+        <div class="news-tabs" id="chk-tabs">
+          <div class="news-tab active" data-ctab="lp">LP作成</div>
+          <div class="news-tab" data-ctab="app">アプリ作成</div>
+        </div>
+        <div id="chk-list" style="display:flex;flex-direction:column;gap:12px;margin-top:20px"></div>
+      </div>
+
     </div>
   </main>
 
@@ -1811,9 +1822,6 @@
   <div class="bottom-nav">
     <div class="bottom-nav-inner">
       <div class="bnav-item active" data-page="home"><span class="bi mi">home</span>ホーム</div>
-      <div class="bnav-item" data-page="process"><span class="bi mi">account_tree</span>工程</div>
-      <div class="bnav-item" data-page="uiparts"><span class="bi mi">widgets</span>UI図鑑</div>
-      <div class="bnav-item" data-page="colors"><span class="bi mi">palette</span>ツール</div>
       <div class="bnav-item" data-page="news"><span class="bi mi">newspaper</span>ニュース</div>
       <div class="bnav-item" onclick="toggleMore()" id="more-btn"><span class="bi mi">more_horiz</span>もっと</div>
     </div>
@@ -1826,6 +1834,18 @@
     style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;z-index:160;padding:12px 16px calc(env(safe-area-inset-bottom,6px) + 12px);animation:slideUp .25s ease">
     <div style="width:32px;height:3px;border-radius:2px;background:var(--surface3);margin:0 auto 16px"></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div class="quick-card" onclick="navigate('process');toggleMore()">
+        <div class="qi mi" style="font-size:26px">account_tree</div>
+        <div class="ql" style="color:var(--yellow)">工程</div>
+      </div>
+      <div class="quick-card" onclick="navigate('uiparts');toggleMore()">
+        <div class="qi mi" style="font-size:26px">widgets</div>
+        <div class="ql" style="color:var(--accent)">UI図鑑</div>
+      </div>
+      <div class="quick-card" onclick="navigate('colors');toggleMore()">
+        <div class="qi mi" style="font-size:26px">palette</div>
+        <div class="ql" style="color:var(--pink)">ツール</div>
+      </div>
       <div class="quick-card" onclick="navigate('figma');toggleMore()">
         <div class="qi mi" style="font-size:26px">draw</div>
         <div class="ql" style="color:var(--figma)">Figma</div>
@@ -1842,7 +1862,12 @@
         <div class="qi mi" style="font-size:26px">link</div>
         <div class="ql" style="color:var(--green)">リソース</div>
       </div>
+      <div class="quick-card" onclick="navigate('checklist');toggleMore()">
+        <div class="qi mi" style="font-size:26px">fact_check</div>
+        <div class="ql" style="color:var(--accent2)">チェック</div>
+      </div>
     </div>
+
   </div>
 
 
@@ -1872,7 +1897,7 @@
 
     // ===== NAV =====
     const pages = {}; document.querySelectorAll('.page').forEach(p => pages[p.id.replace('page-', '')] = p);
-    const titles = { home: 'ホーム', news: 'ニュース', process: '制作フロー', figma: 'Figma入門', uiparts: 'UIパーツ図鑑', glossary: '用語集', colors: 'カラーツール', shortcuts: 'ショートカット', resources: 'リソース集' };
+    const titles = { home: 'ホーム', news: 'ニュース', process: '制作フロー', figma: 'Figma入門', uiparts: 'UIパーツ図鑑', glossary: '用語集', colors: 'カラーツール', shortcuts: 'ショートカット', resources: 'リソース集', checklist: 'デザインチェック' };
     function navigate(pg) {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pg));
       document.querySelectorAll('.bnav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pg));
@@ -1909,6 +1934,7 @@
       { i: 'palette', l: 'カラー', p: 'colors', c: 'var(--pink)' }, { i: 'keyboard', l: 'ショートカット', p: 'shortcuts', c: 'var(--orange)' },
       { i: 'link', l: 'リソース', p: 'resources', c: 'var(--green)' },
       { i: 'account_tree', l: '制作フロー', p: 'process', c: 'var(--yellow)' },
+      { i: 'fact_check', l: 'チェック', p: 'checklist', c: 'var(--accent2)' },
     ].map(q => `<div class="quick-card" onclick="navigate('${q.p}')"><div class="qi mi" style="font-size:26px;color:${q.c}">${q.i}</div><div class="ql" style="color:${q.c}">${q.l}</div></div>`).join('');
 
     // ===== CHECKLIST =====
@@ -1943,6 +1969,55 @@
       { i: 'person', t: 'ユーザー中心', d: '常にユーザー視点で設計', c: 'var(--red)' },
     ].map(p => `<div class="card"><div class="card-header"><div class="card-icon" style="background:${p.c}22;color:${p.c}"><span class="mi">${p.i}</span></div><div class="card-title">${p.t}</div></div><div class="card-body">${p.d}</div></div>`).join('');
 
+    // ===== DESIGN CHECKLIST JS =====
+    const checklistData = {
+      lp: [
+        { id: 'lp1', t: 'ターゲットに応じたトーン＆マナー', d: '配色やフォントが想定読者に合っているか' },
+        { id: 'lp2', t: 'ファーストビューの訴求力', d: '3秒で内容とメリットが伝わるか' },
+        { id: 'lp3', t: 'キャッチコピーの視認性', d: '背景に埋もれず、パッと目に入るか' },
+        { id: 'lp4', t: 'CTA（ボタン）の目立ち度', d: '一目でクリックすべき場所とわかるか' },
+        { id: 'lp5', t: '情報の優先順位（Z/Fパターン）', d: 'ユーザーの視線誘導を考慮した配置か' },
+        { id: 'lp6', t: 'ベネフィットの提示', d: '機能説明ではなく「良くなる未来」を伝えているか' },
+        { id: 'lp7', t: '信頼性（権威性・実績）', d: '導入実績やユーザーの声が含まれているか' },
+        { id: 'lp8', t: 'モバイルでの可読性', d: 'スマホで文字が小さすぎないか、表が崩れていないか' },
+        { id: 'lp9', t: '余白の使い分け', d: '関連するものは近く、違うものは遠くに配置されているか' },
+        { id: 'lp10', t: 'フォームの簡潔さ', d: '離脱を防ぐため、項目を最小限に絞っているか' },
+        { id: 'lp11', t: '読み込み速度への配慮', d: '画像が重すぎて表示が遅くないか' }
+      ],
+      app: [
+        { id: 'ap1', t: 'OS標準ガイドラインの尊重', d: 'HIGやMaterial Designの基本に沿っているか' },
+        { id: 'ap2', t: '直感的なアイコン選定', d: 'ラベルなしでも機能が推測できるか' },
+        { id: 'ap3', t: '親指での操作しやすさ', d: '重要なボタンが押しやすい下半分に配置されているか' },
+        { id: 'ap4', t: 'ナビゲーションの一貫性', d: '戻る操作やメニュー位置が全画面で統一されているか' },
+        { id: 'ap5', t: 'タップターゲットのサイズ', d: 'ボタン等が44x44px以上確保されているか' },
+        { id: 'ap6', t: 'インタラクションへのフィードバック', d: '押した時に色が変わる等の反応があるか' },
+        { id: 'ap7', t: 'ダークモードのコントラスト', d: '背景と同化せず、文字が読みやすいか' },
+        { id: 'ap8', t: 'エラー状態の分かりやすさ', d: '何が原因でどうすれば直るか示されているか' },
+        { id: 'ap9', t: '空の状態（Empty State）', d: 'データがない時に寂しくなく、次への導線があるか' },
+        { id: 'ap10', t: '読み込み中（Skeleton/Spinner）', d: 'フリーズしたと思われない配慮があるか' },
+        { id: 'ap11', t: '一貫した角丸・余白ルール', d: '画面によってデザインルールがブレていないか' }
+      ]
+    };
+    let chkTab = 'lp';
+    function renderChecklist() {
+      const done = JSON.parse(localStorage.getItem('dh-checklist-done') || '{}');
+      const items = checklistData[chkTab];
+      document.getElementById('chk-list').innerHTML = items.map(t => {
+        const d = done[chkTab]?.includes(t.id);
+        return `<div class="cl-item ${d ? 'done' : ''}" onclick="toggleChk('${t.id}')"><div class="cl-check">${d ? '<span class="mi" style="font-size:14px">check</span>' : ''}</div><div><div class="cl-label">${t.t}</div><div class="cl-desc">${t.d}</div></div></div>`;
+      }).join('');
+    }
+    function toggleChk(id) {
+      let done = JSON.parse(localStorage.getItem('dh-checklist-done') || '{}');
+      if (!done[chkTab]) done[chkTab] = [];
+      done[chkTab].includes(id) ? done[chkTab] = done[chkTab].filter(x => x !== id) : done[chkTab].push(id);
+      localStorage.setItem('dh-checklist-done', JSON.stringify(done)); renderChecklist();
+    }
+    document.querySelectorAll('#chk-tabs .news-tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('#chk-tabs .news-tab').forEach(x => x.classList.remove('active')); t.classList.add('active'); chkTab = t.dataset.ctab; renderChecklist();
+    }));
+    renderChecklist();
+
     // ===== NEWS =====
     const newsData = [
       { cat: 'ai', title: 'GPT-4oがデザインワークフローに革命 — UIモックアップ自動生成', desc: 'Figmaプラグインと連携し、テキスト指示からUI自動生成。プロトタイプ作成が大幅効率化。', time: '2時間前', icon: 'smart_toy', src: 'TechCrunch', url: 'https://techcrunch.com/' },
@@ -1965,11 +2040,14 @@
     let newsLimit = 8, newsFilter = 'all';
     function renderNews() {
       const f = newsFilter === 'all' ? newsData : newsData.filter(n => n.cat === newsFilter);
-      document.getElementById('news-list').innerHTML = f.slice(0, newsLimit).map(n => `
+      document.getElementById('news-list').innerHTML = f.slice(0, newsLimit).map((n, i) => `
     <div class="news-item">
       <div class="news-thumb"><span class="mi">${n.icon}</span></div>
       <div class="news-info">
-        <a class="news-title" href="${n.url}" target="_blank" rel="noopener">${n.title} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></a>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <a class="news-title" href="${n.url}" target="_blank" rel="noopener">${n.title} <span class="mi" style="font-size:14px;color:var(--text3);vertical-align:middle">open_in_new</span></a>
+          <button class="mi" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:4px" onclick="copyNews(${i}, 'page')" title="コピー">content_copy</button>
+        </div>
         <div class="news-meta"><span class="tag ${n.cat}">${{ ai: 'AI', figma: 'Figma', tool: 'ツール', design: 'デザイン' }[n.cat]}</span><span>${n.src}</span><span>${n.time}</span></div>
         <div class="news-desc">${n.desc}</div>
       </div>
@@ -1981,13 +2059,21 @@
     renderNews();
 
     // Home news
-    document.getElementById('home-news').innerHTML = newsData.slice(0, 5).map(n => `
-  <a href="${n.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)">
+    document.getElementById('home-news').innerHTML = newsData.slice(0, 5).map((n, i) => `
+  <div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)">
     <span class="mi" style="font-size:18px;width:28px;text-align:center;flex-shrink:0">${n.icon}</span>
-    <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.title}</div>
-    <div style="font-size:10px;color:var(--text3);margin-top:2px">${n.src} ・ ${n.time}</div></div>
-    <span class="mi" style="color:var(--text3);font-size:14px;flex-shrink:0">open_in_new</span>
-  </a>`).join('');
+    <div style="flex:1;min-width:0" onclick="window.open('${n.url}', '_blank')">
+      <div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer">${n.title}</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:2px">${n.src} ・ ${n.time}</div>
+    </div>
+    <button class="mi" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:4px" onclick="copyNews(${i}, 'home')" title="コピー">content_copy</button>
+  </div>`).join('');
+
+    function copyNews(idx, list) {
+      const n = (list === 'home') ? newsData[idx] : (newsFilter === 'all' ? newsData : newsData.filter(x => x.cat === newsFilter))[idx];
+      const txt = `【${{ ai: 'AI', figma: 'Figma', tool: 'ツール', design: 'デザイン' }[n.cat]}】${n.title}\n${n.desc}\n出典: ${n.src} (${n.url})`;
+      navigator.clipboard.writeText(txt).then(() => showToast('ニュースをコピーしました'));
+    }
 
     // ===== FIGMA =====
     document.getElementById('figma-guides').innerHTML = [
