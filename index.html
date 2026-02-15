@@ -84,7 +84,8 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html,
@@ -92,6 +93,12 @@
       overflow-x: hidden;
       width: 100%;
       position: relative;
+      margin: 0;
+      padding: 0;
+      overflow-wrap: break-word;
+      /* テキストのはみ出し防止 */
+      -webkit-text-size-adjust: 100%;
+      /* iOSのフォントサイズ自動調整防止 */
     }
 
     body {
